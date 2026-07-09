@@ -661,6 +661,7 @@ html_doc = f"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>Gr(2,4) 핵심계산 — 주제별 완전판</title>
 <style>{katex_css}</style>
 <style>{CSS}</style>
