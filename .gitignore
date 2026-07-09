@@ -1,0 +1,12 @@
+# 사적 기록 — 공개 제외
+_대화기록_이어가기/
+
+# 제3자 저작물 — 저자 동의 전 공개 제외
+원본노트/Learning Riemannian Geometry.pdf
+원본노트/Gaussian curvature = Poisson Equation.pdf
+원본노트/Reineke tower 의 양자회로.pdf
+
+# 백업·임시
+*.zip
+__pycache__/
+_원본백업/
