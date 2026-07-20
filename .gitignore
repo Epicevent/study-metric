@@ -6,8 +6,10 @@ _대화기록_이어가기/
 원본노트/Gaussian curvature = Poisson Equation.pdf
 원본노트/Reineke tower 의 양자회로.pdf
 
-# 걸음 6 대상 원 노트 — 외부에서 받은 원문이라 제외 (문서에서 '외부 원문'으로만 참조)
+# 각 트랙이 다루는 대상 원문 — 외부에서 받은 자료라 제외
+# (문서 본문에 인용을 옮겨 적어 두었으므로 원문 없이도 읽힌다)
 Gr24_플뤼커당김_계산노트.html
+dually-flat-geometry-lecture-note*.pdf
 
 # 백업·임시
 *.zip
