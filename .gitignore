@@ -6,7 +6,13 @@ _대화기록_이어가기/
 원본노트/Gaussian curvature = Poisson Equation.pdf
 원본노트/Reineke tower 의 양자회로.pdf
 
+# 걸음 6 대상 원 노트 — 외부에서 받은 원문이라 제외 (문서에서 '외부 원문'으로만 참조)
+Gr24_플뤼커당김_계산노트.html
+
 # 백업·임시
 *.zip
 __pycache__/
 _원본백업/
+_책빌드/_step6_combined.md
+_책빌드/_step6_artifact.html
+_preview*.html
