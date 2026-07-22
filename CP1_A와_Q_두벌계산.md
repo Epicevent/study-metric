@@ -83,7 +83,10 @@ $$
 따라서 $X$ 방향의 복소 속도와 $Y$ 방향의 복소 속도는
 
 $$
-\xi=dz(X)=u+iv,\qquad \eta=dz(Y)=a+ib
+\begin{aligned}
+\xi&=dz(X)=u+iv,\\
+\eta&=dz(Y)=a+ib.
+\end{aligned}
 $$
 
 이다. 뒤에서 나오는 $u,v,a,b$는 새로운 기호가 아니라, 두 화살표의 $x,y$ 성분이다.
@@ -99,42 +102,78 @@ $$
 <div class="stage-tag"><b>01</b>왜 이 식인가</div>
 <div class="lane a" markdown="1">
 
-### $A=-i,s^\dagger ds$는 무엇을 재는가
+### $A=-i\,s^\dagger ds$는 무엇을 재는가
 
-$s^\dagger s=1$을 곡선 $s(t)$를 따라 미분하면
-
-$$
-\dot s^\dagger s+s^\dagger\dot s=0.
-$$
-
-첫 항은 둘째 항의 켤레이므로, $s^\dagger\dot s$의 실수부는 $0$이다. 즉 어떤 실수 $c$가 있어서
-
-$$
-s^\dagger\dot s=ic
-$$
-
-이다. 여기에 $-i$를 곱하면 $A(\dot s)=c$라는 **실수**가 남는다.
-
-실제로 점은 그대로 두고 대표벡터의 위상만 돌리는 곡선
+먼저 이 곡선이 $\mathbb{CP}^1$에서 정말 안 움직이는지 확인한다. 단위벡터 $s_0$를 잡고
 
 $$
 s(t)=e^{it}s_0
 $$
 
-을 넣으면 $\dot s(0)=is_0$이고
+라 하면, 사영점은
 
 $$
-A(\dot s(0))=-i,s_0^\dagger(is_0)=1.
+[s(t)]=[e^{it}s_0]=[s_0]
 $$
 
-<div class="why"><b>그래서 이 식이다.</b> $A$는 “이 속도에 $is$ 방향, 곧 같은 사영점 위에서 도는 위상 속도가 얼마나 들어 있는가”를 숫자로 읽는다.</div>
+이다. $e^{it}\ne0$인 복소수를 곱한 두 벡터는 같은 사영점을 나타내기 때문이다. 따라서 $s(t)$는 단위구면에서는 돌지만, $\mathbb{CP}^1$에서는 한 점에 가만히 있는 곡선이다.
+
+그 속도는 $\dot s(t)=i\,e^{it}s_0=i\,s(t)$이다. 특히
+
+$$
+\begin{aligned}
+\dot s(0)&=i\,s_0,\\
+-i\,s_0^\dagger\dot s(0)
+&=-i\,s_0^\dagger(i\,s_0)=1.
+\end{aligned}
+$$
+
+즉 $-i\,s^\dagger\dot s$는 “사영점은 그대로 둔 채 위상만 도는 속도” $is$에 값 $1$을 준다.
+
+이제 임의의 속도 $\dot s$에서도 정확히 무엇을 읽는지 계산한다. $s^\dagger s=1$을 미분하면
+
+$$
+\dot s^\dagger s+s^\dagger\dot s=0.
+$$
+
+첫 항은 둘째 항의 켤레이므로 $s^\dagger\dot s$의 실수부는 $0$이다. 따라서 어떤 실수 $c$에 대하여
+
+$$
+s^\dagger\dot s=ic,\qquad c=-i\,s^\dagger\dot s
+$$
+
+이다. 이제
+
+$$
+h=\dot s-c\,is
+$$
+
+라고 놓으면
+
+$$
+s^\dagger h=s^\dagger\dot s-ci\,s^\dagger s=ic-ci=0.
+$$
+
+그러므로 임의의 속도가 실제로
+
+$$
+\boxed{\dot s=c\,is+h,\qquad s^\dagger h=0}
+$$
+
+로 갈라진다. 여기에 $A=-i\,s^\dagger ds$를 넣으면
+
+$$
+A(\dot s)=-i\,s^\dagger(c\,is+h)=c.
+$$
+
+<div class="why"><b>그래서 이 식이다.</b> $A$는 임의의 속도 $\dot s$ 안에 “$\mathbb{CP}^1$에서는 안 움직이고 위상만 도는 속도” $is$가 몇 배 들어 있는지를 정확히 꺼낸다.</div>
 
 </div>
 <div class="lane q" markdown="1">
 
 ### $Q$는 왜 $q$ 방향을 빼는가
 
-$q$와 $\lambda q$는 같은 사영점을 나타낸다. 그러므로 속도 $\dot q$ 안에서 $q$와 나란한 부분은 사영공간의 실제 움직임으로 세면 안 된다.
+$\lambda\ne0$이면 $[\lambda q]=[q]$이다. 따라서 $\dot q$ 안에서 $q$와 나란한 부분은 대표벡터의 길이·위상만 바꾸며, 사영점의 실제 움직임으로 세면 안 된다.
 
 $q$ 방향 성분은 평범한 정사영 공식으로
 
@@ -149,7 +188,26 @@ $$
 \dot q_{\perp}=\dot q-q\frac{q^\dagger\dot q}{q^\dagger q}
 $$
 
-이다. 두 방향 $X,Y$에서 이 남은 속도끼리 내적하고 길이 $q^\dagger q=S$로 한 번 더 나누면
+이다. 정말 수직인지 바로 곱해 보면
+
+$$
+\begin{aligned}
+q^\dagger\dot q_\perp
+&=q^\dagger\dot q
+-q^\dagger q\,\frac{q^\dagger\dot q}{q^\dagger q}\\
+&=0.
+\end{aligned}
+$$
+
+두 방향 $X,Y$에서 남은 속도끼리 내적하면
+
+$$
+\dot q_{\perp,X}^\dagger\dot q_{\perp,Y}
+=\dot q_X^\dagger\dot q_Y
+-\frac{(\dot q_X^\dagger q)(q^\dagger\dot q_Y)}{S}.
+$$
+
+마지막으로 $S=q^\dagger q$로 나눈다. 그러면 대표벡터를 $\lambda q$로 바꾸어 분자와 분모가 모두 $|\lambda|^2$배 되어도 값이 바뀌지 않는다. 그 결과가
 
 $$
 Q(X,Y)
@@ -157,7 +215,7 @@ Q(X,Y)
 -\frac{(\dot q_X^\dagger q)(q^\dagger\dot q_Y)}{S^2}.
 $$
 
-<div class="why"><b>그래서 이 식이다.</b> 첫 항은 전체 속도의 내적이고, 둘째 항은 그중 $q$와 나란해서 사영공간에서는 가짜인 부분이다.</div>
+<div class="why"><b>그래서 이 식이다.</b> 먼저 $q$와 나란한 가짜 움직임을 정사영으로 빼고, 남은 실제 사영공간 속도끼리 내적한다. 마지막의 $1/S$는 어느 길이의 대표벡터를 골라도 답이 같게 만든다.</div>
 
 </div>
 </div>
@@ -179,7 +237,7 @@ $$
 $$
 ds
 =\frac{(0,dz)^T}{\sqrt S}
--\frac{(1,z)^T}{2S^{3/2}},dS.
+-\frac{(1,z)^T}{2S^{3/2}}\,dS.
 $$
 
 왼쪽에서 $s^\dagger=(1,\bar z)/\sqrt S$를 곱한다.
@@ -190,8 +248,8 @@ $$
 \begin{aligned}
 s^\dagger ds
 &=\frac{\bar z\,dz}{S}-\frac{dS}{2S}\\
-&=\frac{2\bar z,dz-(\bar z,dz+z,d\bar z)}{2S}\\
-&=\frac{\bar z,dz-z,d\bar z}{2S}.
+&=\frac{2\bar z\,dz-(\bar z\,dz+z\,d\bar z)}{2S}\\
+&=\frac{\bar z\,dz-z\,d\bar z}{2S}.
 \end{aligned}
 $$
 
@@ -200,21 +258,23 @@ $$
 아직 마지막 줄에 $i$가 숨어 있다. $z=x+iy$를 정말 곱해 보면
 
 $$
-\bar z,dz
-=x,dx+y,dy+i(x,dy-y,dx),
+\bar z\,dz
+=x\,dx+y\,dy+i(x\,dy-y\,dx),
 $$
 
 $$
-z,d\bar z
-=x,dx+y,dy-i(x,dy-y,dx).
+z\,d\bar z
+=x\,dx+y\,dy-i(x\,dy-y\,dx).
 $$
 
 따라서
 
 $$
-s^\dagger ds=i\frac{x,dy-y,dx}{S},
-\qquad
-\boxed{A=\frac{x,dy-y,dx}{S}}.
+s^\dagger ds=i\frac{x\,dy-y\,dx}{S},
+$$
+
+$$
+\boxed{A=\frac{x\,dy-y\,dx}{S}}.
 $$
 
 <div class="why"><b>$A$에 허수부가 안 보이는 이유.</b> 없어진 것이 아니다. $s^\dagger ds$에 있던 $i$를 정의의 $-i$가 이미 없앴다. 그래서 $A$는 실수값 1-형식이다.</div>
@@ -271,19 +331,32 @@ $$
 
 ### $A$를 외미분한다
 
-$A=P,dx+R,dy$라고 놓으면
+$A=P\,dx+R\,dy$라고 놓으면
 
 $$
 P=-\frac{y}{S},\qquad R=\frac{x}{S}.
 $$
 
-미적분학의 이차원 curl 공식은
+이제 외미분의 규칙 $d(f\alpha)=df\wedge\alpha+f\,d\alpha$를 그대로 쓴다. $d(dx)=d(dy)=0$이므로
 
 $$
-dA=(\partial_xR-\partial_yP),dx\wedge dy
+\begin{aligned}
+dA
+&=dP\wedge dx+dR\wedge dy\\
+&=(P_x\,dx+P_y\,dy)\wedge dx\\
+&\quad +(R_x\,dx+R_y\,dy)\wedge dy\\
+&=P_y\,dy\wedge dx+R_x\,dx\wedge dy\\
+&=(R_x-P_y)\,dx\wedge dy.
+\end{aligned}
 $$
 
-이다. 두 편미분은 몫의 미분으로
+$dx\wedge dx=dy\wedge dy=0$이고 $dy\wedge dx=-dx\wedge dy$라서 가운데 두 항만 살아남았다. 이것이 이차원 curl 공식
+
+$$
+dA=(\partial_xR-\partial_yP)\,dx\wedge dy
+$$
+
+가 나오는 이유다. 이제 두 편미분을 몫의 미분으로 계산한다.
 
 <div class="calc" markdown="1">
 
@@ -304,8 +377,9 @@ $$
 $$
 \begin{aligned}
 \partial_xR-\partial_yP
-&=\frac{S-2x^2-(-S+2y^2)}{S^2}\\
-&=\frac{2(1+x^2+y^2)-2x^2-2y^2}{S^2}\\
+&=\frac{S-2x^2}{S^2}\\
+&\quad-\frac{-S+2y^2}{S^2}\\
+&=\frac{2(S-x^2-y^2)}{S^2}\\
 &=\frac{2}{S^2}.
 \end{aligned}
 $$
@@ -313,7 +387,7 @@ $$
 왼쪽 계산의 최종 결과는
 
 $$
-\boxed{dA=\frac{2}{S^2},dx\wedge dy}
+\boxed{dA=\frac{2}{S^2}\,dx\wedge dy}
 $$
 
 이다. $d$는 계수를 미분하고 $dx\wedge dy$로 묶었을 뿐이다.
@@ -359,7 +433,18 @@ $$
 
 </div>
 
-첫 식은 화살표의 길이를 재고, 둘째 식은 같은 화살표를 두 번 넣으면 죽는다. 이 단계에서는 그것만 관찰하면 된다.
+분자는 고등학교 좌표 계산에서 이미 본 두 식이다.
+
+$$
+ua+vb=(u,v)\mathbin{\boldsymbol\cdot}(a,b),
+$$
+
+$$
+ub-va=
+\det\begin{pmatrix}u&v\\a&b\end{pmatrix}.
+$$
+
+첫째는 두 화살표의 내적이므로 순서를 바꾸어도 같고, $X=X$를 넣으면 길이 제곱이 된다. 둘째는 두 화살표가 만드는 **방향 있는 평행사변형의 넓이**이므로 순서를 바꾸면 부호가 바뀌고, 같은 화살표를 두 번 넣으면 넓이가 $0$이 된다. 여기에는 아직 $J$가 필요하지 않다.
 
 </div>
 </div>
@@ -375,7 +460,8 @@ $$
 $$
 \begin{aligned}
 (dx\wedge dy)(X,Y)
-&=dx(X)dy(Y)-dx(Y)dy(X)\\
+&=dx(X)dy(Y)\\
+&\quad-dx(Y)dy(X)\\
 &=ub-av.
 \end{aligned}
 $$
@@ -445,6 +531,112 @@ $$
 
 <div class="point-check" markdown="1">
 
+## 화면의 곡선 $z(t)=1+it$를 두 벌 계산에 꽂는다
+
+이제 추상적인 $X,Y$를 잠시 내려놓고, 실제로 보았던 곡선을 넣는다. $t=0$에서
+
+$$
+\begin{aligned}
+z(0)&=1,&S(0)&=2,\\
+V&=\dot z(0)=\partial_y.
+\end{aligned}
+$$
+
+이다.
+
+<div class="point-grid" markdown="1">
+<div class="left" markdown="1">
+
+**왼쪽: 이 속도에는 위상 회전이 얼마나 들어 있는가.**
+
+단위벡터 곡선은
+
+$$
+s(t)=\frac{(1,1+it)^T}{\sqrt{2+t^2}}.
+$$
+
+$t=0$에서는 분모의 미분이 $0$이므로
+
+$$
+s_0=\frac{(1,1)^T}{\sqrt2},
+\qquad
+\dot s_0=\frac{(0,i)^T}{\sqrt2}.
+$$
+
+$A=(x\,dy-y\,dx)/S$에 $x=1,y=0,V=\partial_y$를 넣으면
+
+$$
+\boxed{A(V)=\frac12}.
+$$
+
+따라서 $\dot s_0$ 안의 위상 속도는 $\tfrac12\,is_0$이다. 실제로 나머지를 빼면
+
+$$
+\begin{aligned}
+h
+&=\dot s_0-\frac12\,is_0\\
+&=\frac{1}{2\sqrt2}(-i,i)^T,
+\qquad s_0^\dagger h=0.
+\end{aligned}
+$$
+
+그리고
+
+$$
+\|h\|^2=\frac18+\frac18=\boxed{\frac14}.
+$$
+
+</div>
+<div class="right" markdown="1">
+
+**오른쪽: 사영공간에서 실제로 남은 속도의 길이는 얼마인가.**
+
+$V=\partial_y$이므로 복소 속도는 $\xi=i$이다. 같은 속도를 두 슬롯에 넣으면
+
+$$
+Q(V,V)=\frac{\bar\xi\xi}{S^2}
+=\frac{(-i)i}{2^2}
+=\boxed{\frac14}.
+$$
+
+왼쪽에서 위상 성분을 뺀 뒤 남은 $h$의 길이 제곱과 정확히 같다.
+
+그런데 이 값에는 허수부가 없다. 계산이 실패한 것이 아니다. 같은 화살표를 두 번 넣으면
+
+$$
+\operatorname{Im}Q(V,V)
+=\frac{\det\!\begin{pmatrix}0&1\\0&1\end{pmatrix}}{4}
+=0
+$$
+
+이기 때문이다. **허수부를 보려면 서로 다른 두 방향이 필요하다.**
+
+같은 점 $z=1$에서 $X=\partial_x$, $Y=\partial_y$를 넣으면 $\xi=1,\eta=i$이고
+
+$$
+Q(X,Y)=\frac{\bar\xi\eta}{S^2}
+=\frac{i}{4}.
+$$
+
+따라서
+
+$$
+\boxed{
+\begin{aligned}
+\operatorname{Im}Q(X,Y)&=\frac14,\\
+\frac12dA(X,Y)&=\frac14.
+\end{aligned}}
+$$
+
+</div>
+</div>
+
+이 예에서 $A(V)=\tfrac12$와 $Q(V,V)=\tfrac14$는 서로 경쟁하는 두 답이 아니다. 첫째는 들어 올린 속도 안의 **위상 성분의 계수**이고, 둘째는 그 위상 성분을 뺀 뒤 남은 **사영공간 속도의 길이 제곱**이다.
+
+</div>
+
+<div class="point-check" markdown="1">
+
 ## 원점에서 한 번 더: $A$가 0이어도 $dA$는 0이 아니다
 
 $z=0$에서 $S=1$이고 $X=\partial_x$, $Y=\partial_y$를 넣는다. 즉 $u=1,v=0,a=0,b=1$이다.
@@ -452,10 +644,14 @@ $z=0$에서 $S=1$이고 $X=\partial_x$, $Y=\partial_y$를 넣는다. 즉 $u=1,v=
 <div class="point-grid" markdown="1">
 <div class="left" markdown="1">
 
-**왼쪽.** 원점에서 $A=(x,dy-y,dx)/S$의 값은 $0$이다. 그러나 주변에서 계수가 변하므로
+**왼쪽.** 원점에서 $A=(x\,dy-y\,dx)/S$의 값은 $0$이다. 그러나 주변에서 계수가 변하므로
 
 $$
-dA(X,Y)=2,qquad \frac12dA(X,Y)=1.
+dA(X,Y)=2,
+$$
+
+$$
+\frac12dA(X,Y)=1.
 $$
 
 </div>
@@ -464,7 +660,11 @@ $$
 **오른쪽.** $\xi=1$, $\eta=i$이므로
 
 $$
-Q(X,Y)=\bar\xi\eta=i,qquad \operatorname{Im}Q(X,Y)=1.
+Q(X,Y)=\bar\xi\eta=i,
+$$
+
+$$
+\operatorname{Im}Q(X,Y)=1.
 $$
 
 </div>
