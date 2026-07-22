@@ -59,6 +59,37 @@ dpbar = sp.Matrix([1, -I])
 real_form = sp.simplify(I / 2 * (p * dpbar - pbar * dp))
 ok("A4. 복소 alpha가 실좌표 (-y,x)를 준다", real_form == sp.Matrix([-y, x]))
 
+# §0의 CP1 세 곡선: 먼저 사영에서 무엇이 보이지 않는지 확인
+tau = sp.symbols("tau", real=True)
+p0_cp1 = sp.Matrix([1, 0])
+gamma1 = sp.Matrix([sp.exp(I * tau), 0])
+gamma2 = sp.Matrix([sp.cos(tau), sp.sin(tau)])
+gamma3 = sp.exp(2 * I * tau) * gamma2
+
+# [u1:u2]=[v1:v2] iff u1 v2-u2 v1=0 (두 벡터가 0이 아닐 때)
+projective_det_1 = sp.expand(
+    gamma1[0] * p0_cp1[1] - gamma1[1] * p0_cp1[0]
+)
+ok("A5. gamma1(t)=(e^{it},0)는 CP1에서 [1:0]으로 고정",
+   projective_det_1 == 0)
+
+projective_det_23 = sp.simplify(
+    gamma2[0] * gamma3[1] - gamma2[1] * gamma3[0]
+)
+ok("A6. gamma2와 e^{2it}gamma2는 CP1에서 같은 곡선",
+   projective_det_23 == 0)
+
+vel1 = sp.diff(gamma1, tau).subs(tau, 0)
+vel2 = sp.diff(gamma2, tau).subs(tau, 0)
+vel3 = sp.diff(gamma3, tau).subs(tau, 0)
+alpha_at_p0 = lambda vel: sp.simplify(-I * (p0_cp1.T * vel)[0])
+ok("A7. 세 속도를 alpha가 각각 1,0,2로 읽는다",
+   alpha_at_p0(vel1) == 1
+   and alpha_at_p0(vel2) == 0
+   and alpha_at_p0(vel3) == 2)
+ok("A8. gamma3'(0)=2ip0+gamma2'(0)",
+   sp.simplify(vel3 - 2 * I * p0_cp1 - vel2) == sp.zeros(2, 1))
+
 
 print()
 print("=" * 78)

@@ -12,55 +12,154 @@
 
 ---
 
-## §0. 왜 이 $\alpha$인가 — 위상속도를 숫자로 읽고 싶다
+## §0. 먼저 $\mathbb{CP}^n$에서 안 움직이는 곡선을 본다 — 그 속도를 $\alpha$로 읽는다
 
-$\mathbb C^m$의 단위구면 위 점을
+$\mathbb C^{n+1}$의 단위구면
 
-$$p=(p_1,\ldots,p_m),\qquad p^\dagger p=\sum_{j=1}^m|p_j|^2=1$$
+$$S^{2n+1}=\{p\in\mathbb C^{n+1}:p^\dagger p=1\}$$
 
-이라 하자. $p$를 따라 움직이는 곡선 $p(t)$를 잡고 $p(0)=p$, $\dot p(0)=X$라 쓰자. 곡선이 단위구면 안에 있으므로
+에서 사영
+
+$$\pi:S^{2n+1}\longrightarrow\mathbb{CP}^n,\qquad
+\pi(p)=[p]$$
+
+을 생각한다. 먼저 $S^{2n+1}$ 위에서 위상만 바꾸는 곡선
+
+$$\gamma(t)=e^{it}p$$
+
+를 잡는다. 이 곡선을 실제로 $\mathbb{CP}^n$으로 내리면
+
+$$\pi(\gamma(t))
+=[e^{it}p_1:\cdots:e^{it}p_{n+1}]
+=[p_1:\cdots:p_{n+1}]
+=[p].$$
+
+모든 $t$에서 같은 점이다. 따라서 아래에서는
+
+$$\frac d{dt}\pi(\gamma(t))=0.$$
+
+그런데 위의 구면에서는
+
+$$\gamma'(0)
+=\frac d{dt}\Big|_0e^{it}p
+=ip$$
+
+이므로 속도가 0이 아니다. 즉
+
+$$\boxed{\ ip\text{는 }S^{2n+1}\text{에서는 움직이지만 }
+\mathbb{CP}^n\text{에서는 보이지 않는 방향이다.}\ }$$
+
+이 계산을 한 뒤에야 $ip$를 “위상방향” 또는 “수직방향”이라고 부를 근거가 생긴다.
+
+### 0.1 $\mathbb{CP}^1$에서 세 곡선을 직접 비교한다
+
+가장 단순한 점
+
+$$p_0=(1,0)\in S^3$$
+
+을 잡는다. 첫 번째 곡선은
+
+$$\gamma_1(t)=(e^{it},0).$$
+
+아래로 내리면
+
+$$\pi(\gamma_1(t))=[e^{it}:0]=[1:0]$$
+
+이므로 움직이지 않고, 위에서의 속도는
+
+$$\gamma_1'(0)=(i,0)=ip_0$$
+
+이다.
+
+두 번째 곡선은
+
+$$\gamma_2(t)=(\cos t,\sin t).$$
+
+이번에는
+
+$$\pi(\gamma_2(t))=[\cos t:\sin t]$$
+
+가 $t$에 따라 달라지므로 $\mathbb{CP}^1$에서 실제로 움직인다. 위에서의 속도는
+
+$$\gamma_2'(0)=(0,1).$$
+
+세 번째 곡선은 두 움직임을 섞는다:
+
+$$\gamma_3(t)=e^{2it}(\cos t,\sin t).$$
+
+공통위상은 동차좌표에서 지워지므로
+
+$$\pi(\gamma_3(t))
+=[e^{2it}\cos t:e^{2it}\sin t]
+=[\cos t:\sin t]
+=\pi(\gamma_2(t)).$$
+
+즉 $\gamma_2$와 $\gamma_3$는 아래 $\mathbb{CP}^1$에서 정확히 같은 곡선이다. 그러나 위에서 미분하면
+
+$$\begin{aligned}
+\gamma_3'(0)
+&=2i(1,0)+(0,1)\\
+&=(2i,1)\\
+&=2(i,0)+(0,1).
+\end{aligned}$$
+
+$\gamma_3$의 속도에는 $\gamma_2$와 같은 $(0,1)$ 외에, 아래에서 보이지 않는 $(i,0)$ 방향이 두 배 들어 있다. 이제 필요한 것은 세 속도
+
+$$\gamma_1'(0)=(i,0),\qquad
+\gamma_2'(0)=(0,1),\qquad
+\gamma_3'(0)=(2i,1)$$
+
+를 각각
+
+$$1,\qquad 0,\qquad 2$$
+
+로 읽는 장치다.
+
+### 0.2 그 요구에서 $\alpha$를 만든다
+
+이제 일반적인 $p\in S^{2n+1}$로 돌아간다. $p$를 지나는 곡선 $p(t)$를 잡고
+
+$$p(0)=p,\qquad p'(0)=X$$
+
+라 쓰자. 곡선이 단위구면 안에 있으므로
 
 $$p(t)^\dagger p(t)=1$$
 
-을 $t$로 미분하면
+을 미분하면
 
-$$\frac d{dt}\Big|_0p(t)^\dagger p(t)=X^\dagger p+p^\dagger X=0.$$
+$$X^\dagger p+p^\dagger X=0.$$
 
 두 항은 서로 켤레이므로
 
-$$2\operatorname{Re}(p^\dagger X)=0,\qquad p^\dagger X\in i\mathbb R.$$
+$$2\operatorname{Re}(p^\dagger X)=0,\qquad
+p^\dagger X\in i\mathbb R.$$
 
-단위구면의 접벡터 $X$에 대해서는 $p^\dagger X$가 순허수다. 따라서
+따라서
 
 $$\boxed{\ \alpha_p(X):=-i\,p^\dagger X\ }$$
 
-는 실수다. 이 식은 아직 이름이 아니라 요구에서 나왔다. 단위벡터가 움직일 때 그 움직임 중 $ip$ 방향의 양을 읽고 싶어서 만든 것이다.
+는 실수다. 방금 세 곡선에 실제로 넣으면
 
-실제로 위상만 바꾸는 곡선
+$$\alpha_{p_0}(\gamma_1'(0))
+=-i(1,0)\begin{pmatrix}i\\0\end{pmatrix}=1,$$
 
-$$p(t)=e^{it}p$$
+$$\alpha_{p_0}(\gamma_2'(0))
+=-i(1,0)\begin{pmatrix}0\\1\end{pmatrix}=0,$$
 
-의 속도는
+$$\alpha_{p_0}(\gamma_3'(0))
+=-i(1,0)\begin{pmatrix}2i\\1\end{pmatrix}=2.$$
 
-$$X=\frac d{dt}\Big|_0e^{it}p=ip$$
+원했던 세 숫자가 그대로 나온다.
 
-이고,
-
-$$\alpha_p(ip)=-i\,p^\dagger(ip)=-i\cdot i\,p^\dagger p=1.$$
-
-반대로 $p^\dagger H=0$인 방향은
-
-$$\alpha_p(H)=-i\,p^\dagger H=0$$
-
-이다. 임의의 접벡터 $X$에서
+임의의 접벡터 $X$에서도
 
 $$\beta:=\alpha_p(X)=-i\,p^\dagger X\in\mathbb R$$
 
-를 잡고
+라 하고
 
 $$H:=X-\beta(ip)$$
 
-라 두면
+로 두면
 
 $$p^\dagger H=p^\dagger X-i\beta
 =p^\dagger X-i(-i\,p^\dagger X)
@@ -68,11 +167,12 @@ $$p^\dagger H=p^\dagger X-i\beta
 
 따라서
 
-$$\boxed{\ X=\underbrace{\alpha(X)\,ip}_{\text{위상만 바꾸는 부분}}+\underbrace{H}_{p^\dagger H=0}\ }.$$
+$$\boxed{\ X=\underbrace{\alpha(X)\,ip}_{\mathbb{CP}^n\text{에서 안 보이는 부분}}
++\underbrace{H}_{p^\dagger H=0}\ }.$$
 
-$\alpha$가 “접속형식”이라는 말은 이 분해를 나중에 부르는 이름이다. 지금 계산으로 확인한 것은 더 구체적이다. $\alpha$는 접벡터가 가진 위상속도의 계수를 읽고, 그 계수만큼 $ip$를 빼면 $p$와 에르미트 직교하는 움직임이 남는다.
+$\alpha$가 “접속형식”이라는 이름을 얻는 것은 이 계산 뒤의 일이다. 지금 확인한 것은 $\alpha$가 아래에서 보이지 않는 위상속도의 계수를 읽고, 그만큼 $ip$를 빼면 $p$와 에르미트 직교하는 움직임이 남는다는 사실이다.
 
-### 0.1 복소식에서 실좌표식이 나오는 자리
+### 0.3 복소식에서 실좌표식이 나오는 자리
 
 $p_j=x_j+iy_j$라고 쓰자. 접벡터 $X$에 값을 넣기 전의 1-형식으로는
 
@@ -106,7 +206,7 @@ $$\frac i2\bigl(dp^\dagger p-p^\dagger dp\bigr)
 
 왼쪽은 성분으로 쓴 $\alpha$다.
 
-### 0.2 $d\alpha$에는 무엇이 남는가
+### 0.4 $d\alpha$에는 무엇이 남는가
 
 성분 하나에서 외미분의 곱 규칙을 적용한다:
 
