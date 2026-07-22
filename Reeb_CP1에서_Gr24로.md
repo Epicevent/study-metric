@@ -9,6 +9,8 @@
 > 의 **두 배**다. 이 글에서는 이 둘을 같은 글자로 부르지 않는다:
 > 아래 사영을 $\pi:\Sigma^9\to\mathrm{Gr}(2,4)$라 쓸 때
 > $$\boxed{\ \pi^*\Omega=d\alpha,\qquad \omega:=\frac12\Omega=\frac{i}{2}\partial\bar\partial\log K\ }.$$
+>
+> **이 글의 순서.** $\mathbb{CP}^5$의 계량을 먼저 가져오지 않는다. $\mathbb{CP}^1$에서 $S^3$의 속도를 올리고, $\alpha$가 읽은 Reeb 속도를 빼고, 남은 속도의 길이를 재서 아래의 계량을 만든다. $\mathrm{Gr}(2,4)$에서도 여섯 성분으로 같은 셋을 반복한다. Plücker 사영은 그 뒤의 확인이지 계산의 출발점이 아니다.
 
 ---
 
@@ -379,6 +381,128 @@ $$\int_{\mathbb C}dA
 $$\int_{\mathbb C}\omega=\pi.$$
 
 두 값은 서로 다른 계산 결과가 아니라 $d\alpha=2\omega$라는 한 개의 정규화 선택이다.
+
+### 1.3 아래의 길이도 $S^3$에서 직접 나온다
+
+이제 $\mathbb{CP}^1$의 계량을 밖에서 가져오지 않고 위의 계산만으로 만들어 보자. 평면에서 곡선
+
+$$z(t)=x(t)+iy(t)$$
+
+를 잡고, 한 시각의 값과 속도를
+
+$$z=x+iy,\qquad \dot z=u+iv=: \xi$$
+
+라 쓴다. 이 곡선을 방금 고른 $S^3$ 위의 대표로 올리면
+
+$$s(z(t))=\frac{(1,z(t))}{\sqrt{S(t)}},\qquad S(t)=1+|z(t)|^2.$$
+
+지금
+
+$$\dot S=2xu+2yv$$
+
+이다. $c:=xu+yv$라 놓고 보통의 몫의 미분을 하면
+
+$$\boxed{
+\dot s
+=-\frac{c}{S^{3/2}}(1,z)+\frac1{\sqrt S}(0,\xi)
+}.$$
+
+이 속도의 $\mathbb C^2$에서의 보통 길이를 제곱하면
+
+$$\begin{aligned}
+\|\dot s\|^2
+&=\frac{|\xi|^2}{S}-\frac{c^2}{S^2}\\
+&=\frac{u^2+v^2}{S}-\frac{(xu+yv)^2}{S^2}.
+\end{aligned}$$
+
+그런데 $\dot s$에는 $\mathbb{CP}^1$에서 보이는 움직임뿐만 아니라 위상속도도 섞여 있다. 그 속도를 읽는 것이 방금 계산한 $A=s^*\alpha$다:
+
+$$A(\dot z)=\frac{xv-yu}{S}.$$
+
+$b:=xv-yu$라 두면, 위상방향의 단위속도는 $R_s=is$이므로 아래에서 실제로 보이는 속도는
+
+$$\boxed{ h:=\dot s-\frac bS R_s\ }$$
+
+다. $\|R_s\|=1$이고 $\dot s$의 $R_s$ 방향 속도가 $b/S$이므로
+
+$$\|h\|^2=\|\dot s\|^2-\frac{b^2}{S^2}.$$
+
+여기에서 항등식
+
+$$\begin{aligned}
+c^2+b^2
+&=(xu+yv)^2+(xv-yu)^2\\
+&=(x^2+y^2)(u^2+v^2)
+\end{aligned}$$
+
+을 넣으면
+
+$$\begin{aligned}
+\|h\|^2
+&=\frac{u^2+v^2}{S}
+-\frac{(x^2+y^2)(u^2+v^2)}{S^2}\\
+&=\boxed{\ \frac{u^2+v^2}{(1+x^2+y^2)^2}\ }.
+\end{aligned}$$
+
+따라서 아래 $\mathbb{CP}^1$에서의 길이제곱은
+
+$$\boxed{ d\ell_{\mathbb{CP}^1}^2
+=\frac{dx^2+dy^2}{(1+x^2+y^2)^2}\ }.$$
+
+이 식을 먼저 가정한 것이 아니다. $S^3$에 올린 속도에서 $\alpha$가 읽은 Reeb 속도를 빼고, 남은 속도의 보통 길이를 제곱하여 얻은 결과다.
+
+숫자를 하나 넣어 같은 계산을 다시 보자. 아래에서
+
+$$z(t)=1+it$$
+
+로 움직이면
+
+$$s(t)=\frac{(1,1+it)}{\sqrt{2+t^2}},qquad
+s(0)=\frac1{\sqrt2}(1,1),qquad
+\dot s(0)=\frac1{\sqrt2}(0,i).$$
+
+이 점의 Reeb 속도는
+
+$$R_{s(0)}=is(0)=\frac1{\sqrt2}(i,i)$$
+
+이고, $\alpha$가 읽는 수는
+
+$$\alpha(\dot s(0))
+=-i,s(0)^\dagger\dot s(0)
+=-i\left(\frac i2\right)
+=\frac12.$$
+
+따라서 그만큼을 실제로 빼면
+
+$$\begin{aligned}
+h(0)
+&=\dot s(0)-\frac12R_{s(0)}\\
+&=\frac1{2\sqrt2}(-i,i),
+\end{aligned}$$
+
+$$\boxed{\ \|h(0)\|^2
+=\frac{1}{8}+\frac{1}{8}
+=\frac{1}{4}\ }.$$
+
+아래의 길이식에 $x=1$, $y=0$, $u=0$, $v=1$을 넣어도
+
+$$\frac{u^2+v^2}{(1+x^2+y^2)^2}
+=\frac1{(1+1)^2}
+=\frac14$$
+
+가 나온다. 위에서 Reeb 속도를 빼서 잰 값과 아래 좌표식이 숫자까지 같다.
+
+$X=(u,v)$를 평면에서 $90^\circ$ 돌린 속도는 $X^\perp=(-v,u)$다. 위에서 구한
+
+$$dA=\frac{2\,dx\wedge dy}{S^2}$$
+
+에 두 속도를 넣으면
+
+$$\frac12dA(X,X^\perp)
+=\frac12\frac{2}{S^2}(u^2+v^2)
+=\|h\|^2.$$
+
+즉 넓이를 재는 $d\alpha$와 길이를 재는 식이 따로 주어진 것이 아니다. Reeb 속도를 빼서 만든 같은 $h$의 제곱길이를, 한쪽에서는 그대로 재고 다른 쪽에서는 $90^\circ$ 돌린 속도와의 넓이로 잰 것이다.
 
 ---
 
@@ -1255,11 +1379,12 @@ $$\bar\partial\partial=-\partial\bar\partial$$
 $$dA=\frac i2\left(\partial\bar\partial+\partial\bar\partial\right)\log K
 =\boxed{\ i\,\partial\bar\partial\log K\ }.$$
 
-한편 걸음 6의 플뤼커 당김 계산은
+§1에서는 $S^3$의 $\alpha$로부터 $dA$를 먼저 계산한 뒤, 길이에 맞는 넓이형식을 $\omega=\frac12dA$로 썼다. 여기서도 같은 순서로
 
-$$\omega=\frac i2\partial\bar\partial\log K$$
+$$\omega:=\frac12dA
+=\frac i2\partial\bar\partial\log K$$
 
-였다. 따라서 같은 차트에서
+라 둔다. 따라서
 
 $$\boxed{\ dA=2\omega\ }.$$
 
@@ -1286,7 +1411,43 @@ $$\alpha(\widetilde H)
 =A(H)-A(H)\alpha(R)
 =A(H)-A(H)=0.$$
 
-$\mathbb{CP}^1$에서 $V-\alpha(V)R$로 했던 수평화가 $\mathrm{Gr}(2,4)$에서도 문자 그대로 같은 뺄셈으로 작동한다. 달라진 것은 $s$가 두 성분이 아니라 여섯 성분이고, $A$의 분자에 $\Delta=ad-bc$ 항이 생긴 것뿐이다.
+$\mathbb{CP}^1$에서 $V-\alpha(V)R$로 했던 뺄셈이 $\mathrm{Gr}(2,4)$에서도 문자 그대로 작동한다. 달라진 것은 $s$가 두 성분이 아니라 여섯 성분이고, $A$의 분자에 $\Delta=ad-bc$ 항이 생긴 것뿐이다.
+
+길이도 §1.3과 같이 위에서 재면 된다. $a,b,c,d$가 $t$에 따라 움직일 때
+
+$$q=q(t),\qquad K=q^\dagger q,\qquad s=\frac q{\sqrt K}$$
+
+라 쓴다. $q^\dagger\dot q=\rho+i\sigma$라 쓰면 $\dot K=2\rho$이므로
+
+$$\dot s=\frac{\dot q}{\sqrt K}-\frac{\rho}{K^{3/2}}q,\qquad
+\alpha(\dot s)=\frac \sigma K.$$
+
+따라서 $\alpha$가 읽은 만큼 $R_s=is$를 뺀
+
+$$h:=\dot s-\frac \sigma K R_s$$
+
+의 길이제곱은 보통 내적을 전개하면
+
+$$\boxed{
+\|h\|^2
+=\frac{\dot q^\dagger\dot q}{K}
+-\frac{|q^\dagger\dot q|^2}{K^2}
+}.$$
+
+이것이 $\mathrm{Gr}(2,4)$의 길이를 정한다. $\mathbb{CP}^5$의 계량을 먼저 당겨서 넣은 것이 아니다. 위의 $\Sigma^9$에서 Reeb 속도를 빼고 남은 속도의 길이다.
+
+$u=(a,b,c,d)$라 쓰면 $\dot q=\sum_uq_u\dot u$이고, 방금 상자의 식은
+
+$$\|h\|^2
+=\sum_{u,v}
+\frac{K K_{u\bar v}-K_uK_{\bar v}}{K^2}
+\dot u\,\overline{\dot v}.$$
+
+따라서 뒤에서 나오는 행렬
+
+$$g_{u\bar v}=\frac{K K_{u\bar v}-K_uK_{\bar v}}{K^2}$$
+
+은 새 계량을 또 도입한 것이 아니라, 이 남은 속도의 길이제곱을 성분별로 적은 것이다.
 
 ---
 

@@ -90,6 +90,35 @@ ok("A7. 세 속도를 alpha가 각각 1,0,2로 읽는다",
 ok("A8. gamma3'(0)=2ip0+gamma2'(0)",
    sp.simplify(vel3 - 2 * I * p0_cp1 - vel2) == sp.zeros(2, 1))
 
+# §1.3: S^3로 올린 속도에서 alpha가 읽은 위상속도를 빼면 CP1 길이가 나온다.
+u, v = sp.symbols("u v", real=True)
+S_cp1 = 1 + x**2 + y**2
+c_cp1 = x * u + y * v
+b_cp1 = x * v - y * u
+lift_norm_sq = (u**2 + v**2) / S_cp1 - c_cp1**2 / S_cp1**2
+horizontal_norm_sq = sp.simplify(lift_norm_sq - b_cp1**2 / S_cp1**2)
+cp1_metric_sq = (u**2 + v**2) / S_cp1**2
+ok("A9. Reeb 속도를 뺀 S3 속도의 길이는 CP1 계량",
+   sp.simplify(horizontal_norm_sq - cp1_metric_sq) == 0)
+
+# X=(u,v), X^perp=(-v,u)에 dA=2 dx wedge dy/S^2를 넣은 값의 절반
+half_dA_X_JX = sp.simplify(
+    sp.Rational(1, 2) * 2 / S_cp1**2 * (u * u - v * (-v))
+)
+ok("A10. (1/2)dA(X,X^perp)가 같은 길이제곱을 준다",
+   sp.simplify(half_dA_X_JX - cp1_metric_sq) == 0)
+
+# §1.3의 숫자곡선 z(t)=1+it: alpha=1/2를 빼면 남은 길이제곱은 1/4
+s0_numeric = sp.Matrix([1, 1]) / sp.sqrt(2)
+sdot_numeric = sp.Matrix([0, I]) / sp.sqrt(2)
+R_numeric = I * s0_numeric
+phase_numeric = sp.simplify(-I * (sp.conjugate(s0_numeric).T * sdot_numeric)[0])
+h_numeric = sp.simplify(sdot_numeric - phase_numeric * R_numeric)
+h_norm_numeric = sp.simplify((sp.conjugate(h_numeric).T * h_numeric)[0])
+ok("A11. z(t)=1+it에서 alpha=1/2, 남은 속도 길이제곱=1/4",
+   phase_numeric == sp.Rational(1, 2)
+   and h_norm_numeric == sp.Rational(1, 4))
+
 
 print()
 print("=" * 78)
