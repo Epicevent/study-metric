@@ -457,8 +457,8 @@ $$z(t)=1+it$$
 
 로 움직이면
 
-$$s(t)=\frac{(1,1+it)}{\sqrt{2+t^2}},qquad
-s(0)=\frac1{\sqrt2}(1,1),qquad
+$$s(t)=\frac{(1,1+it)}{\sqrt{2+t^2}},\qquad
+s(0)=\frac1{\sqrt2}(1,1),\qquad
 \dot s(0)=\frac1{\sqrt2}(0,i).$$
 
 이 점의 Reeb 속도는
