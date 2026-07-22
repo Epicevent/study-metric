@@ -51,7 +51,7 @@ em{color:var(--muted)}
 <main>
 <blockquote>
 <p><strong>이 글이 시작하는 자리.</strong> <a href="Reeb벡터장_완전계산.html">파트 IV 완전 상세</a>에서는 $S^3\to\mathbb{CP}^1$ 위에서 Reeb 벡터장을 실좌표로 계산했다. <a href="걸음6_Gr24_플뤼커_완전판.html">걸음 6</a>은 $\Sigma^9\to\mathrm{Gr}(2,4)$에서도 “같은 계산”이라고 적었지만, 실제로 같은지 여섯 성분을 놓고 확인하지 않았다. <a href="사전_1z에서_IZ로.html">$(1,z)$에서 $(I,Z)$로</a>의 §9 첫 번째 구멍이 바로 이것이었다.</p>
-<p>여기서는 “Boothby–Wang”, “prequantization”을 출발점으로 삼지 않는다. $Gr(2,4)$ 부분에서도 이름을 먼저 쓰지 않는다. 두 벡터가 만드는 평면을 연립일차방정식으로 적고, 그 두 벡터를 $t$에 따라 움직이고, 여섯 개의 $2\times2$ 행렬식을 성분별로 미분한다. $U(2)$도 일반식 전에 네 개의 기저곡선을 실제로 움직여 본다. 일반식은 그 예시에서 이미 일어난 계산을 한 줄로 묶을 때에만 쓴다.</p>
+<p>여기서는 “Boothby–Wang”, “prequantization”을 출발점으로 삼지 않는다. $Gr(2,4)$ 부분에서도 이름을 먼저 쓰지 않는다. 두 벡터가 만드는 평면을 연립일차방정식으로 적고, 그 두 벡터를 $t$에 따라 움직이고, 여섯 개의 $2\times2$ 행렬식을 성분별로 미분한다. §5에서는 같은 평면 안의 기저회전, Plücker 위상만 바꾸는 움직임, 평면 밖으로 나가는 움직임을 먼저 비교한다. 그 뒤에야 앞의 두 움직임을 $SU(2)$와 $S^1$이라 부른다. 일반식은 그 예시에서 이미 일어난 계산을 한 줄로 묶을 때에만 쓴다.</p>
 <p><strong>정규화.</strong> 이 글의 $\alpha$는 기존 Reeb 문서와 같다. 따라서 아래층으로 내려간 $d\alpha$는 걸음 6의
 $$\omega=\frac{i}{2}\,\partial\bar\partial\log K$$
 의 <strong>두 배</strong>다. 이 글에서는 이 둘을 같은 글자로 부르지 않는다:
@@ -657,7 +657,30 @@ dx_{24}\wedge dy_{24},
 <p>$$\alpha(D)=0,\qquad \iota_Dd\alpha=0.$$</p>
 <p>$D\in\ker\alpha$이고 $d\alpha$가 그 공간에서 역행렬을 가지므로 $D=0$이다. §3에서 만든 위상생성원은 단순한 후보가 아니라 유일한 Reeb 벡터장이다.</p>
 <hr />
-<h2>§5. $U(2)$의 네 방향 중 왜 한 방향만 Reeb로 보이는가</h2>
+<h2>§5. 기저가 움직인다는 말과 평면이 움직인다는 말은 다르다</h2>
+<p>$\mathbb{CP}^1$에서는 복소직선 하나를 단위벡터 $p\in S^3$로 나타냈다. 같은 직선의 다른 단위벡터는</p>
+<p>$$p\longmapsto e^{it}p$$</p>
+<p>뿐이었다. 그래서 $S^3$에서 보이지만 $\mathbb{CP}^1$에서 보이지 않는 움직임은 위상원 하나였다.</p>
+<p>$\mathrm{Gr}(2,4)$에서는 출발부터 한 단계가 더 있다. 한 평면을 적으려면 먼저 그 안의 정규직교 기저 두 개를 골라</p>
+<p>$$Q=(v\;w)$$</p>
+<p>라고 쓴다. 그러나 평면은 기저쌍 $Q$ 그 자체가 아니다. 같은 평면 안에서도 $v,w$를 섞어 새로운 기저를 만들 수 있기 때문이다. 그다음 두 벡터를 쐐기하여</p>
+<p>$$p=v\wedge w$$</p>
+<p>를 만들고, 마지막으로 $p$의 공통위상을 지워 평면을 얻는다. 따라서 지금 구별해야 할 것은 세 층이다:</p>
+<p>$$
+\boxed{
+\text{정규직교 기저쌍 }Q=(v\;w)
+\ \longrightarrow\
+\text{단위 Plücker 벡터 }p=v\wedge w
+\ \longrightarrow\
+\text{평면 }P=[p]
+}.
+$$</p>
+<p>“$SU(2)$ 방향”, “$S^1$ 방향”이라는 이름부터 붙이면 이 세 층이 섞인다. 먼저 실제 곡선들을 움직여 다음 세 경우를 구별하자.</p>
+<ol>
+<li>기저쌍은 움직이지만 $p=v\wedge w$는 움직이지 않는 경우,</li>
+<li>$p$는 움직이지만 공통위상만 변하여 평면은 움직이지 않는 경우,</li>
+<li>평면 자체가 실제로 움직이는 경우.</li>
+</ol>
 <p>먼저 가장 단순한 평면</p>
 <p>$$P_0=\operatorname{span}_{\mathbb C}\{e_1,e_2\}$$</p>
 <p>에서 네 개의 실제 곡선을 보자. 첫 번째는 두 기저벡터를 실수 회전시키는 곡선이다:</p>
@@ -693,12 +716,61 @@ w_0(t)=e^{it/2}e_2.$$</p>
 <p>$$v_0(t)\wedge w_0(t)=e^{it}e_1\wedge e_2,$$</p>
 <p>따라서</p>
 <p>$$\frac d{dt}\Big|_0(v_0\wedge w_0)=i\,e_1\wedge e_2.$$</p>
-<p>이 속도는 §3의 $R_p=ip$와 정확히 같다. 즉 “세 방향은 사라지고 한 방향은 Reeb로 남는다”는 말은 차원 암기 전에 위 네 곡선에서 눈으로 보인다.</p>
-<p>이제 같은 계산을 임의의 평면에서 한 번에 쓴다. $\mathrm{Gr}(2,4)$의 평면에 정규직교 기저를 골라</p>
+<p>이 속도는 §3의 $R_p=ip$와 정확히 같다. 앞의 세 곡선에서는 기저쌍만 움직이고 $p$가 멈췄다. 네 번째 곡선에서는 $p$가 움직였지만</p>
+<p>$$[e^{it}e_1\wedge e_2]=[e_1\wedge e_2]$$</p>
+<p>이므로 평면은 여전히 멈춰 있다.</p>
+<p>여기에 반드시 비교해야 할 곡선이 하나 더 있다. 첫 번째 기저벡터를 원래 평면 밖의 $e_3$ 방향으로 움직여 보자:</p>
+<p>$$v_4(t)=\cos t\,e_1+\sin t\,e_3,\qquad
+w_4(t)=e_2.$$</p>
+<p>$t\neq0$이면 $v_4(t)$에 $e_3$ 성분이 있으므로</p>
+<p>$$P(t)=\operatorname{span}_{\mathbb C}\{v_4(t),e_2\}$$</p>
+<p>는 $P_0=\operatorname{span}_{\mathbb C}\{e_1,e_2\}$와 다른 평면이다. 쐐기곱도</p>
+<p>$$\begin{aligned}
+v_4(t)\wedge w_4(t)
+&amp;=\cos t\,e_1\wedge e_2+\sin t\,e_3\wedge e_2\\
+&amp;=\cos t\,e_1\wedge e_2-\sin t\,e_2\wedge e_3
+\end{aligned}$$</p>
+<p>이므로</p>
+<p>$$\frac d{dt}\Big|_0(v_4\wedge w_4)
+=-e_2\wedge e_3.$$</p>
+<p>이 속도는 $p_0=e_1\wedge e_2$의 배수도 아니고 $ip_0$의 배수도 아니다. 새로운 Plücker 성분 $p_{23}$이 생겼다. 따라서 이것은 기저만 바뀐 속도도, 공통위상만 바뀐 속도도 아니고, 아래 평면이 실제로 움직이는 속도다.</p>
+<p>이제 세 경우를 계산으로 구별했다:</p>
+<p>$$\begin{array}{c|c|c}
+\text{위에서 한 일}&amp;p=v\wedge w&amp;[p]\text{가 나타내는 평면}\\ \hline
+v,w\text{를 평면 안에서 섞음}&amp;\text{멈춤}&amp;\text{멈춤}\\
+v\wedge w\text{의 위상만 바꿈}&amp;\text{움직임}&amp;\text{멈춤}\\
+v\text{를 평면 밖으로 움직임}&amp;\text{새 성분으로 움직임}&amp;\text{움직임}
+\end{array}
+$$</p>
+<p>첫째와 둘째는 같은 평면의 기저를 바꾼 움직임이고, 셋째만 $\mathrm{Gr}(2,4)$ 안에서 실제로 남는 움직임이다. 이제 앞의 두 움직임이 왜 각각 세 방향과 한 방향으로 갈리는지 일반적인 기저쌍에서 계산한다.</p>
+<p>임의의 평면에 정규직교 기저를 골라</p>
 <p>$$Q=(v\;w)\in\mathbb C^{4\times2},\qquad Q^\dagger Q=I_2$$</p>
-<p>라 쓰자. 같은 평면의 다른 정규직교 기저는</p>
-<p>$$Q'=QG,\qquad G\in U(2)$$</p>
-<p>이다.</p>
+<p>라 쓰자. 같은 평면의 다른 정규직교 기저를</p>
+<p>$$Q'=(v'\;w')$$</p>
+<p>라 하자. $v',w'$는 모두 $v,w$의 일차결합이므로 어떤 $2\times2$ 복소행렬 $G$에 대해</p>
+<p>$$Q'=QG$$</p>
+<p>로 쓸 수 있다. 여기까지는 단지 “같은 평면의 두 기저”라는 말의 행렬 표현이다. 양변에 $Q^\dagger$를 곱하고 $Q^\dagger Q=I_2$를 쓰면 그 행렬은</p>
+<p>$$G=Q^\dagger Q'$$</p>
+<p>로 정해진다.</p>
+<p>이제 $G$가 왜 unitary인지 직접 확인하자. $Q'$의 두 열은 $Q$의 열들이 만드는 평면 안에 있으므로</p>
+<p>$$QQ^\dagger Q'=Q'.$$</p>
+<p>따라서</p>
+<p>$$\begin{aligned}
+G^\dagger G
+&amp;=(Q^\dagger Q')^\dagger(Q^\dagger Q')\\
+&amp;=Q'^\dagger QQ^\dagger Q'\\
+&amp;=Q'^\dagger Q'\\
+&amp;=I_2.
+\end{aligned}$$</p>
+<p>즉 $G\in U(2)$다. 반대로 $G^\dagger G=I_2$이면</p>
+<p>$$QG$$</p>
+<p>의 두 열은 여전히 정규직교이고, $Q$의 열들을 섞었을 뿐이므로 같은 평면을 만든다. 그러므로</p>
+<p>$$\boxed{
+\text{같은 평면의 정규직교 기저쌍 전체}
+=\{QG:G\in U(2)\}
+}.
+$$</p>
+<p>$U(2)$를 밖에서 가져와 기저 움직임에 억지로 붙인 것이 아니다. 같은 평면의 정규직교 기저를 전부 써 보니 정확히 $QG$이고, 그때 가능한 $G$가 정확히 unitary 행렬인 것이다.</p>
 <p>$G=(g_{rs})$라 하면 새 열은</p>
 <p>$$v'=g_{11}v+g_{21}w,\qquad
 w'=g_{12}v+g_{22}w.$$</p>
@@ -712,14 +784,86 @@ v'\wedge w'
 &amp;=(\det G)\,v\wedge w.
 \end{aligned}$$</p>
 <p>$v\wedge v=w\wedge w=0$, $w\wedge v=-v\wedge w$만 사용했다.</p>
-<p>$G\in SU(2)$이면 $\det G=1$이므로 $v\wedge w$가 아예 움직이지 않는다. $U(2)$의 실 4방향 가운데 $SU(2)$의 실 3방향은</p>
-<p>$$Q\longmapsto p=v\wedge w$$</p>
-<p>를 만드는 순간 이미 사라진다.</p>
+<p>여기서 비로소 두 종류의 같은-평면 움직임이 갈린다. $G\in U(2)$이면 $|\det G|=1$이므로</p>
+<p>$$\det G=e^{i\theta}$$</p>
+<p>꼴이다. 그런데 쐐기곱은 $G$의 네 성분을 따로 기억하지 않고 오직 이 한 수 $\det G$만 기억한다.</p>
+<p>먼저</p>
+<p>$$\det G=1$$</p>
+<p>이면</p>
+<p>$$v'\wedge w'=v\wedge w.$$</p>
+<p>기저쌍은 움직여도 Plücker 벡터가 전혀 움직이지 않는다. <strong>이 계산을 만족하는 unitary 기저변환들의 모임을</strong></p>
+<p>$$SU(2)=\{G\in U(2):\det G=1\}$$</p>
+<p>이라고 부른다. 따라서 “$SU(2)$ 방향이 사라진다”는 말의 내용은 이름이 아니라</p>
+<p>$$\boxed{\ \det G=1\quad\Longrightarrow\quad
+(QG)_1\wedge(QG)_2=v\wedge w\ }$$</p>
+<p>라는 계산이다.</p>
 <p>반면</p>
 <p>$$G(\theta)=\begin{pmatrix}e^{i\theta}&amp;0\\0&amp;1\end{pmatrix}$$</p>
 <p>이면 $\det G(\theta)=e^{i\theta}$이므로</p>
 <p>$$v'\wedge w'=e^{i\theta}p.$$</p>
-<p>이 한 방향이 $\Sigma^9$에서 Reeb 원으로 남는다.</p>
+<p>이 경우에는 기저가 만드는 평면은 그대로지만 Plücker 벡터가 원을 따라 움직인다. 이 원이 $S^1$이고 그 속도가</p>
+<p>$$\frac d{d\theta}\Big|_0e^{i\theta}p=ip=R_p$$</p>
+<p>이므로 Reeb 방향이다.</p>
+<p>왜 같은 평면의 모든 움직임이 이 두 종류로 나뉘는지도 행렬로 볼 수 있다. $G(t)$가 $I_2$에서 시작하는 $U(2)$ 곡선이면, 작은 $t$에서는 연속인 실수함수 $\theta(t)$를 골라</p>
+<p>$$\det G(t)=e^{i\theta(t)}$$</p>
+<p>로 쓸 수 있다. 이제</p>
+<p>$$H(t):=e^{-i\theta(t)/2}G(t)$$</p>
+<p>라 두면</p>
+<p>$$\det H(t)
+=e^{-i\theta(t)}\det G(t)
+=1.$$</p>
+<p>따라서</p>
+<p>$$\boxed{\ G(t)=e^{i\theta(t)/2}H(t),\qquad H(t)\in SU(2)\ }.$$</p>
+<p>같은 평면 안의 임의의 기저 움직임은</p>
+<ol>
+<li>쐐기곱에서 완전히 사라지는 $H(t)$의 움직임과</li>
+<li>쐐기곱 전체를 $e^{i\theta(t)}$만큼 돌리는 움직임</li>
+</ol>
+<p>으로 실제로 분리된다. 그래서 “세 방향과 한 방향”이라고 생각할 수 있는 것이다. 먼저 군의 차원을 외운 뒤 억지로 나눈 것이 아니다.</p>
+<p>속도만 놓고도 $3+1$을 직접 볼 수 있다. $G(0)=I_2$인 곡선을 미분하여</p>
+<p>$$A:=\dot G(0)$$</p>
+<p>라 쓰자. $G(t)^\dagger G(t)=I_2$를 미분하면</p>
+<p>$$A^\dagger+A=0.$$</p>
+<p>$2\times2$ 행렬의 네 성분에 이 식을 적용하면 대각성분은 순허수이고, 왼쪽 아래 성분은 오른쪽 위 성분의 음의 켤레다. 따라서 실수 $r,s,x,y$를 사용하여</p>
+<p>$$A=
+\begin{pmatrix}
+ir&amp;x+iy\\
+-x+iy&amp;is
+\end{pmatrix}
+$$</p>
+<p>로 쓸 수 있다. 이제 보통 행렬 덧셈으로</p>
+<p>$$\begin{aligned}
+A
+&amp;=
+\frac{i(r+s)}2
+\begin{pmatrix}1&amp;0\\0&amp;1\end{pmatrix}\\
+&amp;\quad+
+\begin{pmatrix}
+\frac{i(r-s)}2&amp;x+iy\\
+-x+iy&amp;-\frac{i(r-s)}2
+\end{pmatrix}.
+\end{aligned}$$</p>
+<p>첫 번째 행렬에는 실수 $r+s$ 하나만 들어 있다. 두 번째 행렬에는</p>
+<p>$$r-s,\qquad x,\qquad y$$</p>
+<p>라는 실수 세 개가 들어 있고 trace는 0이다. 따라서 네 개의 같은-평면 속도가</p>
+<p>$$\boxed{
+\underbrace{\text{trace가 0인 세 속도}}_{p=v\wedge w\text{에서도 사라짐}}
++
+\underbrace{\text{공통위상 한 속도}}_{p\mapsto e^{it}p\text{로 남음}}
+}
+$$</p>
+<p>로 갈리는 것을 성분에서 직접 확인했다.</p>
+<p>세 층에서 무엇이 사라지는지를 다시 쓰면</p>
+<p>$$
+\boxed{
+Q=(v\;w)
+\ \xrightarrow[\det=1\text{인 기저변환이 사라짐}]{\,v\wedge w\,}\
+p\in\Sigma^9
+\ \xrightarrow[e^{i\theta}p\text{가 사라짐}]{\,[p]\,}\
+P\in\mathrm{Gr}(2,4)
+}.
+$$</p>
+<p>첫 번째 화살표에서 사라지는 움직임에 나중에 $SU(2)$라는 이름을 붙이고, 두 번째 화살표에서 사라지는 움직임에 $S^1$ 또는 Reeb 방향이라는 이름을 붙인다. 둘 다 $\mathrm{Gr}(2,4)$ 안의 실제 방향은 아니다. $\mathrm{Gr}(2,4)$ 안의 실제 방향은 앞의 $v_4(t)$처럼 평면 자체를 바꾸는 곡선의 속도다.</p>
 <h3>5.1 공통위상을 쓰면 속도가 두 배가 되는 지뢰</h3>
 <p>두 프레임 벡터에 같은 위상을 곱하면</p>
 <p>$$Q\longmapsto e^{i\phi}Q,$$</p>

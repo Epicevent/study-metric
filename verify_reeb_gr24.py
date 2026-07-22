@@ -263,6 +263,31 @@ ok("D7. 절반 공통위상은 Plucker 위상 e^{it}를 만든다",
 ok("D8. 공통 frame 위상은 wedge 위상을 두 배로 만든다",
    sp.simplify((sp.exp(I * theta) * sp.eye(2)).det() - sp.exp(2 * I * theta)) == 0)
 
+# §5의 비교곡선: v를 e3 방향으로 움직이면 새 p23 성분이 생겨 평면이 변한다.
+plane_curve = sp.Matrix([
+    sp.cos(theta), 0, 0, -sp.sin(theta), 0, 0
+])
+plane_velocity = sp.diff(plane_curve, theta).subs(theta, 0)
+p0_plucker = plane_curve.subs(theta, 0)
+ok("D9. e3 방향 비교곡선은 위상이 아닌 새 p23 방향으로 움직인다",
+   plane_velocity == sp.Matrix([0, 0, 0, -1, 0, 0])
+   and all(sp.simplify(plane_velocity[j] - I * p0_plucker[j]) != 0
+           for j in [0, 3]))
+
+# 임의의 u(2) 속도는 trace 한 방향과 traceless 세 방향으로 갈린다.
+r0, r1, zx, zy = sp.symbols("r0 r1 zx zy", real=True)
+zeta_u2 = zx + I * zy
+A_general = sp.Matrix([
+    [I * r0, zeta_u2],
+    [-sp.conjugate(zeta_u2), I * r1],
+])
+A_center = sp.simplify(A_general.trace() / 2) * sp.eye(2)
+A_traceless = sp.simplify(A_general - A_center)
+ok("D10. u(2) 속도는 중앙 1방향과 trace 0인 3방향으로 분해",
+   sp.simplify(A_general.conjugate().T + A_general) == sp.zeros(2)
+   and sp.simplify(A_traceless.trace()) == 0
+   and sp.simplify(A_center + A_traceless - A_general) == sp.zeros(2))
+
 
 print()
 print("=" * 78)
