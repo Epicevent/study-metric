@@ -9,6 +9,7 @@
 | 문서 | 무엇 |
 |---|---|
 | [다음트랙.html](다음트랙.html) | **공부 계획** (2026-07-10 발표 피드백 이후): A 피드백 소화 → B II·mixed → C 본진 → D 연구 씨앗. 원문: [다음트랙_2026-07-10.md](다음트랙_2026-07-10.md) |
+| [CP1_A와_Q_두벌계산.html](CP1_A와_Q_두벌계산.html) | **ℂP¹ 계산 대조표 — 두 벌을 끝까지 섞지 않는다.** 왼쪽은 실제 위상곡선에서 왜 $A=-is^\dagger ds$인지 확인한 뒤 $A\to dA$를 몫의 미분과 $dx\wedge dy$ 평가까지 계산한다. 오른쪽은 왜 $q$ 방향을 빼는지 정사영으로 확인한 뒤 $Q\to(\operatorname{Re}Q,\operatorname{Im}Q)$를 복소수 곱셈까지 편다. 마지막에만 $\tfrac12dA=\operatorname{Im}Q$, $g_{\mathrm{FS}}=\operatorname{Re}Q$를 대조한다. 원문: [CP1_A와_Q_두벌계산.md](CP1_A와_Q_두벌계산.md), 검산: `verify_cp1_A_vs_Q.py` (11/11) |
 | [Reeb_CP1에서_Gr24로.html](Reeb_CP1에서_Gr24로.html) | **Reeb 벡터장 — $S^3$에서 $\Sigma^9$로.** $\mathbb{CP}^1$에서 올린 속도로부터 계량을 직접 만든 뒤 $Gr(2,4)$의 여섯 성분에 같은 계산을 적용한다. §5에서는 기저쌍 $Q$ → 단위 Plücker 벡터 $p=v\wedge w$ → 평면 $[p]$의 세 층을 먼저 구별하고, 같은 평면 안의 기저회전·Plücker 위상·실제 평면변화를 곡선으로 비교한 뒤에야 $SU(2)$와 $S^1$이라는 이름을 붙인다. 원문: [Reeb_CP1에서_Gr24로.md](Reeb_CP1에서_Gr24로.md), 검산: verify_reeb_gr24.py (48/48) |
 | [사전_1z에서_IZ로.html](사전_1z에서_IZ로.html) | **사전 — (1,z) ↔ (I,Z).** ℂP¹의 각 줄이 Gr(2,4)의 무엇인지 줄 단위 대응 (게이지·차트·K·사영자·접공간·계량·det g·Ric). §0은 **ω는 계량이 아니다** — 대칭성 축 vs 차수 축, ω(X,JX)=\|X\|², Q=g_FS+iω_FS. 원문: [사전_1z에서_IZ로.md](사전_1z에서_IZ로.md), 검산: `verify_omega_vs_metric.py` (31) |
 | [발표계산_완전판.html](발표계산_완전판.html) | **발표 계산 완전판** (Hopf→FS→∫ω_FS=2π→χ=2): 발표의 모든 계산을 정의→대입→미분 규칙 한 줄 단위로. 원문: [발표계산_완전판.md](발표계산_완전판.md), 검산: `verify_talk.py` (32) |

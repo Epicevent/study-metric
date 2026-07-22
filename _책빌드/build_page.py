@@ -28,7 +28,7 @@ def stash(mm):
     return f"⟪M{len(mathblocks)-1}⟫"
 text = re.sub(r"\$\$.*?\$\$", stash, text, flags=re.S)
 text = re.sub(r"\$[^$\n]+\$", stash, text)
-body = mdlib.markdown(text, extensions=["tables"])
+body = mdlib.markdown(text, extensions=["tables", "md_in_html"])
 def unstash(mm):
     raw = mathblocks[int(mm.group(1))]
     return raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
