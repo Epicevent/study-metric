@@ -2,7 +2,7 @@
 
 > **이 글이 시작하는 자리.** [파트 IV 완전 상세](Reeb벡터장_완전계산.html)에서는 $S^3\to\mathbb{CP}^1$ 위에서 Reeb 벡터장을 실좌표로 계산했다. [걸음 6](걸음6_Gr24_플뤼커_완전판.html)은 $\Sigma^9\to\mathrm{Gr}(2,4)$에서도 “같은 계산”이라고 적었지만, 실제로 같은지 여섯 성분을 놓고 확인하지 않았다. [$(1,z)$에서 $(I,Z)$로](사전_1z에서_IZ로.html)의 §9 첫 번째 구멍이 바로 이것이었다.
 >
-> 여기서는 “Boothby–Wang”, “prequantization”을 출발점으로 삼지 않는다. 단위벡터의 위상속도를 읽는 1-형식을 먼저 만들고, $S^3$에서 계산한 뒤, 플뤼커 벡터가 사는 $\Sigma^9$에서 같은 식을 다시 계산한다. $U(2)$의 네 방향 가운데 어느 세 방향이 플뤼커 벡터를 아예 움직이지 않고, 어느 한 방향이 Reeb 방향으로 남는지도 행렬로 확인한다.
+> 여기서는 “Boothby–Wang”, “prequantization”을 출발점으로 삼지 않는다. $Gr(2,4)$ 부분에서도 이름을 먼저 쓰지 않는다. 두 벡터가 만드는 평면을 연립일차방정식으로 적고, 그 두 벡터를 $t$에 따라 움직이고, 여섯 개의 $2\times2$ 행렬식을 성분별로 미분한다. $U(2)$도 일반식 전에 네 개의 기저곡선을 실제로 움직여 본다. 일반식은 그 예시에서 이미 일어난 계산을 한 줄로 묶을 때에만 쓴다.
 >
 > **정규화.** 이 글의 $\alpha$는 기존 Reeb 문서와 같다. 따라서 아래층으로 내려간 $d\alpha$는 걸음 6의
 > $$\omega=\frac{i}{2}\,\partial\bar\partial\log K$$
@@ -282,9 +282,30 @@ $$\int_{\mathbb C}\omega=\pi.$$
 
 ---
 
-## §2. $\mathrm{Gr}(2,4)$ 위에 올라가기 전에 $\Sigma^9$를 실제로 만든다
+## §2. $\mathrm{Gr}(2,4)$를 이름 없이 먼저 만진다 — 두 벡터가 만드는 평면
 
-$\mathbb C^4$의 2차원 평면에서 기저 두 개를 열로 세운다. $p_{12}\neq0$인 차트에서는 가우스 소거 후
+$\mathrm{Gr}(2,4)$라는 이름부터 붙이면 무엇이 한 점인지 놓치기 쉽다. 먼저 실수만 들어간 두 벡터
+
+$$v=(1,0,1,0)^{\mathsf T},\qquad
+w=(0,1,0,1)^{\mathsf T}$$
+
+를 잡자. 이 둘이 만드는 평면은
+
+$$\lambda v+\mu w=(\lambda,\mu,\lambda,\mu)^{\mathsf T}$$
+
+꼴의 점 전체다. 따라서 여기서 평면은
+
+$$\{(x_1,x_2,x_3,x_4):x_3=x_1,\ x_4=x_2\}$$
+
+라는 아주 익숙한 연립일차방정식의 해집합이다.
+
+그런데 첫 번째 기저벡터를 $v'=v+w$로 바꾸고 $w'=w$로 두어도
+
+$$r v'+u w'=r v+(r+u)w$$
+
+이고, $(r,r+u)$가 모든 $(\lambda,\mu)$를 훑으므로 같은 평면이다. 즉 **기저 두 벡터는 바뀌었는데 평면은 바뀌지 않았다.** $\mathrm{Gr}(2,4)$의 한 점은 $4\times2$ 행렬 하나가 아니라, 이런 기저변환을 모두 같은 것으로 본 2차원 평면 하나다.
+
+이제 복소수 네 개 $a,b,c,d$를 넣는다. 첫 두 좌표로 평면을 매개화할 수 있는 경우에는 두 기저벡터를
 
 $$V(a,b,c,d)
 =\begin{pmatrix}
@@ -296,7 +317,14 @@ b&d
 =\begin{pmatrix}I\\ Z\end{pmatrix},\qquad
 Z=\begin{pmatrix}a&c\\ b&d\end{pmatrix}.$$
 
-두 열을 $v,w$라 하자. $v\wedge w$의 여섯 성분은 두 행씩 고른 행렬식이다:
+로 잡을 수 있다. 실제로 이 평면의 점은
+
+$$\lambda v+\mu w
+=(\lambda,\mu,a\lambda+c\mu,b\lambda+d\mu)^{\mathsf T}.$$
+
+앞의 평면은 $(a,b,c,d)=(1,0,0,1)$인 경우였다.
+
+두 열을 $v,w$라 하자. 이제 두 행씩 골라 만든 $2\times2$ 행렬식 여섯 개를 적는다. 실수 행렬에서 $2\times2$ 행렬식이 두 벡터가 만드는 부호 있는 넓이였듯이, 아래 여섯 수는 이 평면을 여섯 좌표평면으로 보았을 때 나오는 넓이 성분이다:
 
 $$q_{12}=1,$$
 
@@ -312,7 +340,18 @@ $\Delta:=ad-bc$라 줄이면
 
 $$\boxed{\ q(Z)=(1,c,d,-a,-b,\Delta)\in\mathbb C^6\ }.$$
 
-이 여섯 성분은
+앞의 실수 예 $(a,b,c,d)=(1,0,0,1)$에서는
+
+$$q=(1,0,1,-1,0,1).$$
+
+기저를 $(v,w)$에서 $(v+w,w)$로 바꾸어도 각 행렬식은 그대로다. 실제로
+
+$$V' = V
+\begin{pmatrix}1&0\\1&1\end{pmatrix}$$
+
+이고 오른쪽 $2\times2$ 행렬의 행렬식이 1이므로, $V'$의 모든 $2\times2$ 행렬식은 $V$의 해당 행렬식에 1을 곱한 값이다. “평면은 같은데 기저만 바뀌었다”는 사실을 여섯 수가 그대로 반영한다.
+
+이 여섯 성분은 아무 복소수 여섯 개가 아니다. 다음 한 식을 만족한다:
 
 $$F(q):=q_{12}q_{34}-q_{13}q_{24}+q_{14}q_{23}$$
 
@@ -321,47 +360,113 @@ $$F(q):=q_{12}q_{34}-q_{13}q_{24}+q_{14}q_{23}$$
 $$F(q)=1\cdot(ad-bc)-c(-b)+d(-a)
 =ad-bc+bc-ad=0$$
 
-을 만족한다.
+이다. 이 식은 새 조건을 밖에서 억지로 붙인 것이 아니다. $q_{34}=ad-bc$를 포함한 여섯 행렬식을 전개했더니 항들이 쌍으로 지워져 나온 항등식이다.
 
-### 2.1 $F=0$은 실수 조건 몇 개인가
+### 2.1 한 변수만 움직여 “접벡터”를 보통 미분으로 만든다
 
-$F$는 복소수 값을 내므로 $F=0$은
+네 변수 중 $a$만 실수 $t$로 움직이고
 
-$$\operatorname{Re}F=0,\qquad \operatorname{Im}F=0$$
+$$a(t)=t,\qquad b(t)=c(t)=d(t)=0$$
 
-이라는 실수 조건 두 개다. $\mathbb C^6$은 실 12차원이다. $F=0$인 원뿔이 원점 밖에서 실제로 실 10차원인지 미분으로 확인한다.
+로 두자. 두 기저벡터와 그 평면은
 
-$$\left(
-\frac{\partial F}{\partial q_{12}},
-\frac{\partial F}{\partial q_{13}},
-\frac{\partial F}{\partial q_{14}},
-\frac{\partial F}{\partial q_{23}},
-\frac{\partial F}{\partial q_{24}},
-\frac{\partial F}{\partial q_{34}}
-\right)
-=(q_{34},-q_{24},q_{23},q_{14},-q_{13},q_{12}).$$
+$$v(t)=(1,0,t,0)^{\mathsf T},\qquad w(t)=(0,1,0,0)^{\mathsf T},$$
 
-이 여섯 값이 전부 0이면 $q$의 여섯 성분도 전부 0이다. 따라서 $q\neq0$인 곳에서는 $dF\neq0$이고, 복소 방정식 하나가 실제로 실수 자유도 두 개를 없앤다.
+$$\lambda v(t)+\mu w(t)=(\lambda,\mu,t\lambda,0)^{\mathsf T}$$
 
-이제
+처럼 실제로 움직인다. 여섯 행렬식은
 
-$$N(q)=\sum_{i<j}|q_{ij}|^2$$
+$$q(t)=(1,0,0,-t,0,0),\qquad K(t)=\|q(t)\|^2=1+t^2.$$
 
-를 1로 제한한다. $F$가 2차 동차식이므로 $F(q)=0$이면 $F(tq)=t^2F(q)=0$이다. 즉 실수 반지름 방향 $q\mapsto tq$는 $F=0$ 원뿔 안에 있다. 그 방향에서
+단위벡터로 만들면
 
-$$\frac d{dt}\Big|_{t=1}N(tq)=\frac d{dt}\Big|_{t=1}t^2N(q)=2N(q)\neq0$$
+$$p(t)=\frac{(1,0,0,-t,0,0)}{\sqrt{1+t^2}}.$$
 
-이므로 $N=1$이 자유도 하나를 더 없앤다. 그래서
+이제 “접벡터”라고 부를 것을 새로 정의할 필요가 없다. 보통 미적분학처럼 성분별로 미분하면 된다:
 
-$$\boxed{\ \Sigma^9:=\{q\in\mathbb C^6:F(q)=0,\ N(q)=1\}\ }$$
+$$p'(t)=\frac{(-t,0,0,-1,0,0)}{(1+t^2)^{3/2}},\qquad
+p'(0)=(0,0,0,-1,0,0).$$
 
-의 실차원은
+$\|p(t)\|^2=1$을 미분하면
 
-$$12-2-1=9$$
+$$2\operatorname{Re}\big(p(t)^\dagger p'(t)\big)=0.$$
 
-가 된다.
+위의 두 성분을 직접 넣어도
 
-### 2.2 차트의 플뤼커 벡터를 단위로 만든다
+$$p(t)^\dagger p'(t)
+=\frac{-t+(-t)(-1)}{(1+t^2)^2}=0.$$
+
+즉 구면의 접조건이 추상적인 말이 아니라 “길이가 1인 곡선을 미분하면 속도가 반지름과 수직이다”라는 계산으로 돌아왔다.
+
+이번에는 $a,b,c,d$가 모두 $t$에 따라 움직인다고 하자. 연쇄법칙으로
+
+$$\frac d{dt}(ad-bc)
+=\dot a\,d+a\,\dot d-\dot b\,c-b\,\dot c,$$
+
+따라서
+
+$$\dot q
+=(0,\dot c,\dot d,-\dot a,-\dot b,
+\dot a\,d+a\,\dot d-\dot b\,c-b\,\dot c).$$
+
+클라인 식도 곡선을 따라 직접 미분할 수 있다:
+
+$$\begin{aligned}
+\frac d{dt}\big[\Delta+cb-da\big]
+={}&(\dot a\,d+a\,\dot d-\dot b\,c-b\,\dot c)\\
+&+\dot c\,b+c\,\dot b-\dot d\,a-d\,\dot a=0.
+\end{aligned}$$
+
+모든 항이 두 개씩 지워진다. 그래서 이 속도는 자동으로 $F=0$ 안에 머문다.
+
+### 2.2 왜 자유도가 $8+1=9$인지 차트 변수로 센다
+
+$p_{12}\neq0$인 단위 플뤼커 벡터 $p$를 잡자. 먼저
+
+$$c=\frac{p_{13}}{p_{12}},\qquad
+d=\frac{p_{14}}{p_{12}},\qquad
+a=-\frac{p_{23}}{p_{12}},\qquad
+b=-\frac{p_{24}}{p_{12}}$$
+
+라고 읽는다. $F(p)=0$을 $p_{12}^2$로 나누면
+
+$$\frac{p_{34}}{p_{12}}-c(-b)+d(-a)=0,$$
+
+따라서
+
+$$\frac{p_{34}}{p_{12}}=ad-bc.$$
+
+그러므로 $p_{12}$로 나눈 벡터는 방금 계산한
+
+$$q(a,b,c,d)=(1,c,d,-a,-b,ad-bc)$$
+
+꼴이다. 따라서 $p=p_{12}q$이고, $\|p\|=1$을 넣으면
+
+$$1=|p_{12}|^2\|q\|^2=|p_{12}|^2K,$$
+
+즉
+
+$$|p_{12}|=\frac1{\sqrt K}.$$
+
+복소수 $p_{12}$에는 크기 외에 각도 하나가 남으므로
+
+$$p_{12}=\frac{e^{i\theta}}{\sqrt K},\qquad
+p=e^{i\theta}\frac{q(a,b,c,d)}{\sqrt K}.$$
+
+여기서 $a,b,c,d$는 복소수 네 개, 즉 실수 여덟 개이고 $\theta$는 실수 하나다. 그러므로 이 차트에서
+
+$$\boxed{\ 8+1=9\ }$$
+
+개의 실수 매개변수가 보인다. $\Sigma^9$의 9는 방정식 개수를 암기해서 얻은 것이 아니라, 실제 국소좌표 $(a,b,c,d,\theta)$를 써서 얻었다.
+
+여기서 사용한 단위 플뤼커 벡터들의 공간을
+
+$$N(p):=\sum_{i<j}|p_{ij}|^2,\qquad
+\boxed{\ \Sigma^9:=\{p\in\mathbb C^6:F(p)=0,\ N(p)=1\}\ }$$
+
+라고 부른다.
+
+### 2.3 차트의 플뤼커 벡터를 단위로 만든다
 
 $q(Z)$의 노름제곱은
 
@@ -380,7 +485,7 @@ $$\frac{(1,z)}{\sqrt{1+|z|^2}}$$
 
 와 같은 역할을 한다. 아직 “같다”고 선언한 것이 아니라, 제약식 두 개에 직접 넣어 확인했다.
 
-### 2.3 숫자가 들어간 평면 하나
+### 2.4 숫자가 들어간 평면 하나
 
 $$a=1,\qquad b=0,\qquad c=0,\qquad d=i$$
 
@@ -403,7 +508,7 @@ $$N(p)=\frac14+\frac14+\frac14+\frac14=1.$$
 
 이 점은 $S^{11}$ 위에 있을 뿐 아니라 $F=0$도 만족하므로 $\Sigma^9$ 위에 있다.
 
-### 2.4 왜 $\Sigma^9$에서 위상 하나를 지우면 $\mathrm{Gr}(2,4)$인가
+### 2.5 왜 $\Sigma^9$에서 위상 하나를 지우면 $\mathrm{Gr}(2,4)$인가
 
 $p\in\Sigma^9$이면 $N(p)=1$이므로 여섯 성분 중 적어도 하나는 0이 아니다. 먼저 $p_{12}\neq0$인 경우를 실제로 복원한다. 전체를 $p_{12}$로 나누어
 
@@ -563,7 +668,7 @@ $$\boxed{\ \pi^*\Omega=d\alpha\ }$$
 
 가 된다.
 
-### 3.2 §2.3의 숫자점에서 $R$을 쓴다
+### 3.2 §2.4의 숫자점에서 $R$을 쓴다
 
 $$p=\frac12(1,0,i,-1,0,i)$$
 
@@ -607,21 +712,38 @@ Reeb 벡터장은 $\alpha(R)=1$, $\iota_Rd\alpha=0$을 만족하는 벡터장이
 
 $$p_0=(1,0,0,0,0,0)=e_{12}\in\Sigma^9$$
 
-를 잡는다. $F$의 미분은
+를 잡는다. $p_0$을 지나는 아무 곡선
 
-$$dF_{p_0}=dp_{34}$$
+$$p(t)=(p_{12}(t),p_{13}(t),\ldots,p_{34}(t)),\qquad p(0)=p_0$$
 
-이다. 따라서 $F=0$의 접벡터 $X$는
+을 잡고 속도를 $\dot p=p'(0)$라 하자. 곡선이 $\Sigma^9$ 안에 있으면 모든 $t$에서 $F(p(t))=0$이다. 보통 곱의 미분을 한 뒤 $t=0$을 넣으면
 
-$$\delta p_{34}=0$$
+$$\begin{aligned}
+0&=\frac d{dt}\Big|_0
+\big(p_{12}p_{34}-p_{13}p_{24}+p_{14}p_{23}\big)\\
+&=1\cdot\dot p_{34}.
+\end{aligned}$$
 
-을 만족한다. 이것은 복소조건이므로 $\delta x_{34}=\delta y_{34}=0$ 두 개다.
+따라서
 
-$N=1$의 접조건은
+$$\boxed{\ \dot p_{34}=0\ }.$$
 
-$$dN_{p_0}(X)=2\delta x_{12}=0,$$
+복소수 하나가 0이라는 말이므로 $\dot x_{34}=\dot y_{34}=0$ 두 조건이다.
 
-즉 $\delta x_{12}=0$이다. $\delta y_{12}$는 남는다. 따라서 $T_{p_0}\Sigma^9$의 아홉 실방향은
+길이 조건도 같은 식으로 미분한다:
+
+$$0=\frac d{dt}\Big|_0\sum_{i<j}|p_{ij}(t)|^2
+=2\operatorname{Re}\dot p_{12}.$$
+
+그러므로 $\dot p_{12}$의 실수부는 0이고
+
+$$\dot p_{12}=i\lambda,\qquad \lambda\in\mathbb R$$
+
+로 쓸 수 있다. 나머지 $\dot p_{13},\dot p_{14},\dot p_{23},\dot p_{24}$는 복소수 네 개다. 결국 모든 속도는
+
+$$\dot p=(i\lambda,\xi_{13},\xi_{14},\xi_{23},\xi_{24},0)$$
+
+꼴이고, 실수 한 개 $\lambda$와 복소수 네 개 $\xi_I$가 $1+8=9$방향을 준다. 좌표벡터로 쓰면
 
 $$\partial_{y_{12}},$$
 
@@ -632,13 +754,15 @@ $$\partial_{x_{13}},\partial_{y_{13}},
 
 로 잡을 수 있다.
 
-$p_0$에서
+$p_0$에서 $\alpha=-ip^\dagger dp$에 이 속도를 넣으면
 
-$$\alpha_{p_0}=dy_{12},$$
+$$\alpha_{p_0}(\dot p)=-i\dot p_{12}
+=-i(i\lambda)=\lambda.$$
 
-그러므로
+즉 $\alpha$는 아홉 방향 가운데 $\lambda$ 하나만 읽는다. 실좌표식으로는
 
-$$R_{p_0}=\partial_{y_{12}},\qquad
+$$\alpha_{p_0}=dy_{12},\qquad
+R_{p_0}=\partial_{y_{12}},\qquad
 \ker\alpha_{p_0}
 =\operatorname{span}\{\partial_{x_I},\partial_{y_I}:I=13,14,23,24\}.$$
 
@@ -684,7 +808,66 @@ $D\in\ker\alpha$이고 $d\alpha$가 그 공간에서 역행렬을 가지므로 $
 
 ## §5. $U(2)$의 네 방향 중 왜 한 방향만 Reeb로 보이는가
 
-$\mathrm{Gr}(2,4)$의 평면에 정규직교 기저를 골라
+먼저 가장 단순한 평면
+
+$$P_0=\operatorname{span}_{\mathbb C}\{e_1,e_2\}$$
+
+에서 네 개의 실제 곡선을 보자. 첫 번째는 두 기저벡터를 실수 회전시키는 곡선이다:
+
+$$v_1(t)=\cos t\,e_1+\sin t\,e_2,\qquad
+w_1(t)=-\sin t\,e_1+\cos t\,e_2.$$
+
+쐐기곱을 그대로 펴면
+
+$$\begin{aligned}
+v_1(t)\wedge w_1(t)
+&=\cos^2t\,e_1\wedge e_2
+-\sin^2t\,e_2\wedge e_1\\
+&=(\cos^2t+\sin^2t)e_1\wedge e_2
+=e_1\wedge e_2.
+\end{aligned}$$
+
+기저벡터 둘은 움직였지만 플뤼커 벡터는 한 점도 움직이지 않았다. 따라서
+
+$$\frac d{dt}\Big|_0\big(v_1(t)\wedge w_1(t)\big)=0.$$
+
+두 번째는 $i$가 섞인 회전이다:
+
+$$v_2(t)=\cos t\,e_1+i\sin t\,e_2,\qquad
+w_2(t)=i\sin t\,e_1+\cos t\,e_2.$$
+
+이번에도
+
+$$v_2(t)\wedge w_2(t)
+=\big(\cos^2t-(i\sin t)^2\big)e_1\wedge e_2
+=e_1\wedge e_2.$$
+
+세 번째는 서로 반대 방향으로 위상을 돌린다:
+
+$$v_3(t)=e^{it}e_1,\qquad w_3(t)=e^{-it}e_2,$$
+
+$$v_3(t)\wedge w_3(t)
+=e^{it}e^{-it}e_1\wedge e_2
+=e_1\wedge e_2.$$
+
+이 세 곡선은 서로 다른 방향으로 기저를 움직이지만, 여섯 플뤼커 성분의 속도는 모두 0이다.
+
+네 번째는 두 벡터를 같은 방향으로 절반 속도로 돌린다:
+
+$$v_0(t)=e^{it/2}e_1,\qquad
+w_0(t)=e^{it/2}e_2.$$
+
+이번에는
+
+$$v_0(t)\wedge w_0(t)=e^{it}e_1\wedge e_2,$$
+
+따라서
+
+$$\frac d{dt}\Big|_0(v_0\wedge w_0)=i\,e_1\wedge e_2.$$
+
+이 속도는 §3의 $R_p=ip$와 정확히 같다. 즉 “세 방향은 사라지고 한 방향은 Reeb로 남는다”는 말은 차원 암기 전에 위 네 곡선에서 눈으로 보인다.
+
+이제 같은 계산을 임의의 평면에서 한 번에 쓴다. $\mathrm{Gr}(2,4)$의 평면에 정규직교 기저를 골라
 
 $$Q=(v\;w)\in\mathbb C^{4\times2},\qquad Q^\dagger Q=I_2$$
 
@@ -830,7 +1013,59 @@ $$12\xrightarrow{\;SU(2)\text{ 세 방향 제거}\;}9
 
 ## §6. 국소 절단 $s=q/\sqrt K$에서 $\alpha$를 직접 당긴다
 
-§2의 차트로 돌아간다:
+여섯 성분을 한꺼번에 미분하기 전에, §2.1의 한 변수 평면에 위상 하나만 더 넣어 보자:
+
+$$a(r,t)=r e^{it},\qquad b=c=d=0.$$
+
+이 평면의 기저는
+
+$$v(r,t)=(1,0,re^{it},0)^{\mathsf T},\qquad
+w=(0,1,0,0)^{\mathsf T},$$
+
+플뤼커 벡터와 단위 절단은
+
+$$q(r,t)=(1,0,0,-re^{it},0,0),$$
+
+$$s(r,t)=\frac{(1,0,0,-re^{it},0,0)}{\sqrt{1+r^2}}.$$
+
+$r$을 고정하고 $t$만 움직이면 분모는 상수다. 따라서
+
+$$\frac{\partial s}{\partial t}
+=\frac{(0,0,0,-ire^{it},0,0)}{\sqrt{1+r^2}}.$$
+
+$\alpha=-is^\dagger ds$가 이 속도를 얼마로 읽는지 성분을 넣는다:
+
+$$\begin{aligned}
+s^\dagger\frac{\partial s}{\partial t}
+&=\frac{(-re^{-it})(-ire^{it})}{1+r^2}\\
+&=\frac{i r^2}{1+r^2},
+\end{aligned}$$
+
+$$\boxed{\ \alpha_s\!\left(\frac{\partial s}{\partial t}\right)
+=\frac{r^2}{1+r^2}\ }.$$
+
+$r=1$이면 값은 $1/2$다. 여기서 $t$는 플뤼커 벡터 전체의 공통위상이 아니라 네 번째 성분 하나의 위상만 돌린다. 그래서 $\alpha$가 1이 아니라, 단위벡터의 전체 노름 중 그 성분이 차지하는 비율 $r^2/(1+r^2)$을 읽는다.
+
+$r$도 변수로 두면 이 두 변수 면 위에서
+
+$$\boxed{\ A=\frac{r^2}{1+r^2}\,dt\ }.$$
+
+보통 한 변수 함수처럼 계수를 미분하면
+
+$$\begin{aligned}
+dA
+&=\frac d{dr}\left(\frac{r^2}{1+r^2}\right)dr\wedge dt\\
+&=\boxed{\ \frac{2r}{(1+r^2)^2}\,dr\wedge dt\ }.
+\end{aligned}$$
+
+이것이 아래의 $i\,da\wedge d\bar a/(1+|a|^2)^2$를 $a=re^{it}$에 넣은 값이다. 또한 $t$방향을 실제 수평방향으로 바꾸려면
+
+$$\frac{\partial s}{\partial t}
+-\frac{r^2}{1+r^2}R_s$$
+
+처럼 방금 $\alpha$가 읽은 만큼 Reeb 방향을 빼면 된다. §6.2의 일반식은 이 한 줄을 네 복소변수에 대해 쓰는 것이다.
+
+이제 §2의 전체 차트로 돌아간다:
 
 $$q=(1,c,d,-a,-b,\Delta),\qquad \Delta=ad-bc,$$
 
@@ -1039,7 +1274,7 @@ dA=i\frac{dz\wedge d\bar z}{(1+|z|^2)^2}
 
 $\Delta=zw$ 항을 버렸다면 분자에 필요한 $|w|^2$, $|z|^2$가 생기지 않아 이 분리가 나오지 않는다. 플뤼커의 마지막 성분은 장식이 아니라 두 변수의 정규화를 정확히 보정한다.
 
-§2.3의 숫자점은 이 절단의 $(z,w)=(1,i)$다. 그 점의 $K$는
+§2.4의 숫자점은 이 절단의 $(z,w)=(1,i)$다. 그 점의 $K$는
 
 $$K=(1+1)(1+1)=4$$
 
@@ -1047,7 +1282,106 @@ $$K=(1+1)(1+1)=4$$
 
 ---
 
-## §8. $dA$의 16성분을 미적분식으로 읽는다
+## §8. 16성분을 먼저 쓰지 않는다 — 두 복소직선으로 교차항을 찾는다
+
+행렬 $g_{u\bar v}$를 처음부터 $4\times4$로 쓰면 계산은 맞아도 각 성분이 무엇을 재는지 보이지 않는다. 먼저
+
+$$P:\qquad (a,b,c,d)=(1,0,1,0)$$
+
+을 지나가는 복소직선 두 개만 보자. 이 점에서는
+
+$$\Delta=0,\qquad K=1+|a|^2+|c|^2=3.$$
+
+복소수 한 개를 $\zeta=x+iy$라 쓰고 첫 번째 곡면을
+
+$$L_+(\zeta):\qquad
+(a,b,c,d)=(1+\zeta,0,1+\zeta,0)$$
+
+로 둔다. 여기서는
+
+$$\begin{aligned}
+K_+(\zeta)
+&=1+2|1+\zeta|^2\\
+&=3+2\zeta+2\bar\zeta+2\zeta\bar\zeta.
+\end{aligned}$$
+
+$\zeta=0$에서 성분별로 미분하면
+
+$$K_{+,\zeta}=2,\qquad
+K_{+,\bar\zeta}=2,\qquad
+K_{+,\zeta\bar\zeta}=2.$$
+
+몫의 미분 한 번으로
+
+$$\begin{aligned}
+\partial_\zeta\partial_{\bar\zeta}\log K_+\Big|_0
+&=\frac{K_+K_{+,\zeta\bar\zeta}
+-K_{+,\zeta}K_{+,\bar\zeta}}{K_+^2}\Big|_0\\
+&=\frac{3\cdot2-2\cdot2}{3^2}
+=\boxed{\frac29}.
+\end{aligned}$$
+
+이것은 낯선 복소미분이 아니라, 사용자의 앞 노트에서 직접 만든
+
+$$\partial_\zeta\partial_{\bar\zeta}
+=\frac14\left(\frac{\partial^2}{\partial x^2}
++\frac{\partial^2}{\partial y^2}\right)$$
+
+를 $\log K_+(x,y)$에 적용한 것이다.
+
+두 번째는 두 변수를 반대 방향으로 움직인다:
+
+$$L_-(\zeta):\qquad
+(a,b,c,d)=(1+\zeta,0,1-\zeta,0).$$
+
+이번에는 일차항이 서로 지워져
+
+$$\begin{aligned}
+K_-(\zeta)
+&=1+|1+\zeta|^2+|1-\zeta|^2\\
+&=3+2|\zeta|^2.
+\end{aligned}$$
+
+따라서
+
+$$K_{-,\zeta}(0)=K_{-,\bar\zeta}(0)=0,\qquad
+K_{-,\zeta\bar\zeta}(0)=2,$$
+
+$$\partial_\zeta\partial_{\bar\zeta}\log K_-\Big|_0
+=\frac{3\cdot2-0}{3^2}
+=\boxed{\frac23}.$$
+
+같은 점을 지나도 $(a,c)$를 함께 움직일 때는 $2/9$, 반대로 움직일 때는 $2/3$가 나온다. 이 차이는 교차항이 0이 아니라는 뜻이다. 실제로 $P$에서 $K_a=K_c=1$, $K_{a\bar a}=K_{c\bar c}=1$, $K_{a\bar c}=K_{c\bar a}=0$이므로
+
+$$
+\begin{pmatrix}
+g_{a\bar a}&g_{a\bar c}\\
+g_{c\bar a}&g_{c\bar c}
+\end{pmatrix}_{P}
+=\frac19
+\begin{pmatrix}
+2&-1\\
+-1&2
+\end{pmatrix}.
+$$
+
+따라서 두 방향에 넣으면
+
+$$
+\begin{pmatrix}1&1\end{pmatrix}
+\frac19\begin{pmatrix}2&-1\\-1&2\end{pmatrix}
+\begin{pmatrix}1\\1\end{pmatrix}
+=\frac29,
+$$
+
+$$
+\begin{pmatrix}1&-1\end{pmatrix}
+\frac19\begin{pmatrix}2&-1\\-1&2\end{pmatrix}
+\begin{pmatrix}1\\-1\end{pmatrix}
+=\frac23.
+$$
+
+방금 두 개의 한 변수 계산과 정확히 같다. 이제 이 몫미분을 네 변수 전체에 쓴다.
 
 $u=(a,b,c,d)$라 하고
 
@@ -1156,7 +1490,49 @@ $$\delta q=(0,\delta c,\delta d,-\delta a,-\delta b,0)$$
 
 ## §9. 차트를 바꾸면 $A$는 달라지고 $dA$는 그대로인지 계산한다
 
-$p_{12}\neq0$ 차트에서는 비동차 플뤼커 벡터를
+일반식 전에 두 성분만 살아 있는 곡선으로 실제 차트교환을 해 보자:
+
+$$a=b=d=0,\qquad c(t)=e^{it}.$$
+
+$p_{12}=1$로 놓는 차트의 벡터와 단위 절단은
+
+$$q^{(12)}(t)=(1,e^{it},0,0,0,0),\qquad
+s_{12}(t)=\frac1{\sqrt2}(1,e^{it},0,0,0,0).$$
+
+이번에는 두 번째 성분 $p_{13}=e^{it}$를 1로 놓는다. 전체를 $e^{it}$로 나누면
+
+$$q^{(13)}(t)=(e^{-it},1,0,0,0,0),\qquad
+s_{13}(t)=\frac1{\sqrt2}(e^{-it},1,0,0,0,0).$$
+
+두 절단의 관계는 눈으로 보인다:
+
+$$\boxed{\ s_{13}(t)=e^{-it}s_{12}(t)\ }.$$
+
+각 절단에서 $A=-is^\dagger ds$를 직접 계산한다. 첫 번째는
+
+$$s_{12}^\dagger\frac{ds_{12}}{dt}
+=\frac12e^{-it}(ie^{it})=\frac i2,$$
+
+따라서
+
+$$A_{12}=\frac12\,dt.$$
+
+두 번째는
+
+$$s_{13}^\dagger\frac{ds_{13}}{dt}
+=\frac12e^{it}(-ie^{-it})=-\frac i2,$$
+
+따라서
+
+$$A_{13}=-\frac12\,dt.$$
+
+그러므로 이 곡선에서
+
+$$\boxed{\ A_{13}-A_{12}=-dt\ }.$$
+
+$t=\pi/2$인 한 점만 보면 $s_{13}=-i s_{12}$이고, 곡선 전체를 보면 그 위상차가 $-t$로 변한다. $A$의 차이 $-dt$는 바로 그 위상차를 미분한 것이다.
+
+이제 같은 계산을 임의의 겹침에서 쓴다. $p_{12}\neq0$ 차트에서는 비동차 플뤼커 벡터를
 
 $$q^{(12)}=\frac p{p_{12}}$$
 

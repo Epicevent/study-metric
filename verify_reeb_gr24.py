@@ -101,6 +101,32 @@ ok("B4. Klein 식은 2차 동차", sp.simplify(Flam - lam**2 * F) == 0)
 dF_ip = sp.expand(sum(sp.diff(F, pj) * I * pj for pj in pvars))
 ok("B5. dF_p(ip)=2iF(p)", sp.simplify(dF_ip - 2 * I * F) == 0)
 
+# 본문의 한 변수 평면 a=t, b=c=d=0
+t = sp.symbols("t", real=True)
+pcurve = sp.Matrix([1, 0, 0, -t, 0, 0]) / sp.sqrt(1 + t**2)
+dpcurve = sp.diff(pcurve, t)
+expected_dpcurve = sp.Matrix([-t, 0, 0, -1, 0, 0]) / (1 + t**2) ** sp.Rational(3, 2)
+ok("B6. a=t 곡선의 단위 Plucker 벡터 미분",
+   sp.simplify(dpcurve - expected_dpcurve) == sp.zeros(6, 1))
+ok("B7. a=t 곡선에서 p^dagger p'=0",
+   sp.simplify((pcurve.T * dpcurve)[0]) == 0)
+
+# a,b,c,d가 동시에 움직일 때 연쇄법칙으로 얻는 q의 속도
+adot, bdot, cdot, ddot = sp.symbols("adot bdot cdot ddot")
+velocity = sp.Matrix([adot, bdot, cdot, ddot])
+qdot = q.jacobian((a, b, c, d)) * velocity
+expected_qdot = sp.Matrix([
+    0, cdot, ddot, -adot, -bdot,
+    adot * d + a * ddot - bdot * c - b * cdot,
+])
+F_along_q = sp.expand(
+    qdot[0] * q[5] + q[0] * qdot[5]
+    - qdot[1] * q[4] - q[1] * qdot[4]
+    + qdot[2] * q[3] + q[2] * qdot[3]
+)
+ok("B8. 일반 곡선 q(t)의 연쇄법칙과 dF/dt=0",
+   sp.simplify(qdot - expected_qdot) == sp.zeros(6, 1) and F_along_q == 0)
+
 
 print()
 print("=" * 78)
@@ -160,9 +186,21 @@ ok("D2. su(2)의 세 생성원은 trace 0", all(A.trace() == 0 for A in (A1, A2,
 ok("D3. -i tr(iI/2)=1", sp.simplify(-I * A0.trace()) == 1)
 
 theta = sp.symbols("theta", real=True)
-Gsu = sp.Matrix([[sp.cos(theta), sp.sin(theta)], [-sp.sin(theta), sp.cos(theta)]])
-ok("D4. 명시적 SU(2) 곡선의 determinant는 1", sp.simplify(Gsu.det() - 1) == 0)
-ok("D5. 공통 frame 위상은 wedge 위상을 두 배로 만든다",
+Gsu = sp.Matrix([[sp.cos(theta), -sp.sin(theta)], [sp.sin(theta), sp.cos(theta)]])
+ok("D4. 실수 회전 기저곡선의 determinant는 1", sp.simplify(Gsu.det() - 1) == 0)
+Gsu_imag = sp.Matrix([
+    [sp.cos(theta), I * sp.sin(theta)],
+    [I * sp.sin(theta), sp.cos(theta)],
+])
+ok("D5. i가 섞인 기저곡선의 determinant는 1",
+   sp.simplify(Gsu_imag.det() - 1) == 0)
+Gopposite = sp.diag(sp.exp(I * theta), sp.exp(-I * theta))
+ok("D6. 반대 위상 기저곡선의 determinant는 1",
+   sp.simplify(Gopposite.det() - 1) == 0)
+Ghalf = sp.exp(I * theta / 2) * sp.eye(2)
+ok("D7. 절반 공통위상은 Plucker 위상 e^{it}를 만든다",
+   sp.simplify(Ghalf.det() - sp.exp(I * theta)) == 0)
+ok("D8. 공통 frame 위상은 wedge 위상을 두 배로 만든다",
    sp.simplify((sp.exp(I * theta) * sp.eye(2)).det() - sp.exp(2 * I * theta)) == 0)
 
 
@@ -225,6 +263,45 @@ ok("E6. diagonal slice A 분자가 두 CP1 분자로 인수분해",
 
 ok("E7. dA와 걸음6 omega의 계수비는 2", sp.simplify(I / (I / 2) - 2) == 0)
 
+# a=r e^{it} 원에서 A와 dA를 직접 계산
+rad = sp.symbols("r", nonnegative=True, real=True)
+scircle = sp.Matrix([
+    1, 0, 0, -rad * sp.exp(I * theta), 0, 0,
+]) / sp.sqrt(1 + rad**2)
+scircle_bar = sp.conjugate(scircle)
+A_circle = sp.simplify(-I * (scircle_bar.T * sp.diff(scircle, theta))[0])
+ok("E8. a=r e^{it} 원에서 A_t=r^2/(1+r^2)",
+   sp.simplify(A_circle - rad**2 / (1 + rad**2)) == 0)
+ok("E9. 원판에서 dA의 dr wedge dt 계수",
+   sp.simplify(sp.diff(A_circle, rad) - 2 * rad / (1 + rad**2)**2) == 0)
+
+# P=(a,c)=(1,1)을 지나는 같은/반대 복소직선
+zeta, zetab = sp.symbols("zeta zetabar")
+Kplus = 3 + 2 * zeta + 2 * zetab + 2 * zeta * zetab
+Kminus = 3 + 2 * zeta * zetab
+def mixed_log_at_zero(expr):
+    first = sp.diff(expr, zeta)
+    second = sp.diff(expr, zetab)
+    mixed = sp.diff(expr, zeta, zetab)
+    return sp.simplify(
+        ((expr * mixed - first * second) / expr**2).subs({zeta: 0, zetab: 0})
+    )
+
+hplus = mixed_log_at_zero(Kplus)
+hminus = mixed_log_at_zero(Kminus)
+ok("E10. 같은 방향 L_+의 mixed Hessian은 2/9", hplus == sp.Rational(2, 9))
+ok("E11. 반대 방향 L_-의 mixed Hessian은 2/3", hminus == sp.Rational(2, 3))
+
+point_ac = {a: 1, b: 0, c: 1, d: 0, ab: 1, bb: 0, cb: 1, db: 0}
+block_ac = g.extract([0, 2], [0, 2]).subs(point_ac)
+expected_block_ac = sp.Matrix([[2, -1], [-1, 2]]) / 9
+plus_dir = sp.Matrix([1, 1])
+minus_dir = sp.Matrix([1, -1])
+ok("E12. P의 (a,c) Hessian 블록이 두 직선 값을 함께 재현",
+   block_ac == expected_block_ac
+   and (plus_dir.T * block_ac * plus_dir)[0] == hplus
+   and (minus_dir.T * block_ac * minus_dir)[0] == hminus)
+
 # chart transition c=1+i인 한 점
 chart_num = {
     a: 1, b: 1 - I, c: 1 + I, d: 2,
@@ -238,8 +315,22 @@ K13 = sp.simplify(K12 / (cnum * sp.conjugate(cnum)))
 s12 = q12 / sp.sqrt(K12)
 s13 = q13 / sp.sqrt(K13)
 transition = sp.Abs(cnum) / cnum
-ok("E8. overlap에서 s13=(|c|/c)s12",
+ok("E13. overlap에서 s13=(|c|/c)s12",
    sp.simplify(s13 - transition * s12) == sp.zeros(6, 1))
+
+# c=e^{it}인 겹침 곡선에서 A12=dt/2, A13=-dt/2
+s12_curve = sp.Matrix([1, sp.exp(I * theta), 0, 0, 0, 0]) / sp.sqrt(2)
+s13_curve = sp.Matrix([sp.exp(-I * theta), 1, 0, 0, 0, 0]) / sp.sqrt(2)
+A12_curve = sp.simplify(
+    -I * (sp.conjugate(s12_curve).T * sp.diff(s12_curve, theta))[0]
+)
+A13_curve = sp.simplify(
+    -I * (sp.conjugate(s13_curve).T * sp.diff(s13_curve, theta))[0]
+)
+ok("E14. c=e^{it}에서 A13-A12=-dt",
+   A12_curve == sp.Rational(1, 2)
+   and A13_curve == -sp.Rational(1, 2)
+   and A13_curve - A12_curve == -1)
 
 print()
 print("=" * 78)
@@ -247,4 +338,3 @@ print(f"결과: {count[1]}/{count[0]} 통과")
 print("=" * 78)
 if count[0] != count[1]:
     raise SystemExit(1)
-
