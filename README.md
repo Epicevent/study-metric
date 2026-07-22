@@ -9,6 +9,7 @@
 | 문서 | 무엇 |
 |---|---|
 | [다음트랙.html](다음트랙.html) | **공부 계획** (2026-07-10 발표 피드백 이후): A 피드백 소화 → B II·mixed → C 본진 → D 연구 씨앗. 원문: [다음트랙_2026-07-10.md](다음트랙_2026-07-10.md) |
+| [Reeb_CP1에서_Gr24로.html](Reeb_CP1에서_Gr24로.html) | **Reeb 벡터장 — $S^3$에서 $\Sigma^9$로.** 위상속도를 읽는 $\alpha$를 요구에서 만들고, $\mathbb{CP}^1$에서 국소 절단·곡률을 다시 계산한 뒤 $\Sigma^9\to\mathrm{Gr}(2,4)$에 적용. 클라인 제약에 대한 접성, $\alpha\wedge(d\alpha)^4\neq0$, $U(2)$의 $SU(2)+\det$ 분리, $s=q/\sqrt K$에서 $dA=i\partial\bar\partial\log K=2\omega$까지 전개. 원문: [Reeb_CP1에서_Gr24로.md](Reeb_CP1에서_Gr24로.md), 검산: verify_reeb_gr24.py (27/27) |
 | [사전_1z에서_IZ로.html](사전_1z에서_IZ로.html) | **사전 — (1,z) ↔ (I,Z).** ℂP¹의 각 줄이 Gr(2,4)의 무엇인지 줄 단위 대응 (게이지·차트·K·사영자·접공간·계량·det g·Ric). §0은 **ω는 계량이 아니다** — 대칭성 축 vs 차수 축, ω(X,JX)=\|X\|², Q=g_FS+iω_FS. 원문: [사전_1z에서_IZ로.md](사전_1z에서_IZ로.md), 검산: `verify_omega_vs_metric.py` (31) |
 | [발표계산_완전판.html](발표계산_완전판.html) | **발표 계산 완전판** (Hopf→FS→∫ω_FS=2π→χ=2): 발표의 모든 계산을 정의→대입→미분 규칙 한 줄 단위로. 원문: [발표계산_완전판.md](발표계산_완전판.md), 검산: `verify_talk.py` (32) |
 | [Reeb벡터장_완전계산.html](Reeb벡터장_완전계산.html) | **파트 IV 완전 상세 — 접속형식 α와 Reeb 벡터장** (약점 보강 최대 해상도): 쌍대 규칙·생성원·α(R)=1·수직/수평 분해·(1−P)(iψ)=0 다리·ι_R dα=−dN→0·fiber pullback. 원문: [Reeb벡터장_완전계산.md](Reeb벡터장_완전계산.md), 검산: `verify_reeb.py` (16) |

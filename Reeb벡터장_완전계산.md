@@ -4,6 +4,7 @@
 > **최종 목표.** $R_\alpha=\sum_r(-y_r\partial_{x_r}+x_r\partial_{y_r})$에 대해
 > $$\alpha(R_\alpha)=1,\qquad \iota_{R_\alpha}d\alpha=0\qquad(\text{on }S^3)$$
 > — Reeb 벡터장의 정의 두 조건 — 그리고 이 $R_\alpha$가 **FS가 사영으로 제거하는 바로 그 방향**($i\psi$)이라는 것까지.
+> **다음 계산.** 이 $S^3\to\mathbb{CP}^1$ 계산을 플뤼커 벡터의 $\Sigma^9\to\mathrm{Gr}(2,4)$에서 제약식·접촉성·$U(2)$ 방향·국소 곡률까지 다시 한 글은 [Reeb 벡터장 — $S^3$에서 $\Sigma^9$로](Reeb_CP1에서_Gr24로.html).
 
 표기: $\mathbb{C}^2=\mathbb{R}^4$, $z_r=x_r+iy_r$ ($r=1,2$), $S^3=\{N=1\}$, $N=x_1^2+y_1^2+x_2^2+y_2^2=\|v\|^2$.
 
