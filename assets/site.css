@@ -51,6 +51,10 @@ footer{margin-top:3.5em;color:var(--muted);font-size:.85em;border-top:1px solid 
 em{color:var(--muted)}
 .katex-display{overflow-x:auto;overflow-y:hidden;padding:.2em 0}
 
+@media(max-width:640px){
+table{display:block;position:relative;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+
 /* ---- 그림 (SVG 도해) ---- */
 figure{margin:1.8em 0;text-align:center}
 figure svg{max-width:100%;height:auto}
