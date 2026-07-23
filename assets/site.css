@@ -75,7 +75,7 @@ main.indexmain h1{font-size:2em;letter-spacing:.02em;margin:.2em 0}
 .sub{color:var(--muted)}
 .trackhead{margin-top:2.4em;letter-spacing:.14em;font-size:.82em;text-transform:uppercase;color:var(--muted)}
 a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
-padding:1.1em 1.3em;margin:1.2em 0;text-decoration:none;color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+padding:.9em 1.05em;margin:.8em 0;text-decoration:none;color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.05)}
 a.card:hover{border-color:var(--accent)}
 a.card b{color:var(--accent)}
-a.card span{display:block;color:var(--muted);font-size:.9em;margin-top:.3em}
+a.card span{display:block;color:var(--muted);font-size:.9em;line-height:1.55;margin-top:.3em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
