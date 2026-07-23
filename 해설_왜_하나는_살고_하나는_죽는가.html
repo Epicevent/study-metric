@@ -45,6 +45,20 @@ footer{margin-top:3.5em;color:var(--muted);font-size:.85em;border-top:1px solid 
 </style>
 </head>
 <body>
+<!-- site-nav-start -->
+<style>.sitenav{position:sticky;top:0;z-index:50;display:flex;gap:1em;align-items:center;
+padding:.5em 1.2em;background:var(--bg,#faf8f4);border-bottom:1px solid var(--line,#ddd8ce);
+font-size:.95em}
+.sitenav a.home{color:var(--accent,#8a3033);text-decoration:none;font-weight:700;white-space:nowrap}
+.sitenav a.home:hover{text-decoration:underline}
+.sitenav .navtitle{color:var(--muted,#6b6862);font-size:.88em;overflow:hidden;
+text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sitenav-bottom{max-width:46em;margin:0 auto;padding:0 1.2em 3em;text-align:center}
+.sitenav-bottom a{color:var(--accent,#8a3033);text-decoration:none;font-weight:600}
+.sitenav-bottom a:hover{text-decoration:underline}</style>
+<nav class="sitenav"><a class="home" href="index.html">← 목록</a><span class="navtitle">왜 하나는 살고, 하나는 죽는가 — ⟨ψ,∂ψ⟩ 허수부의 해석</span></nav>
+<!-- site-nav-end -->
+
 <header class="titlepage">
 <p class="series">study metric — 해설 한 편</p>
 <h1>왜 $\langle\psi,\partial_1\psi\rangle$ 의 허수부는 살고, $\langle\psi,\partial_2\psi\rangle$ 는 통째로 죽는가</h1>
@@ -241,5 +255,9 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+
+<!-- site-nav-bottom-start -->
+<div class="sitenav-bottom"><a href="index.html">← 목록으로 돌아가기</a></div>
+<!-- site-nav-bottom-end -->
 </body>
 </html>

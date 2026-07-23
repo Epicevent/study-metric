@@ -44,6 +44,20 @@ em{color:var(--muted)}
 </style>
 </head>
 <body>
+<!-- site-nav-start -->
+<style>.sitenav{position:sticky;top:0;z-index:50;display:flex;gap:1em;align-items:center;
+padding:.5em 1.2em;background:var(--bg,#faf8f4);border-bottom:1px solid var(--line,#ddd8ce);
+font-size:.95em}
+.sitenav a.home{color:var(--accent,#8a3033);text-decoration:none;font-weight:700;white-space:nowrap}
+.sitenav a.home:hover{text-decoration:underline}
+.sitenav .navtitle{color:var(--muted,#6b6862);font-size:.88em;overflow:hidden;
+text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sitenav-bottom{max-width:46em;margin:0 auto;padding:0 1.2em 3em;text-align:center}
+.sitenav-bottom a{color:var(--accent,#8a3033);text-decoration:none;font-weight:600}
+.sitenav-bottom a:hover{text-decoration:underline}</style>
+<nav class="sitenav"><a class="home" href="index.html">← 목록</a><span class="navtitle">걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)</span></nav>
+<!-- site-nav-end -->
+
 <header class="titlepage">
 <p class="series">study metric · 걸음 6</p>
 <h1>걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)</h1>
@@ -1789,5 +1803,9 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 </script>
+
+<!-- site-nav-bottom-start -->
+<div class="sitenav-bottom"><a href="index.html">← 목록으로 돌아가기</a></div>
+<!-- site-nav-bottom-end -->
 </body>
 </html>
