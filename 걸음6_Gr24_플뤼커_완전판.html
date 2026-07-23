@@ -209,6 +209,7 @@
 <p><code>Gr24_플뤼커당김_계산노트.html</code>이 §1–§2에서 하늘에서 떨어트린 것들 — Gr(2,4), 차트 $(I\mid Z)$, 플뤼커 소행렬식, 클라인 관계 — 을 선형대수 바닥에서부터 민다.
 지도는 <code>6_Gr24_플뤼커_뚝떨어진것들_착륙.md</code>, 검산은 <code>verify6_plucker.py</code>.
 규약 그대로: <strong>관찰이 먼저, 정의는 그 다음. 모든 줄은 손으로 따라 쓸 수 있는 크기로.</strong></p>
+<p><strong>이 문서가 끼어드는 자리.</strong> <a href="Projector로_Gr24에_metric주기.html#projector-why-plucker">Projector 노트 §7.2</a>에서 metric 문제는 이미 끝났다. 거기서 추가로 “평면을 정칙 다항식과 사영좌표로 기록하라”고 요구했을 때만 이 문서로 들어온다. 빠른 길은 <a href="#plucker-gaussian-chart">가우스 소거</a> → <a href="#plucker-minors-scale">$\det g$ 하나로 줄어드는 소행렬식</a> → <a href="#plucker-wedge-coordinates">쐐기곱</a> → <a href="#plucker-reconstruction">클라인 관계와 역복원</a>이다.</p>
 </blockquote>
 <hr />
 <h3>§0. 출발점 — 우리가 이미 가진 것</h3>
@@ -232,6 +233,7 @@
 <p>$$A' = gA, \qquad g=\begin{pmatrix}\alpha&amp;\beta\\\gamma&amp;\delta\end{pmatrix}\in GL(2,\mathbb{C}).$$</p>
 <p><strong>같은 평면 ⟺ $A'=gA$인 $g\in GL(2)$가 존재.</strong> ℂP¹에서 "$\psi$와 $\lambda\psi$는 같은 광선" ($\lambda\in\mathbb{C}^*=GL(1)$)이라 했던 것의 2행 버전 — 스칼라 게이지가 <strong>행렬 게이지 $GL(2)$</strong>로 승격됐을 뿐이다.</p>
 <p>$$\mathrm{Gr}(2,4) \;=\; \{\text{rank-2인 } 2\times4 \text{ 행렬}\}\,/\,GL(2), \qquad \mathbb{CP}^1 = \{\text{0 아닌 } 1\times2 \text{ 행렬}\}\,/\,GL(1).$$</p>
+<p><a id="plucker-gaussian-chart"></a></p>
 <h4>1.2 차트 $(I\mid Z)$ — 가우스 소거가 게이지 고정이다</h4>
 <p>ℂP¹에서 $[\psi_0:\psi_1]$을 $\psi_0\neq0$이면 $(1,z)$, $z=\psi_1/\psi_0$로 정규화했다. 이건 "1×2 행렬을 행연산으로 앞 성분 1로 만들기"다. 같은 일을 2×4에서:</p>
 <p>앞 2×2 블록 $A_{[12]}$가 가역이면, $g=A_{[12]}^{-1}$을 곱해 <strong>유일한</strong> 대표를 얻는다:</p>
@@ -240,6 +242,9 @@
 <p>차트가 몇 장 필요한가도 ℂP¹과 평행하다. ℂP¹은 $\psi_0\neq0$ 차트와 $\psi_1\neq0$ 차트 2장 $=\binom{2}{1}$. 여기는 "어느 두 열이 가역 블록이 되나"로 $\binom{4}{2}=6$장. (이 6이라는 수를 기억해 두라 — §3에서 다시 만난다.)</p>
 <p><strong>손계산 1.</strong> $A=\begin{pmatrix}1&amp;2&amp;0&amp;1\\0&amp;1&amp;1&amp;0\end{pmatrix}$의 행공간을 $(I\mid Z)$꼴로 정규화해 $Z$를 구하라.
 <em>풀이 확인: $A_{[12]}=\begin{pmatrix}1&amp;2\\0&amp;1\end{pmatrix}$, $A_{[12]}^{-1}=\begin{pmatrix}1&amp;-2\\0&amp;1\end{pmatrix}$, 곱하면 $Z=\begin{pmatrix}-2&amp;1\\1&amp;0\end{pmatrix}$.</em></p>
+<blockquote>
+<p><strong>다음 갈림길.</strong> 가우스 소거는 평면의 대표 하나를 고른 계산이다. 이제 기저를 다시 바꾸어도 한꺼번에 같은 배수로만 변하는 양을 찾으려면 <a href="#plucker-minors-scale">§2.2 소행렬식의 변환</a>으로 간다.</p>
+</blockquote>
 <h4>1.3 사영자와의 다리 (걸음 2 접속)</h4>
 <p>걸음 2의 $P=vv^*/\|v\|^2$의 rank-2 버전은</p>
 <p>$$P_W \;=\; A^\dagger (AA^\dagger)^{-1} A \qquad (\text{rank-2 직교사영자},\; P_W^2=P_W=P_W^\dagger).$$</p>
@@ -248,6 +253,7 @@
 <h3>§2. 플뤼커 좌표 — 소행렬식이 좌표가 되는 단 하나의 관찰</h3>
 <h4>2.1 문제: 성분은 게이지에 엉킨다</h4>
 <p>평면의 "좌표"를 만들고 싶다. $A$의 성분 8개를 그대로 쓰면 안 된다 — $g$를 곱하면 성분이 뒤죽박죽 섞인다. ℂP¹에서는 성분들이 <strong>다 같이 $\lambda$배</strong> 되니까 비율 $[\psi_0:\psi_1]$이 좌표가 됐다. 여기서도 "다 같이 같은 배수로 변하는 양"을 찾으면 된다.</p>
+<p><a id="plucker-minors-scale"></a></p>
 <h4>2.2 관찰 (이 문서 전체에서 제일 중요한 줄)</h4>
 <p>$A$의 열 $i,j$를 뽑아 만든 2×2 소행렬식을</p>
 <p>$$p_{ij}(A) \;=\; \det\big(A\text{의 } i,j\text{열}\big), \qquad 1\le i&lt;j\le4$$</p>
@@ -258,10 +264,14 @@
 <p>$$\varphi(W) \;=\; [\,p_{12}:p_{13}:p_{14}:p_{23}:p_{24}:p_{34}\,] \;\in\; \mathbb{CP}^5$$</p>
 <p>는 기저 선택과 무관한, <strong>평면만의 함수</strong>다. 이게 플뤼커 임베딩이고, "왜 하필 소행렬식인가"의 답의 전부다. ($\operatorname{rank}A=2$이므로 소행렬식이 전부 0일 수는 없다 — 잘 정의됨.)</p>
 <p><strong>손계산 2.</strong> 손계산 1의 $A$와 정규화된 $(I\mid Z)$ 각각에서 $p_{ij}$ 6개를 계산하고, 두 결과가 정확히 $\det A_{[12]}=1$배… 임을 확인하라. 그다음 $A$의 첫 행을 2배 해서 다시 계산 — 6개가 모두 2배가 되는 것을 보라.</p>
+<blockquote>
+<p><strong>다음 갈림길.</strong> 여섯 수가 왜 한 벡터의 성분인지 확인하려면 <a href="#plucker-wedge-coordinates">§2.4 쐐기곱</a>으로 간다. 중간 §2.3의 외적은 같은 현상의 $\mathbb R^3$ 예시다.</p>
+</blockquote>
 <h4>2.3 이미 아는 물건이다: 외적</h4>
 <p>$\mathbb{R}^3$에서 $v\times w$의 성분이 바로 2×2 소행렬식들이다:</p>
 <p>$$v\times w = \big(v_2w_3-v_3w_2,\; v_3w_1-v_1w_3,\; v_1w_2-v_2w_1\big).$$</p>
 <p>그리고 $v\times w$는 평면 $\mathrm{span}(v,w)$를 (스칼라배 모호성만 남기고) 지정한다 — $v,w$를 섞으면 $v'\times w' = (\det g)\, v\times w$. <strong>§2.2의 관찰은 외적의 이 성질을 $\mathbb{C}^4$로 옮긴 것뿐이다.</strong> $\mathrm{Gr}(2,3)$이면 소행렬식 $\binom{3}{2}=3$개 → $\mathbb{P}^2$, 그게 외적의 방향 사영이다.</p>
+<p><a id="plucker-wedge-coordinates"></a></p>
 <h4>2.4 쐐기곱 — 소행렬식들을 담는 그릇</h4>
 <p>성분 계산을 체계화하는 언어가 쐐기곱이다. 규칙은 두 개뿐:</p>
 <p>$$\text{(쌍선형)}\quad (\alpha u+\beta v)\wedge w = \alpha\,u\wedge w+\beta\,v\wedge w, \qquad \text{(반대칭)}\quad u\wedge v = -\,v\wedge u \;(\Rightarrow u\wedge u=0).$$</p>
@@ -273,8 +283,12 @@
 <p><strong>손계산 3.</strong> 위 전개를 손으로 한 번. 그다음 $v\wedge w$ 성분 공식을 $v=(1,0,a,b)$, $w=(0,1,c,d)$로 전개해서</p>
 <p>$$p_{12}=1,\quad p_{13}=c,\quad p_{14}=d,\quad p_{23}=-a,\quad p_{24}=-b,\quad p_{34}=ad-bc$$</p>
 <p>를 얻어라. <em>(주의: $p_{23}=v_2w_3-v_3w_2 = 0\cdot c - a\cdot 1 = -a$ — 부호가 여기서 나온다.)</em> 노트 §2의 첫 식이 이제 "정의에서 나온 것"이다. <code>verify6_plucker.py</code> [01]이 같은 걸 기계로 한다.</p>
+<blockquote>
+<p><strong>다음 갈림길.</strong> 모든 $[p]\in\mathbb CP^5$가 평면에서 오는 것은 아니다. 실제 쐐기 $v\wedge w$가 만족하는 조건을 확인하고 그 조건에서 평면을 되찾으려면 <a href="#plucker-reconstruction">§3 클라인 관계와 역복원</a>으로 간다.</p>
+</blockquote>
 <hr />
 <h3>§3. 클라인 관계 — 이차초곡면은 어디서 오나</h3>
+<p><a id="plucker-reconstruction"></a></p>
 <h4>3.1 $(v\wedge w)\wedge(v\wedge w)=0$</h4>
 <p>$\Lambda^4\mathbb{C}^4$는 1차원이다 (기저 $e_1\wedge e_2\wedge e_3\wedge e_4$ 하나). 임의의 $\omega=\sum_{i&lt;j}p_{ij}\,e_i\wedge e_j$에 대해 $\omega\wedge\omega$를 전개해 보자. $e_i\wedge e_j\wedge e_k\wedge e_l$은 $\{i,j,k,l\}=\{1,2,3,4\}$일 때만 살아남고, 살아남는 짝은 세 가지:</p>
 <p>$$(12,34),\quad (13,24),\quad (14,23)$$</p>
@@ -296,6 +310,9 @@
 <p>$$\varphi\big(\mathrm{Gr}(2,4)\big) \;=\; \{\,[p]\in\mathbb{CP}^5 \;:\; p_{12}p_{34}-p_{13}p_{24}+p_{14}p_{23}=0\,\} \;=\; \text{클라인 이차초곡면}.$$</p>
 <p><strong>Gr(2,4)는 ℂP⁵ 안에서 이차식 하나로 잘리는 초곡면이다.</strong> 차원도 맞는다: $5-1=4$ ✓. 그리고 단사성도 이 복원 논증이 준다 — $p$에서 평면이 유일하게 복원되므로 $\varphi$는 임베딩.</p>
 <p><em>(6c에서 이 "이차식 하나" (차수 2)가 부피 $\pi^4/12$의 2로 돌아온다.)</em></p>
+<blockquote>
+<p><strong>여기서 Plücker 임베딩의 선형대수는 끝났다.</strong> metric과 다시 만나려면 <a href="#plucker-cauchy-binet">6b §2의 Cauchy--Binet 합류점</a>으로 간다. “왜 Plücker가 필요했는가”라는 원래 질문으로 돌아가려면 <a href="Projector로_Gr24에_metric주기.html#projector-why-plucker">Projector 노트 §7.2</a>로 복귀한다.</p>
+</blockquote>
 <hr />
 <h3>§4. 차트에서 전부 다항식 — 계산이 가능해지는 이유</h3>
 <p>차트 대표 $(I\mid Z)$의 두 행으로 $p_{ij}$를 계산하면 (손계산 3):</p>
@@ -532,6 +549,7 @@
 <p>노트 §2 후반–§3이 던진 것: $K=\det(I+Z^\dagger Z)$("첫 번째 발견"), 4×4 Hessian 표, 16성분 인수분해, $\det N=K^4$, $\mathrm{Ric}=4g$.
 이 문서는 그 전부를 <strong>ℂP¹에서 이미 한 계산의 확대판</strong>으로 재구성하고, 노트가 놓친 한 줄 — <em>인수분해의 진짜 정체</em> — 까지 민다.
 앞 문서: <code>6a_그라스만과_플뤼커_바닥부터.md</code> · 검산: <code>verify6_plucker.py</code> (14/14)</p>
+<p><strong>이 문서가 끼어드는 자리.</strong> <a href="#plucker-reconstruction">6a의 역복원</a>까지 마쳤다면, 지금 필요한 합류점은 <a href="#plucker-cauchy-binet">§2 Cauchy--Binet</a> 하나다. 그 계산 뒤에는 <a href="Projector로_Gr24에_metric주기.html#projector-why-plucker">Projector 노트 §7.2</a>로 돌아갈 수 있다. 16성분·Ricci가 목적일 때만 §3 이후를 계속 읽는다.</p>
 </blockquote>
 <hr />
 <h3>§0. 이 문서의 지도</h3>
@@ -552,6 +570,7 @@
 <p>갈라 세운 전말: <strong><code>6ab_퍼텐셜은_공짜가_아니다.md</code></strong>. 아래는 "차트 하나 위에서의 계산"으로 읽으면 전부 옳다.</p>
 </blockquote>
 <hr />
+<p><a id="plucker-cauchy-binet"></a></p>
 <h3>§2. $K=\det(I+Z^\dagger Z)$ — "첫 번째 발견"의 정체</h3>
 <h4>2.1 우선 그냥 대입 (차트 $(I\mid Z)$에서)</h4>
 <p>6a §4의 $p=(1,\,c,\,d,\,-a,\,-b,\,ad-bc)$를 넣으면 — 이 $p_{12}=1$이 곧 게이지 고정이고, 아래 $K$는 <strong>이 차트에서의</strong> 퍼텐셜이다 (<code>6ab</code> §1·§3)</p>
@@ -578,6 +597,9 @@
 <p>$$K=\det(I+Z^\dagger Z)=(1+s_1^2)(1+s_2^2).$$</p>
 <p>ℂP¹의 $1+|z|^2$이 두 개 곱해진 꼴 — Gr(2,4)가 "ℂP¹ 두 개를 비튼 것"이라는 감각의 첫 신호다.</p>
 <p><strong>손계산 5.</strong> ① $\det(I+ZZ^\dagger)$를 2×2로 직접 전개해 §2.1의 6항과 일치시켜라. (요령: $ZZ^\dagger=\begin{pmatrix}|a|^2+|b|^2 &amp; a\bar c+b\bar d\\ \bar a c+\bar b d &amp; |c|^2+|d|^2\end{pmatrix}$, 행렬식 전개하면 $|ad-bc|^2$가 나온다.) ② $Z=\mathrm{diag}(s_1,s_2)$로 특이값 형태를 확인. (15분, <code>verify6_plucker.py</code> [03])</p>
+<blockquote>
+<p><strong>합류 완료.</strong> $\sum|p_{ij}|^2=\det(I+Z^\dagger Z)$를 확인했으므로 Plücker 쪽의 $\log\|q\|^2$과 projector 쪽의 $\log\det(I+Z^*Z)$가 같은 스칼라임이 끝났다. <a href="Projector로_Gr24에_metric주기.html#projector-why-plucker">Projector 노트 §7.2의 metric 비교 박스</a>로 복귀한다. 같은 metric을 행렬미분으로 다시 얻고 싶을 때만 <a href="#plucker-matrix-metric">§6</a>으로 간다.</p>
+</blockquote>
 <hr />
 <h3>§3. 도구 — Wirtinger 미분 (바닥부터)</h3>
 <p>노트의 SymPy 코드가 "<code>z̄</code>를 독립 기호로 — <code>conjugate()</code> 금지"라고만 하고 넘어간 부분. 왜 합법인지 짚고 간다.</p>
@@ -670,6 +692,7 @@ $$\partial_a\bar\partial_dK = \partial_a\big(d+\bar aP\big)=\bar a\,\partial_aP=
 </table>
 <p>노트는 여기서 "놀라운 일이 일어난다"고 하고 멈춘다. <strong>놀랄 일이 아니게 만드는 것이 다음 절이다.</strong></p>
 <hr />
+<p><a id="plucker-matrix-metric"></a></p>
 <h3>§6. 한 줄로 하는 같은 계산 — 그리고 인수분해의 진짜 정체</h3>
 <h4>6.1 행렬로 미분하기</h4>
 <p>$$F:=I+Z^\dagger Z,\qquad G:=I+ZZ^\dagger,\qquad K=\det F=\det G.$$</p>
