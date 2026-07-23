@@ -1,12 +1,10 @@
 # Projector들의 모임에 metric 주기 — CP¹ 손노트에서 Gr(2,4)로
 
 > **질문 하나.** $4\times2$ 행렬 $X$가 나타내는 평면을 $P=XX^*$로 기억하기로 했다. 그렇다면 이런 rank-$2$ projector들의 모임에 길이는 어떻게 주는가?
->
-> **이 노트의 범위.** 먼저 실제 행렬곡선 두 개로 rank-$2$ projector의 접벡터와 trace metric을 만든다. 그러나 trace 공식을 결론으로 놓지 않는다. CP¹ 손노트처럼 복소수 한 칸 $z$가 움직이는 평면족을 끝까지 계산한 뒤, 임의의 $2\times2$ 차트 $Z$로 넓혀 projector trace, $\partial\bar\partial\log\det(I+Z^*Z)$, Plücker 임베딩으로 당긴 $\mathbb CP^5$의 FS metric, Reeb 계산에서 내려온 $dA/2$가 같은 물건의 서로 다른 계산임을 확인한다. $4\times4$ 성분표, Ricci, 부피, 측지거리는 다루지 않는다.
->
-> **검산.** `verify_projector_gr24_metric.py` — 본문의 행렬곱·미분·trace·계수 **32/32 통과**.
->
-> **이 노트 안에서 바로가기.** metric만 따라가려면 [두 곡선](#projector-two-curves) → [한 칸짜리 $\mathbb{CP}^1$](#projector-cp1-slice) → [임의의 $Z$](#projector-general-chart)까지만 읽으면 된다. “그런데 왜 Plücker와 $\mathbb{CP}^5$가 필요한가”는 [§7.2](#projector-why-plucker)에서 별도의 질문으로 시작한다.
+
+**읽는 순서와 범위.** §0부터 §6까지가 metric을 만드는 본선이다. §7은 그 결과를 다른 계산과 대조하며, Plücker와 $\mathbb{CP}^5$의 필요성은 [§7.2](#projector-why-plucker)에서만 따로 묻는다. $4\times4$ 성분표, Ricci, 부피, 측지거리는 다루지 않는다.
+
+**검산.** `verify_projector_gr24_metric.py` — 본문의 행렬곱·미분·trace·계수 **32/32 통과**.
 
 ---
 
@@ -944,7 +942,7 @@ $$
 
 $v\wedge w$의 여섯 성분은 $V$의 $2\times2$ 소행렬식들이다. 가우스 소거는 이 발상을 만들어 낸 원인이 아니라, 그 여섯 사영좌표에서 원래 평면을 다시 복원하는 계산이다.
 
-> **계산 우회로 — 기존 걸음 6의 정확한 네 절.** 이 문서는 열 프레임 $V$를 쓰고, 걸음 6a는 행 프레임 $A=V^{\mathsf T}$를 쓴다. 전치만 다르고 기저변환과 소행렬식 계산은 같다. [① 가우스 소거로 차트 대표 고르기](걸음6_Gr24_플뤼커_완전판.html#plucker-gaussian-chart) → [② 소행렬식이 모두 $\det G$배 되는 계산](걸음6_Gr24_플뤼커_완전판.html#plucker-minors-scale) → [③ 그 소행렬식이 $v\wedge w$의 성분임을 확인](걸음6_Gr24_플뤼커_완전판.html#plucker-wedge-coordinates) → [④ 사영좌표에서 평면을 역복원](걸음6_Gr24_플뤼커_완전판.html#plucker-reconstruction). 네 계산 뒤에는 [Cauchy--Binet 합류점](걸음6_Gr24_플뤼커_완전판.html#plucker-cauchy-binet)으로 간다.
+이 문서는 열 프레임 $V$를 쓰고, 걸음 6a는 행 프레임 $A=V^{\mathsf T}$를 쓴다. 전치만 다르고 계산은 같다. 필요한 부분은 [대표 고르기](걸음6_Gr24_플뤼커_완전판.html#plucker-gaussian-chart) → [소행렬식의 $\det G$배](걸음6_Gr24_플뤼커_완전판.html#plucker-minors-scale) → [$v\wedge w$의 성분](걸음6_Gr24_플뤼커_완전판.html#plucker-wedge-coordinates) → [평면 역복원](걸음6_Gr24_플뤼커_완전판.html#plucker-reconstruction) → [Cauchy--Binet](걸음6_Gr24_플뤼커_완전판.html#plucker-cauchy-binet) 순서로 이어진다.
 
 이제 Plücker 벡터를
 
@@ -981,8 +979,6 @@ g^{\mathrm{FS}}_{\mathrm{projector}}
 $$
 
 여기서 $\mathbb CP^5$가 metric을 새로 만들어 준 것이 아니다. projector에서 먼저 계산한 metric의 차트식이 $\log\det(I_2+Z^*Z)$였고, Cauchy--Binet가 그 같은 스칼라를 $\|q\|^2$라고 다시 읽어 준 것이다.
-
-> **우회로에서 돌아온 자리.** [걸음 6b의 Cauchy--Binet 계산](걸음6_Gr24_플뤼커_완전판.html#plucker-cauchy-binet)을 마쳤다면 바로 위의 박스가 복귀점이다. 더 아래의 Ricci·부피·쌍대성은 지금 metric 비교에는 필요하지 않다.
 
 §5의 한 칸 예시에서는 이 연결이 눈에 바로 보인다. 그때
 

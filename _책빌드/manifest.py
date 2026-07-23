@@ -34,7 +34,7 @@ DOCS = [
     dict(track="dict", kind="md", src="Projector로_Gr24에_metric주기.md", out="Projector로_Gr24에_metric주기.html",
          series="study metric — 사전 후속",
          card=("Projector들의 모임에 metric 주기 — CP¹ 손노트에서 Gr(2,4)로",
-               "<b>Projector가 metric의 본선이다.</b> 두 행렬곡선으로 기저변화와 실제 평면변화를 구별하고, CP¹ 한 칸을 거쳐 임의의 Z에서 g<sub>FS</sub>=½Tr(dP²)를 얻는다. metric만 원하면 §6에서 끝. §7.2는 왜 추가로 정칙·전역 기록을 요구할 때만 Plücker와 ℂP⁵가 필요한지 실제 v∧w 계산으로 밝히고, 걸음 6a의 가우스 소거→소행렬식→쐐기→역복원→6b Cauchy–Binet를 절별 링크로 왕복한다. 검산 32/32")),
+               "<b>§0–§6이 metric 본선이다.</b> 평면의 실제 움직임부터 g<sub>FS</sub>=½Tr(dP²)까지 계산한다. §7.2는 Plücker·ℂP⁵가 필요한 별도의 이유와 걸음 6의 해당 계산만 연결한다. 검산 32/32")),
     dict(track="dict", kind="md", src="Reeb_CP1에서_Gr24로.md", out="Reeb_CP1에서_Gr24로.html",
          series="study metric — 사전 후속",
          card=("Reeb 벡터장 — S³에서 Σ⁹로, CP¹에서 Gr(2,4)로",

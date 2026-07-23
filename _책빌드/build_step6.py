@@ -28,9 +28,12 @@ TITLE = "걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)"
 
 chunks = [f"# {TITLE}\n"]
 chunks.append(
-    "> 대상 원문: `Gr24_플뤼커당김_계산노트.html` (외부 노트 — 저장소에 포함하지 않는다). 그 노트는 계산은 완결이나 **전개가 이론 중간부터 시작한다** —\n"
-    "> 그라스만·플뤼커·Boothby–Wang이 동기 없이 등장한다. 이 책은 그 전부를 걸음 0–5b에서 이미 손으로 한 것 위에 착륙시킨다.\n"
-    "> 검산: `정리_L0-L6/손계산_걸음별/verify6_plucker.py`\n"
+    "> **Projector의 metric 질문에서 필요한 계산.** "
+    "[가우스 소거](#plucker-gaussian-chart) → [소행렬식](#plucker-minors-scale) → "
+    "[쐐기곱](#plucker-wedge-coordinates) → [평면 역복원](#plucker-reconstruction) → "
+    "[Cauchy--Binet](#plucker-cauchy-binet)까지만 읽고 돌아간다. 16성분·Ricci·부피는 각각 별도 질문이다.\n\n"
+    "**대상 원문.** `Gr24_플뤼커당김_계산노트.html`은 외부 노트라 저장소에 포함하지 않는다.\n\n"
+    "**검산.** `정리_L0-L6/손계산_걸음별/verify6_plucker.py` — **58/58 통과**.\n"
 )
 
 chunks.append("\n## 차례\n")
