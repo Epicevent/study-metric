@@ -4,66 +4,56 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>study metric — CP¹에서 Gr(2,4)까지, 손계산으로</title>
-<style>
-:root{--bg:#faf8f4;--fg:#1e1e20;--muted:#6b6862;--line:#ddd8ce;--card:#fff;--accent:#8a3033}
-@media (prefers-color-scheme: dark){:root{--bg:#191a1c;--fg:#e8e6e1;--muted:#96938c;--line:#3a3b3e;--card:#222326;--accent:#e0888a}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);line-height:1.75;font-size:17px;
-font-family:"Noto Serif KR","Source Serif Pro",Georgia,"Apple SD Gothic Neo","Malgun Gothic",serif}
-main{max-width:40em;margin:0 auto;padding:4em 1.2em 6em}
-h1{font-size:2em;letter-spacing:.02em;margin:.2em 0}
-.series{color:var(--muted);letter-spacing:.2em;font-size:.85em}
-.sub{color:var(--muted)}
-a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
-padding:1.1em 1.3em;margin:1.2em 0;text-decoration:none;color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.05)}
-a.card:hover{border-color:var(--accent)}
-a.card b{color:var(--accent)}
-a.card span{display:block;color:var(--muted);font-size:.9em;margin-top:.3em}
-footer{margin-top:3em;color:var(--muted);font-size:.85em;border-top:1px solid var(--line);padding-top:1em}
-footer a{color:var(--accent)}
-</style>
+<title>CP¹에서 Gr(2,4)까지, 손계산으로</title>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<main>
+<main class="indexmain">
 <p class="series">study metric</p>
 <h1>CP¹에서 Gr(2,4)까지, 손계산으로</h1>
 <p class="sub">푸비니–스터디 계량과 양자정보계량(QFIM)을 미적분학 레벨의 손계산으로 쌓는 스터디 기록. 모든 핵심 등식은 sympy로 줄 단위 검산.</p>
 
+<p class="trackhead">계획</p>
+
 <a class="card" href="다음트랙.html"><b>다음 트랙 — 2026-07-10 발표 피드백 이후</b><span>공부 계획: 피드백 소화(A) → II·mixed(B) → CP³·Gr(2,4) 본진(C) → 연구 씨앗(D)</span></a>
 
-<a class="card" href="CP1_A와_Q_두벌계산.html"><b>ℂP¹ 계산 대조표 — A→dA와 Q→(Re Q, Im Q)</b><span><b>두 벌을 끝까지 섞지 않는다.</b> [e<sup>it</sup>s]=[s]를 먼저 확인하고 임의의 속도를 c·is+h로 실제 분해하여 A가 읽는 값을 밝힌다. Q 쪽에서는 q 방향을 빼는 정사영을 직접 전개한다. 이어 z(t)=1+it를 양쪽에 넣어 한 방향 Q(V,V)에서는 왜 허수부가 안 보이는지 확인하고, 마지막 문에서만 ½dA=Im Q와 g<sub>FS</sub>=Re Q를 대조한다. 데스크톱 2열·모바일 단계별 적층, 검산 17/17</span></a>
+<a class="card" href="A1_워크시트.html"><b>A1 워크시트 — 허수부 = 2-형식 (책 7장에서 풀 것)</b><span>풀이 없는 워크시트: ②G1–G5·H3–H6 원문 + A1 고유 과제 3개(alternating 논증 재현·허수부 계수 대조·한 점에서 두 얼굴). 검산 기준 스크립트 verifyA1_targets.py 는 다 푼 뒤에</span></a>
+
+<p class="trackhead">사전 — (1,z)에서 (I,Z)로, 그리고 후속</p>
+
+<a class="card" href="사전_1z에서_IZ로.html"><b>사전 — (1,z)에서 (I,Z)로</b><span>ℂP¹의 계산 줄 하나하나가 Gr(2,4)의 무엇인지: 게이지 λ→GL(2) · 차트 2개→6개(=플뤼커 좌표 수) · 노름²→그람 행렬식(코시–비네) · 사영자 vv†/‖v‖²→V(V†V)⁻¹V† · det g=K⁻ⁿ. <b>§0에서 먼저 답하는 것</b>: ω는 계량이 <i>아니다</i> — ω(X,X)=0이고, ω(X,JX)=|X|²로 J가 값을 치러야 계량이 된다(대칭성 축 vs 차수 축). 그리고 5b의 Q = g_FS + i·ω_FS. 검산 31/31. <b>§9의 다섯 구멍은 아래 후속 글들로 전부 닫혔다.</b></span></a>
 
 <a class="card" href="Reeb_CP1에서_Gr24로.html"><b>Reeb 벡터장 — S³에서 Σ⁹로, CP¹에서 Gr(2,4)로</b><span>CP¹에서 올린 속도로부터 계량을 직접 만든 뒤 Gr(2,4)의 여섯 성분에 같은 계산을 적용한다. §5에서는 기저쌍 Q → 단위 Plücker 벡터 p=v∧w → 평면 [p]의 세 층을 먼저 구별하고, 기저회전·Plücker 위상·실제 평면변화를 곡선으로 비교한 뒤에야 SU(2)와 S¹이라는 이름을 붙인다. 검산 48/48</span></a>
 
-<a class="card" href="사전_1z에서_IZ로.html"><b>사전 — (1,z)에서 (I,Z)로</b><span>ℂP¹의 계산 줄 하나하나가 Gr(2,4)의 무엇인지: 게이지 λ→GL(2) · 차트 2개→6개(=플뤼커 좌표 수) · 노름²→그람 행렬식(코시–비네) · 사영자 vv†/‖v‖²→V(V†V)⁻¹V† · det g=K⁻ⁿ. <b>§0에서 먼저 답하는 것</b>: ω는 계량이 <i>아니다</i> — ω(X,X)=0이고, ω(X,JX)=|X|²로 J가 값을 치러야 계량이 된다(대칭성 축 vs 차수 축). 그리고 5b의 Q = g_FS + i·ω_FS. 검산 31/31</span></a>
+<a class="card" href="부피나란히_π에서_π4_12로.html"><b>부피 나란히 — π에서 π⁴/12로, 적분을 실제로 하기</b><span>사전 §9-2를 닫는 후속: 6c가 위상(차수 2)으로 예측만 하던 ∫K⁻⁴dV(8차원)를 <b>미적분으로 직접</b> — 특이값 좌표에서 K=(1+x₁)(1+x₂)로 인수분해, 측도의 보정상수는 가우스 검문 2개로 실측(c₂=π⁴/2), 반지름 적분은 베타 세 개(⅓·⅙·⅓)로 정확히 1/6 → <b>π⁴/12</b>. ℂP¹의 π = π·∫(1+x)⁻²dx와 같은 기계, 새 재료는 밴더몬드 (x₁−x₂)²(특이값 반발) 하나. 차수 경로와 일치 + MC 끝-대-끝 8.10±0.15. 검산 15/15</span></a>
 
 <a class="card" href="성분대조_5b와_6b는_한_물건.html"><b>성분 대조 — 5b의 QFIM과 6b의 계량은 한 물건</b><span>사전 §9-3을 닫는 후속: 트레이스형 tr[F⁻¹dZ†G⁻¹dZ]의 16계수(세 줄 손계산: E_dc G⁻¹E_ab가 숫자로 접힘)와 Hessian ∂∂̄logK의 16성분이 <b>다항식 항등식</b>으로 동일 — K∂∂̄K−∂K∂̄K = adjG_ca·adjF_bd. 상수배 사슬 1:2:4 (∂∂̄logK : Tr dPdP : QFIM, k=1 닻), 플뤼커 상태 QFIM과의 일치를 부동소수점에서 <b>유리수 정확산술</b>로 승격 (Z₀=I, Ż=E₁₁ → H=1). 검산 7/7</span></a>
-
-<a class="card" href="부피나란히_π에서_π4_12로.html"><b>부피 나란히 — π에서 π⁴/12로, 적분을 실제로 하기</b><span>사전 §9-2를 닫는 후속: 6c가 위상(차수 2)으로 예측만 하던 ∫K⁻⁴dV(8차원)를 <b>미적분으로 직접</b> — 특이값 좌표에서 K=(1+x₁)(1+x₂)로 인수분해, 측도의 보정상수는 가우스 검문 2개로 실측(c₂=π⁴/2), 반지름 적분은 베타 세 개(⅓·⅙·⅓)로 정확히 1/6 → <b>π⁴/12</b>. ℂP¹의 π = π·∫(1+x)⁻²dx와 같은 기계, 새 재료는 밴더몬드 (x₁−x₂)²(특이값 반발) 하나. 차수 경로와 일치 + MC 끝-대-끝 8.10±0.15. 검산 15/15</span></a>
 
 <a class="card" href="차트갈아타기_1z에서_Z역행렬로.html"><b>차트 갈아타기 — z′=1/z에서 Z′=Z⁻¹로</b><span>사전 §9-4를 닫는 후속: 풀스왑 Z′=Z⁻¹은 정칙 게이지 하나(K′=K/|det Z|², 어긋남 log|det Z|²는 ∂∂̄가 죽임 — 6ab 실물), 계량·ω는 <b>밀어넘기기 두 번</b>으로 문자 그대로 불변. 그리고 <b>k=1엔 없던 것</b>: 혼합 차트 {1,3} 실물 계산 — Z′=[[−a/b,1/b],[−detZ/b,d/b]], 분모가 전부 p₁₃ ("차트 유효 ⟺ 소행렬식≠0"의 실물화). 전역 그림: K_chart = Σ|p|²/|p_chart|² — 코시–비네가 여섯 차트를 한 식으로. 검산 15/15</span></a>
 
 <a class="card" href="전수조사_k1에서_한몸이던_것들.html"><b>전수조사 — k=1에서 한 몸이던 것들 (사전 §9 완결)</b><span>갈라지는 것 10행: 가환→비가환 게이지 · 분모 하나→F≠G 둘 · 분해가능성 제약(ω∧ω, e₁₂+e₃₄ 반례) · Hessian 십자항 = |det Z|²의 소행 · <b>정칙 단면곡률이 상수 2에서 방향의존 [1,2]로</b>(H=2Σσ⁴/(Σσ²)², 둥긂은 k=1의 우연 — 아인슈타인이지만 둥글지 않다) · 한 사영자의 두 양자 읽기(wedge 순수 vs P/2 혼합). 유지되는 것 6행: 정칙 널·멱영 (∂P)²=0(걸음 2 §3의 승격), Q=g+iω, K⁻ⁿ… 갈라짐의 뿌리는 하나 — k=1엔 특이값이 하나뿐이었다. 검산 18/18</span></a>
 
-<a class="card" href="발표계산_완전판.html"><b>발표 계산 완전판 — Hopf에서 ∫ω_FS=2π까지</b><span>발표의 모든 계산을 정의→대입→미분 규칙 한 줄 단위로: 구면 계량=ℝ³ 내적 → Hopf 사상 → FS=ℂ² 내적−S¹ → α·Reeb → ω_FS → 2π → χ=2. 검산: verify_talk.py (32)</span></a>
+<p class="trackhead">켈러 트랙 — 본편</p>
 
-<a class="card" href="Reeb벡터장_완전계산.html"><b>파트 IV 완전 상세 — 접속형식 α와 Reeb 벡터장</b><span>약점 보강 최대 해상도 판: 쌍대 규칙·생성원·α(R)=1·수직/수평 분해·(1−P)(iψ)=0 다리·ι_R dα=−dN→0·fiber pullback, 정의부터 모든 줄. 검산: verify_reeb.py (16)</span></a>
-
-<a class="card" href="Gr24_핵심계산_주제별완전판.html"><b>Gr(2,4) 핵심계산 — 주제별 완전판</b><span>메인 문제집. 202제 + 병렬 30제를 주제별 15장으로 재편한 self-contained 책 (오프라인 수식 렌더링)</span></a>
+<a class="card" href="Gr24_핵심계산_주제별완전판.html"><b>Gr(2,4) 핵심계산 — 주제별 완전판</b><span>메인 문제집. 202제 + 병렬 30제를 주제별 15장으로 재편한 책</span></a>
 
 <a class="card" href="손노트완성본_CP1_QFIM.html"><b>손노트 완성본 — 「ℂP¹의 QFIM 계산하기」</b><span>손노트(Notes 26-07-04)를 그 결·그 기호·그 순서 그대로 끝까지 민 완성본. 빨간펜 세 곳 + sympy 검산 55/55</span></a>
 
 <a class="card" href="해설_왜_하나는_살고_하나는_죽는가.html"><b>해설 — 왜 하나는 살고, 하나는 죽는가</b><span>⟨ψ,∂ψ⟩ 허수부의 정체를 값으로 보는 한 편</span></a>
 
-<a class="card" href="걸음6_Gr24_플뤼커_완전판.html"><b>걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)</b><span>플뤼커 당김 계산 노트(외부 원문)가 하늘에서 떨어트린 것들을 걸음 0–5b 위에 착륙시키는 8부작: 소행렬식이 좌표가 되는 <i>단 하나의 관찰</i> · <b>퍼텐셜은 공짜가 아니다</b>(K는 함수가 아니라 선다발 계량 — 전역 퍼텐셜이 있으면 ∫ω=0이어야 하는데 우리는 π를 잰다; U(4) 불변성이 K를 고르고, 그 유일성이 길1=길2를 준다) · K=det(I+Z†Z)=평행사변형 넓이²(코시–비네) · 16성분 인수분해의 정체 N=adj(G)ᵀ⊗adj(F) · det g=K⁻ⁿ ⟹ Ric=n·g(모든 Gr(k,n)) · 부피=π⁴/12 = <i>ℙ³에서 직선 4개와 만나는 직선 2개</i> · 길 1 = Hopf 기계 재사용 · <b>원 하나로 전부 설명하기</b>(θ는 함수가 아니지만 dθ는 전역 — 걸음 6 전체가 이 한 줄이고, ∫<sub>S²</sub>ω=π의 π는 기하 상수가 아니라 <i>전이함수의 감김수 1</i>이다). 손계산 12과제 + 전체 풀이집 + 검산 verify6_plucker.py (58/58)</span></a>
+<a class="card" href="발표계산_완전판.html"><b>발표 계산 완전판 — Hopf에서 ∫ω_FS=2π까지</b><span>발표의 모든 계산을 정의→대입→미분 규칙 한 줄 단위로: 구면 계량=ℝ³ 내적 → Hopf 사상 → FS=ℂ² 내적−S¹ → α·Reeb → ω_FS → 2π → χ=2. 검산: verify_talk.py (32)</span></a>
 
+<a class="card" href="CP1_A와_Q_두벌계산.html"><b>ℂP¹ 계산 대조표 — A→dA와 Q→(Re Q, Im Q)</b><span><b>두 벌을 끝까지 섞지 않는다.</b> [e<sup>it</sup>s]=[s]를 먼저 확인하고 임의의 속도를 c·is+h로 실제 분해하여 A가 읽는 값을 밝힌다. Q 쪽에서는 q 방향을 빼는 정사영을 직접 전개한다. 이어 z(t)=1+it를 양쪽에 넣어 한 방향 Q(V,V)에서는 왜 허수부가 안 보이는지 확인하고, 마지막 문에서만 ½dA=Im Q와 g_FS=Re Q를 대조한다. 검산 17/17</span></a>
 
-<p class="sub" style="margin-top:2.4em;letter-spacing:.14em;font-size:.82em;text-transform:uppercase">정보기하 트랙</p>
+<a class="card" href="Reeb벡터장_완전계산.html"><b>파트 IV 완전 상세 — 접속형식 α와 Reeb 벡터장</b><span>약점 보강 최대 해상도 판: 쌍대 규칙·생성원·α(R)=1·수직/수평 분해·(1−P)(iψ)=0 다리·ι_R dα=−dN→0·fiber pullback, 정의부터 모든 줄. 검산: verify_reeb.py (16)</span></a>
 
-<a class="card" href="정보기하_IG0_한_변수에서_지표_없이.html"><b>IG0 — 한 변수에서, 지표 없이</b><span><b>여기서 시작.</b> §3.1에서 막히는 건 계산이 아니라 표기다 — F<sub>a</sub>(y)는 "미분 먼저, 대입 나중"이고 두 슬롯은 그냥 평범한 편미분이다. 변수를 하나로 줄이면 지표도 합도 사라지고 <b>곱의 미분 한 번</b>이 전부: D = 접선과 곡선의 세로 간격 → ∂<sub>x</sub>D = F′(x)−F′(y) → ∂<sub>y</sub>∂<sub>x</sub>D = −F″(y) → <b>g = F″</b>. 그리고 <b>동전 하나</b>에서 로짓·Fisher 정보 1/(η(1−η))·KL이 전부 나온다 — 계량이 왜 "가까운 분포를 얼마나 구별할 수 있나"인지도 여기서 보인다. 검산: verify_ig0_onevar.py (43/43)</span></a>
+<a class="card" href="걸음6_Gr24_플뤼커_완전판.html"><b>걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)</b><span>플뤼커 당김 계산 노트(외부 원문)를 걸음 0–5b 위에 착륙시키는 8부작: 소행렬식이 좌표가 되는 <i>단 하나의 관찰</i> · <b>퍼텐셜은 공짜가 아니다</b>(K는 함수가 아니라 선다발 계량) · K=det(I+Z†Z)=평행사변형 넓이²(코시–비네) · N=adj(G)ᵀ⊗adj(F) · det g=K⁻ⁿ ⟹ Ric=n·g · 부피=π⁴/12 = <i>직선 4개와 만나는 직선 2개</i> · <b>원 하나로 전부 설명하기</b>(∫ω=π의 π는 감김수 1). 손계산 12과제 + 풀이집 + 검산 58/58</span></a>
 
-<a class="card" href="정보기하_IG1_Bregman에서_Hessian계량.html"><b>IG1 — Bregman divergence에서 Hessian 계량까지</b><span>IG0를 지표로 올린 판. 강의노트 <i>Dually Flat Geometry</i> §3.1의 네 줄을 한 줄도 건너뛰지 않고 편다: D(x,y)=F(x)−F(y)−F<sub>a</sub>(y)(x<sup>a</sup>−y<sup>a</sup>) → ∂<sub>i</sub>∂′<sub>j</sub>D=−F<sub>ij</sub>(y) → g<sub>ij</sub>=F<sub>ij</sub>. 원문이 안 짚는 것 셋 — <b>부호는 왜 마이너스인가</b>(두 슬롯이 반대로 작용) · <b>미분 순서를 바꾸면 다른 상쇄를 거쳐 같은 답</b> · <b>비대칭은 2차에 안 잡히고 3차에서 처음 나온다</b>(그래서 접속이 둘). 음의 엔트로피를 넣으면 log-ratio 좌표와 Fisher 계량이 저절로 나온다. 검산: verify_ig1_bregman.py (25/25)</span></a>
+<p class="trackhead">정보기하 트랙</p>
+
+<a class="card" href="정보기하_IG0_한_변수에서_지표_없이.html"><b>IG0 — 한 변수에서, 지표 없이</b><span><b>여기서 시작.</b> §3.1에서 막히는 건 계산이 아니라 표기다 — F<sub>a</sub>(y)는 "미분 먼저, 대입 나중"이고 두 슬롯은 그냥 평범한 편미분이다. 변수를 하나로 줄이면 <b>곱의 미분 한 번</b>이 전부: D = 접선과 곡선의 세로 간격 → g = F″. 그리고 <b>동전 하나</b>에서 로짓·Fisher 정보 1/(η(1−η))·KL이 전부 나온다. 검산: verify_ig0_onevar.py (43/43)</span></a>
+
+<a class="card" href="정보기하_IG1_Bregman에서_Hessian계량.html"><b>IG1 — Bregman divergence에서 Hessian 계량까지</b><span>IG0를 지표로 올린 판. <i>Dually Flat Geometry</i> §3.1의 네 줄을 한 줄도 건너뛰지 않고 편다: D(x,y)=F(x)−F(y)−F<sub>a</sub>(y)(x<sup>a</sup>−y<sup>a</sup>) → g<sub>ij</sub>=F<sub>ij</sub>. 원문이 안 짚는 것 셋 — 부호의 마이너스 · 미분 순서 교차검증 · <b>비대칭은 3차에서 처음</b>(그래서 접속이 둘). 검산: verify_ig1_bregman.py (25/25)</span></a>
 
 <footer>손계산 문서(걸음 0→5b, 6)·정보기하 트랙·검산 스크립트·원본 노트는 <a href="https://github.com/Epicevent/study-metric">저장소</a>에서. 두 트랙이 다루는 대상 원문은 외부 자료라 저장소에 포함하지 않는다.</footer>
 </main>

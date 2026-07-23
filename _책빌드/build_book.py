@@ -575,9 +575,16 @@ __LRGB__
 APPENDIX = APPENDIX.replace("__LRGA__", md2html(lrgmap_a)).replace("__LRGB__", md2html(lrgmap_b))
 
 # ------------------------------------------------------- PART F: shell + emit
-katex_css = open(os.path.join(BASE, "katex", "katex.inline.css"), encoding="utf-8").read()
-katex_js = open(os.path.join(BASE, "katex", "katex.min.js"), encoding="utf-8").read()
-autorender_js = open(os.path.join(BASE, "katex", "auto-render.min.js"), encoding="utf-8").read()
+# KaTeX 는 공유 자산(assets/)을 링크한다 — 페이지마다 인라인하지 않는다.
+NAV_CSS = """
+.sitenav{position:sticky;top:0;z-index:50;display:flex;gap:1em;align-items:center;
+padding:.5em 1.2em;background:var(--bg);border-bottom:1px solid var(--line);font-size:.95em}
+.sitenav a.home{color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap}
+.sitenav a.home:hover{text-decoration:underline}
+.sitenav .navtitle{color:var(--muted);font-size:.88em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sitenav-bottom{max-width:46em;margin:0 auto;padding:0 1.2em 3em;text-align:center}
+.sitenav-bottom a{color:var(--accent);text-decoration:none;font-weight:600}
+"""
 
 CSS = """
 :root{--bg:#faf8f4;--fg:#1e1e20;--muted:#6b6862;--line:#ddd8ce;--card:#fff;--accent:#8a3033;
@@ -663,10 +670,12 @@ html_doc = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Gr(2,4) 핵심계산 — 주제별 완전판</title>
-<style>{katex_css}</style>
+<link rel="stylesheet" href="assets/katex.min.css">
 <style>{CSS}</style>
+<style>{NAV_CSS}</style>
 </head>
 <body>
+<nav class="sitenav"><a class="home" href="index.html">← 목록</a><span class="navtitle">Gr(2,4) 핵심계산 — 주제별 완전판</span></nav>
 {FRONT.split('<section class="chapter" id="preface">')[0]}
 <nav class="toc"><h2>차례</h2><ol>
 <li><a href="#preface"><span class="tocn">머리말</span> 이 판에서 바뀐 것</a></li>
@@ -682,19 +691,10 @@ html_doc = f"""<!DOCTYPE html>
 Gr(2,4) 핵심계산 — 주제별 완전판 · 원전: Gr24_핵심계산모음.pdf · 문제 원문 무변경, 배치·인라인화만 편집 · 2026-07-09
 </footer>
 </main>
-<script>{katex_js}</script>
-<script>{autorender_js}</script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {{
-  renderMathInElement(document.body, {{
-    delimiters: [
-      {{left: "$$", right: "$$", display: true}},
-      {{left: "$", right: "$", display: false}}
-    ],
-    throwOnError: false
-  }});
-}});
-</script>
+<div class="sitenav-bottom"><a href="index.html">← 목록으로 돌아가기</a></div>
+<script defer src="assets/katex.min.js"></script>
+<script defer src="assets/auto-render.min.js"></script>
+<script defer src="assets/render.js"></script>
 </body>
 </html>"""
 

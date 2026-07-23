@@ -47,18 +47,26 @@ python "정리_L0-L6/손계산_걸음별/verify6_plucker.py"            # 58/58
 - 모든 줄 검산 (sympy), 값이 깨끗한 점 하나에서 숫자로도 확인.
 - factor 지뢰 4개: FS vs QFIM의 4배 · dα = 2dA_FS · Tr(dPdP) = ½⟨dp,dp⟩ · **ω 정규화**(걸음 6은 ω=(i/2)∂∂̄log K로 ∫_{ℂP¹}ω=π, 발표계산은 ∫ω_FS=2π — 정확히 2배).
 
-## 재빌드
+## 사이트 빌드 (단일 명령)
 
-책 HTML은 `_책빌드/`의 전사 마크다운에서 재생성된다: `python _책빌드/build_book.py` (요구: `pip install markdown`).
-걸음 6 완전판은 네 개의 마크다운을 빌드 시점에 이어붙인다 (원본이 단일 진실 원천): `python _책빌드/build_step6.py`.
-
-**어떤 페이지든 (재)빌드한 뒤에는** 사이트 내비게이션을 다시 주입한다 (멱등 — 몇 번 돌려도 안전):
+사이트 전체(모든 문서 페이지 + 책 + 걸음 6 + **index 자동 생성**)는 명령 하나로 재빌드된다:
 
 ```
-python _책빌드/inject_nav.py
+python _책빌드/site.py          # 전부
+python _책빌드/site.py --fast   # 책·걸음6 건너뛰고 일반 페이지 + index 만
 ```
 
-모든 문서 페이지에 상단 고정 바(← 목록 + 문서 제목)와 문서 끝 돌아가기 링크가 붙는다.
+**새 문서 추가 절차** — ① 마크다운을 쓴다 ② `_책빌드/manifest.py`에 항목 하나(트랙·출력 파일명·카드 설명)를 넣는다 ③ 위 명령. index는 손대지 않는다(매니페스트에서 자동 생성).
+
+구조:
+
+- `_책빌드/manifest.py` — 문서 대장(단일 진실 원천): 트랙 분류·순서·index 카드 설명
+- `_책빌드/common.py` — 공용 렌더러: 수식 보호 md→html, 사이트 내비(← 목록 + 이전/다음) 내장, noindex
+- `_책빌드/site.py` — 전체 빌드 + index 생성
+- `assets/` — 공유 자산 (KaTeX 1벌 + site.css) — 페이지마다 인라인하지 않으므로 HTML이 가볍다 (전체 ~0.7MB)
+- `build_page.py`·`build_5b.py` — 호환 래퍼 (기존 호출 방식 유지); `build_book.py`·`build_step6.py` — 특수 조립 빌더 (site.py가 호출)
+
+요구: `pip install markdown sympy numpy`.
 
 ---
 
