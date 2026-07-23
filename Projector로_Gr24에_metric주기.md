@@ -2,9 +2,9 @@
 
 > **질문 하나.** $4\times2$ 행렬 $X$가 나타내는 평면을 $P=XX^*$로 기억하기로 했다. 그렇다면 이런 rank-$2$ projector들의 모임에 길이는 어떻게 주는가?
 >
-> **이 노트의 범위.** 차트 $Z$, Plücker 좌표, $\mathbb CP^5$, Reeb 벡터장은 아직 쓰지 않는다. 실제 행렬곡선 두 개를 미분하고, 손노트의 CP¹ 계산이 고른 계수를 그대로 옮겨 $g_P^{\mathrm{QFI}}(A,C)=2\operatorname{tr}(AC)$와 $g_P^{\mathrm{FS}}(A,C)=\frac12\operatorname{tr}(AC)$까지만 얻는다. 두 식은 서로 다른 metric이 아니라 $g^{\mathrm{QFI}}=4g^{\mathrm{FS}}$라는 **정규화 차이**다.
+> **이 노트의 범위.** 먼저 실제 행렬곡선 두 개로 rank-$2$ projector의 접벡터와 trace metric을 만든다. 그러나 trace 공식을 결론으로 놓지 않는다. CP¹ 손노트처럼 복소수 한 칸 $z$가 움직이는 평면족을 끝까지 계산한 뒤, 임의의 $2\times2$ 차트 $Z$로 넓혀 projector trace, $\partial\bar\partial\log\det(I+Z^*Z)$, Plücker 임베딩으로 당긴 $\mathbb CP^5$의 FS metric, Reeb 계산에서 내려온 $dA/2$가 같은 물건의 서로 다른 계산임을 확인한다. $4\times4$ 성분표, Ricci, 부피, 측지거리는 다루지 않는다.
 >
-> **검산.** `verify_projector_gr24_metric.py` — 본문의 행렬곱·미분·trace·계수 **20/20 통과**.
+> **검산.** `verify_projector_gr24_metric.py` — 본문의 행렬곱·미분·trace·계수 **32/32 통과**.
 
 ---
 
@@ -486,77 +486,545 @@ $$
 
 ---
 
-## §5. metric과 두 점 사이의 거리는 같은 단어가 아니다
+## §5. trace를 예전 CP¹ 계산에 다시 꽂는다
 
-§4의 내적은 한 점 $P$에서 **순간속도**의 길이를 정한다. 곡선 $P(t)$ 전체의 길이는
-
-$$
-L_{\mathrm{QFI}}[P]
-=\int_a^b
-\sqrt{2\operatorname{tr}\bigl(\dot P(t)^2\bigr)}\,dt.
-$$
-
-두 projector $P,Q$ 사이의 Riemannian 거리는 그 둘을 잇는 모든 projector 곡선 가운데 가장 짧은 길이다:
+CP¹ 손노트는 $\operatorname{tr}(dP\,dP)$라고 적고 멈추지 않았다. 그 식을 실제 좌표 $z=x+iy$에 넣어 역입체사영에서 얻었던
 
 $$
-d_{\mathrm{QFI}}(P,Q)
-=\inf_{\substack{P(a)=P\\P(b)=Q}}
-L_{\mathrm{QFI}}[P].
+\frac{dx^2+dy^2}{(1+x^2+y^2)^2}
 $$
 
-이 정의에서 §0.1의 기저회전은 projector 곡선이 상수이므로 길이가 $0$이다. 반면 §0.2의 평면회전은 §1에서 길이가 $2\theta$였다.
+와 만나는지 확인했다. $Gr(2,4)$에서도 같은 검사를 해야 한다.
 
-주변 행렬공간에서 두 projector를 곧장 빼서 얻는 값과 혼동하면 안 된다. §0.2의 $P(t)$에 대해 직접 계산하면
-
-$$
-\operatorname{tr}\bigl((P(\theta)-P_0)^2\bigr)
-=2\sin^2\theta.
-$$
-
-따라서 같은 계수 $2$를 붙인 주변공간의 직선거리, 즉 현의 길이는
+네 복소좌표를 한꺼번에 움직이지 말고, §0.2에서 움직였던 자리 하나만 복소수로 만든다:
 
 $$
-d_{\mathrm{chord}}(P_0,P(\theta))
-=\sqrt{2\operatorname{tr}\bigl((P(\theta)-P_0)^2\bigr)}
-=2|\sin\theta|.
+V(z)=
+\begin{pmatrix}
+1&0\\
+0&1\\
+0&z\\
+0&0
+\end{pmatrix}.
 $$
 
-projector들의 공간 안에서 §0.2의 곡선을 따라간 길이는 $2|\theta|$이고, 주변공간에서 곧장 잰 현은 $2|\sin\theta|$다. 구면의 호와 현이 다른 것과 같다. 다만
+두 열은 $e_1$과 $e_2+ze_3$이다. $z$가 바뀌면 두 번째 직선이 바뀌므로 평면도 실제로 바뀐다.
+
+여기서는 열의 길이가 $1$이 아니므로 $VV^*$라고 쓰면 projector가 아니다. 열들의 Gram 행렬을 먼저 계산한다:
 
 $$
-2\sin\theta=2\theta+O(\theta^3)
+G:=V^*V
+=
+\begin{pmatrix}
+1&0\\
+0&1+|z|^2
+\end{pmatrix}.
 $$
 
-이므로 아주 가까이에서는 같은 일차 길이를 준다. Riemannian metric은 바로 그 일차 길이를 모든 점에서 이어 붙이는 장치다.
+$S:=1+|z|^2$라고 쓰면
 
----
+$$
+G^{-1}=
+\begin{pmatrix}
+1&0\\
+0&S^{-1}
+\end{pmatrix},
+$$
 
-## §6. 어느 metric을 목표로 하는가 — 계수만 마지막에 갈라진다
+따라서 이 평면 위로의 직교 projector는
 
-지금까지 손노트의 단위 Bloch 구면, 곧 QFIM 정규화를 따랐다:
+$$
+\begin{aligned}
+P(z)
+&=V(V^*V)^{-1}V^*\\
+&=
+\begin{pmatrix}
+1&0&0&0\\
+0&S^{-1}&\bar zS^{-1}&0\\
+0&zS^{-1}&|z|^2S^{-1}&0\\
+0&0&0&0
+\end{pmatrix}.
+\end{aligned}
+$$
+
+이 행렬에서 첫 번째 좌표는 늘 $1$, 네 번째 좌표는 늘 $0$이다. 실제로 움직이는 가운데 $2\times2$ 블록만 떼면
+
+$$
+\frac1S
+\begin{pmatrix}
+1&\bar z\\
+z&|z|^2
+\end{pmatrix}.
+$$
+
+이것은 CP¹ 손노트의 rank-$1$ projector와 문자 그대로 같다. $Gr(2,4)$ 안에서 CP¹ 하나를 찾아낸 것이다.
+
+### 그 블록을 다시 미분한다
+
+$$
+dS=\bar z\,dz+z\,d\bar z
+$$
+
+이므로 성분별 몫미분은
+
+$$
+dP
+=\frac1{S^2}
+\begin{pmatrix}
+0&0&0&0\\
+0&-dS&d\bar z-\bar z^2dz&0\\
+0&dz-z^2d\bar z&dS&0\\
+0&0&0&0
+\end{pmatrix}.
+$$
+
+여기서 $dz\,d\bar z$는 쐐기곱이 아니라 metric을 계산할 때의 대칭곱이다. 실제 실접벡터 하나에 두 번 넣으면 $|\dot z|^2$가 된다.
+
+움직이는 $2\times2$ 블록의 세 성분을
+
+$$
+a:=-dS,
+\qquad
+b:=d\bar z-\bar z^2dz,
+\qquad
+c:=dz-z^2d\bar z
+$$
+
+라고 쓰면 그 블록은 $S^{-2}\bigl(\begin{smallmatrix}a&b\\c&-a\end{smallmatrix}\bigr)$이고
+
+$$
+\begin{pmatrix}a&b\\c&-a\end{pmatrix}^{\!2}
+=(a^2+bc)I_2.
+$$
+
+이제 분자만 편다:
+
+$$
+\begin{aligned}
+a^2
+&=(\bar z\,dz+z\,d\bar z)^2\\
+&=\bar z^2dz^2+2|z|^2dz\,d\bar z+z^2d\bar z^2,
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+bc
+&=(d\bar z-\bar z^2dz)(dz-z^2d\bar z)\\
+&=dz\,d\bar z-z^2d\bar z^2-\bar z^2dz^2+|z|^4dz\,d\bar z.
+\end{aligned}
+$$
+
+$dz^2$와 $d\bar z^2$ 항이 지워지고
+
+$$
+a^2+bc
+=(1+2|z|^2+|z|^4)dz\,d\bar z
+=S^2dz\,d\bar z.
+$$
+
+따라서
 
 $$
 \boxed{
+\operatorname{tr}(dP\,dP)
+=\frac{2\,dz\,d\bar z}{S^2}.
+}
+$$
+
+FS 정규화와 QFIM 정규화는 이제 숫자까지 분리된다:
+
+$$
+\boxed{
+ds^2_{\mathrm{FS}}
+=\frac12\operatorname{tr}(dP\,dP)
+=\frac{dz\,d\bar z}{(1+|z|^2)^2},
+}
+$$
+
+$$
+\boxed{
+ds^2_{\mathrm{QFI}}
+=2\operatorname{tr}(dP\,dP)
+=\frac{4\,dz\,d\bar z}{(1+|z|^2)^2}.
+}
+$$
+
+§0.2의 실곡선은 이 복소직선에서 $z=\tan t$로 놓은 것이다. 실제로
+
+$$
+S=1+\tan^2t=\sec^2t,
+\qquad
+\dot z=\sec^2t,
+$$
+
+이므로
+
+$$
+g_{\mathrm{FS}}(\dot P,\dot P)
+=\frac{|\dot z|^2}{S^2}=1,
+\qquad
+g_{\mathrm{QFI}}(\dot P,\dot P)=4.
+$$
+
+§1에서 행렬을 직접 미분해 얻었던 두 숫자가 좌표 $z$ 계산에서도 그대로 돌아왔다.
+
+---
+
+## §6. 한 칸에서 본 계산을 임의의 $Z$로 넓힌다
+
+이제야 네 복소좌표를 한꺼번에 둔다:
+
+$$
+V(Z)=
+\begin{pmatrix}
+I_2\\
+Z
+\end{pmatrix},
+\qquad
+G:=V^*V=I_2+Z^*Z,
+\qquad
+P:=VG^{-1}V^*.
+$$
+
+$Z(t)$가 움직이는 실곡선을 하나 잡고
+
+$$
+D:=\dot Z,
+\qquad
+\dot V=
+\begin{pmatrix}
+0\\D
+\end{pmatrix}
+$$
+
+라고 하자. 목표는 $\frac12\operatorname{tr}(\dot P^2)$를 $D$만으로 적는 것이다.
+
+먼저 $P=VG^{-1}V^*$를 보통 곱미분한다:
+
+$$
+\dot P
+=\dot V G^{-1}V^*
++V\dot{(G^{-1})}V^*
++VG^{-1}\dot V^*.
+$$
+
+역행렬 미분은 $G^{-1}G=I_2$를 미분해서 얻는다:
+
+$$
+\dot{(G^{-1})}
+=-G^{-1}\dot G G^{-1},
+\qquad
+\dot G=\dot V^*V+V^*\dot V.
+$$
+
+두 식을 대입하고 $P=VG^{-1}V^*$를 다시 묶으면
+
+$$
+\boxed{
+\dot P
+=(I_4-P)\dot V G^{-1}V^*
++VG^{-1}\dot V^*(I_4-P).
+}
+$$
+
+첫 항을
+
+$$
+K:=(I_4-P)\dot V G^{-1}V^*
+$$
+
+라고 쓰면 둘째 항은 $K^*$다. 또한 $V^*(I_4-P)=0$이므로
+
+$$
+K^2=0,
+\qquad
+(K^*)^2=0.
+$$
+
+따라서
+
+$$
+\begin{aligned}
+\frac12\operatorname{tr}(\dot P^2)
+&=\frac12\operatorname{tr}\bigl((K+K^*)^2\bigr)\\
+&=\frac12\operatorname{tr}(KK^*+K^*K)\\
+&=\operatorname{tr}(K^*K).
+\end{aligned}
+$$
+
+$K^*K$를 넣고 trace를 순환시키면
+
+$$
+\begin{aligned}
+\operatorname{tr}(K^*K)
+&=\operatorname{tr}\!\left(
+VG^{-1}\dot V^*(I_4-P)\dot V G^{-1}V^*
+\right)\\
+&=\operatorname{tr}\!\left(
+G^{-1}\dot V^*(I_4-P)\dot V G^{-1}V^*V
+\right)\\
+&=\operatorname{tr}\!\left(
+G^{-1}\dot V^*(I_4-P)\dot V
+\right).
+\end{aligned}
+$$
+
+마지막 줄에서 $V^*V=G$가 오른쪽의 $G^{-1}$ 하나를 지웠다.
+
+$\dot V$는 아래 블록에만 $D$를 가지므로 $I_4-P$의 오른쪽 아래 블록만 필요하다. $P=VG^{-1}V^*$를 블록으로 쓰면 그 블록은
+
+$$
+I_2-ZG^{-1}Z^*.
+$$
+
+$H:=I_2+ZZ^*$라고 두자. 이 행렬이 $H^{-1}$임은 이름을 빌리지 않고 곱해서 확인할 수 있다:
+
+$$
+\begin{aligned}
+&(I_2-ZG^{-1}Z^*)(I_2+ZZ^*)\\
+&=I_2+ZZ^*-ZG^{-1}Z^*-ZG^{-1}(Z^*Z)Z^*\\
+&=I_2+Z\bigl[I_2-G^{-1}-G^{-1}(Z^*Z)\bigr]Z^*\\
+&=I_2+Z\bigl[I_2-G^{-1}(I_2+Z^*Z)\bigr]Z^*\\
+&=I_2.
+\end{aligned}
+$$
+
+그러므로
+
+$$
+\dot V^*(I_4-P)\dot V
+=D^*H^{-1}D.
+$$
+
+전부 조립하면 projector에서 직접 얻은 FS 길이는
+
+$$
+\boxed{
+g^{\mathrm{FS}}_Z(D,D)
+=\frac12\operatorname{tr}(\dot P^2)
+=\operatorname{tr}\!\left[
+(I_2+Z^*Z)^{-1}D^*
+(I_2+ZZ^*)^{-1}D
+\right].
+}
+$$
+
+$Z$가 §5의 한 칸짜리 행렬이면 이 식의 오른쪽은 정확히 $|\dot z|^2/(1+|z|^2)^2$로 줄어든다.
+
+---
+
+## §7. 같은 식이 차트·Plücker·Reeb 계산에서 다시 나온다
+
+이제 projector 계산과 다른 계산을 독립적으로 진행한 뒤 마지막에만 만난다.
+
+### 7.1 $\log\det(I_2+Z^*Z)$를 두 번 미분한다
+
+$$
+\Phi(Z):=\log\det G,
+\qquad
+G=I_2+Z^*Z
+$$
+
+라고 하자. 복소방향 $E$로 $Z$만 미분하면
+
+$$
+\partial_E\Phi
+=\operatorname{tr}(G^{-1}Z^*E).
+$$
+
+이제 독립된 방향 $D$로 $Z^*$ 쪽을 미분한다. 이때
+
+$$
+\bar\partial_DG=D^*Z,
+\qquad
+\bar\partial_D(G^{-1})=-G^{-1}D^*ZG^{-1},
+\qquad
+\bar\partial_DZ^*=D^*.
+$$
+
+곱미분하면
+
+$$
+\begin{aligned}
+\bar\partial_D\partial_E\Phi
+&=\operatorname{tr}\!\left[
+-G^{-1}D^*ZG^{-1}Z^*E+G^{-1}D^*E
+\right]\\
+&=\operatorname{tr}\!\left[
+G^{-1}D^*(I_2-ZG^{-1}Z^*)E
+\right]\\
+&=\operatorname{tr}\!\left[
+G^{-1}D^*H^{-1}E
+\right].
+\end{aligned}
+$$
+
+특히 $E=D$로 두면 §6의 projector 계산과 정확히 같다:
+
+$$
+\boxed{
+\frac12\operatorname{tr}(\dot P^2)
+=\bar\partial_D\partial_D\log\det(I_2+Z^*Z).
+}
+$$
+
+projector trace와 켈러 퍼텐셜은 서로 다른 metric을 우연히 정의한 것이 아니다. 같은 길이제곱을 두 경로로 계산한 것이다.
+
+### 7.2 왜 이것이 $\mathbb CP^5$에서 당긴 FS metric인가
+
+$V$의 두 열을 $v,w$라고 하면 Plücker 벡터는
+
+$$
+q(Z)=v\wedge w\in\mathbb C^6.
+$$
+
+그 여섯 성분은 $V$의 $2\times2$ 소행렬식들이다. Cauchy--Binet 공식을 이 $4\times2$ 행렬에 적용하면
+
+$$
+\boxed{
+\|q(Z)\|^2
+=\sum_{i<j}|p_{ij}(Z)|^2
+=\det(V^*V)
+=\det(I_2+Z^*Z).
+}
+$$
+
+$\mathbb CP^5$의 FS 퍼텐셜은 동차좌표 $q$에서 $\log\|q\|^2$다. Plücker 좌표를 대입하면
+
+$$
+\log\|q(Z)\|^2
+=\log\det(I_2+Z^*Z)
+=\Phi(Z).
+$$
+
+따라서
+
+$$
+\boxed{
+g^{\mathrm{FS}}_{\mathrm{projector}}
+=\text{Plücker 임베딩으로 당긴 }g^{\mathrm{FS}}_{\mathbb CP^5}.
+}
+$$
+
+여기서 $\mathbb CP^5$가 metric을 새로 만들어 준 것이 아니다. projector에서 먼저 계산한 metric의 차트식이 $\log\det(I_2+Z^*Z)$였고, Cauchy--Binet가 그 같은 스칼라를 $\|q\|^2$라고 다시 읽어 준 것이다.
+
+§5의 한 칸 예시에서는 이 연결이 눈에 바로 보인다. 그때
+
+$$
+q(z)=(1,z,0,0,0,0),
+\qquad
+\|q(z)\|^2=1+|z|^2.
+$$
+
+즉 $Gr(2,4)$ 안의 그 CP¹은 Plücker 임베딩 뒤에서도 $[1:z:0:\cdots:0]$이라는 평범한 projective line이다.
+
+### 7.3 metric의 옆에 있던 2-form은 어디서 다시 만나는가
+
+방금 얻은 복소값 쌍선형식을
+
+$$
+h_Z(D,E)
+:=\operatorname{tr}\!\left[
+G^{-1}D^*H^{-1}E
+\right]
+$$
+
+라고 쓰자. 실접벡터 $D,E$에 대해
+
+$$
+g_{\mathrm{FS}}(D,E)=\operatorname{Re}h_Z(D,E),
+\qquad
+\omega(D,E)=\operatorname{Im}h_Z(D,E).
+$$
+
+한 칸 예시에서는
+
+$$
+h=\frac{d\bar z\otimes dz}{S^2}.
+$$
+
+$z=x+iy$를 넣고 서로 다른 두 방향을 실제로 대입하면
+
+$$
+h(\partial_x,\partial_x)=\frac1{S^2},
+\qquad
+h(\partial_y,\partial_y)=\frac1{S^2},
+\qquad
+h(\partial_x,\partial_y)=\frac{i}{S^2}.
+$$
+
+따라서
+
+$$
+g_{\mathrm{FS}}
+=\frac{dx^2+dy^2}{S^2},
+\qquad
+\omega
+=\frac{dx\wedge dy}{S^2}
+=\frac{i}{2}\frac{dz\wedge d\bar z}{S^2}.
+$$
+
+Reeb 계산은 별도의 경로에서, 단위 Plücker 벡터 $s=q/\sqrt{\|q\|^2}$와 $\alpha=-is^*ds$를 사용했다. 이 한 칸에서 국소 1-form은
+
+$$
+A=s^*\alpha
+=\frac{i}{2}\frac{z\,d\bar z-\bar z\,dz}{S}.
+$$
+
+외미분하면
+
+$$
+dA
+=i\frac{dz\wedge d\bar z}{S^2}
+=2\frac{dx\wedge dy}{S^2}.
+$$
+
+그러므로 두 독립 계산이 마지막에
+
+$$
+\boxed{
+\frac12dA=\omega=\operatorname{Im}h,
+\qquad
+g_{\mathrm{FS}}=\operatorname{Re}h
+}
+$$
+
+로 만난다. 외미분 $d$가 metric을 만든 것도 아니고, 허수부가 trace 계산 중 사라진 것도 아니다. projector trace는 $h$의 실수부를 길이로 읽었고, Reeb 쪽의 $dA/2$는 같은 $h$의 허수부를 넓이로 읽었다.
+
+---
+
+## §8. trace 식은 출발점이었다
+
+이제 다음 네 줄은 따로 놓인 사실이 아니다:
+
+$$
+\boxed{
+\begin{aligned}
+g_P^{\mathrm{FS}}(A,C)
+&=\frac12\operatorname{tr}(AC),\\
+g_Z^{\mathrm{FS}}(D,E)
+&=\operatorname{Re}\operatorname{tr}\!\left[
+(I_2+Z^*Z)^{-1}D^*(I_2+ZZ^*)^{-1}E
+\right],\\
+g_{u\bar v}^{\mathrm{FS}}
+&=\partial_u\partial_{\bar v}log\det(I_2+Z^*Z),\\
+g^{\mathrm{FS}}_{Gr(2,4)}
+&=\text{Plücker로 당긴 }g^{\mathrm{FS}}_{\mathbb CP^5}.
+\end{aligned}
+}
+$$
+
+첫 줄은 projector들의 모임을 Hermitian 행렬공간 안에서 본 계산이고, 둘째 줄은 같은 계산을 $(I_2,Z)$ 차트로 쓴 것이며, 셋째 줄은 그 계수를 한 스칼라 퍼텐셜로 접은 것이고, 넷째 줄은 Cauchy--Binet로 그 스칼라가 Plücker 노름임을 알아본 것이다.
+
+QFIM 정규화가 필요하면 이 전체 metric에 마지막으로 $4$를 곱한다:
+
+$$
+\boxed{
+g^{\mathrm{QFI}}=4g^{\mathrm{FS}},
+\qquad
 g_P^{\mathrm{QFI}}(A,C)=2\operatorname{tr}(AC).
 }
 $$
 
-$\mathbb CP^1$을 반지름 $\tfrac12$인 구면으로 보는 표준 Fubini–Study 정규화는 이것의 $\tfrac14$이다. 따라서 $\mathbb CP^5$의 FS metric과 비교할 때 사용할 projector metric은
-
-$$
-\boxed{
-g_P^{\mathrm{FS}}(A,C)
-=\frac14g_P^{\mathrm{QFI}}(A,C)
-=\frac12\operatorname{tr}(AC).
-}
-$$
-
-우리의 실제 곡선에서는
-
-$$
-g^{\mathrm{QFI}}(\dot P,\dot P)=4,
-\qquad
-g^{\mathrm{FS}}(\dot P,\dot P)=1.
-$$
-
-이 노트가 한 일은 $\mathbb CP^5$에서 metric을 빌려오는 것이 아니다. rank-$2$ projector들의 모임을 Hermitian 행렬공간 안에 놓고, CP¹ 손노트와 같은 trace 계산으로 metric을 **직접** 준 것이다. 이후 Plücker 임베딩으로 당긴 FS metric과 비교할 때는 위 FS projector 식을 목표로 놓고 양쪽을 따로 계산하면 된다.
+계수 $4$는 rank가 $2$라서 생긴 것이 아니라, CP¹ 손노트에서 단위 Bloch 구면을 택했던 정규화를 그대로 유지한 결과다.
