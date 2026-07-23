@@ -48,6 +48,7 @@
 <p>$$\begin{pmatrix}1&amp;0&amp;a&amp;b\\0&amp;1&amp;c&amp;d\end{pmatrix} = (I\mid Z)$$</p>
 <p>를 얻는다. <strong>노트의 차트 = ℂP¹의 $(1,z)$ 차트의 2행 버전.</strong> $z$ 하나가 $Z\in\mathbb{C}^{2\times2}$ 하나로 승격됐을 뿐이다.</p>
 <p><strong>손계산 0.</strong> $\begin{pmatrix}1&amp;2&amp;0&amp;1\\0&amp;1&amp;1&amp;0\end{pmatrix}$의 행공간을 가우스 소거로 $(I\mid Z)$꼴로 만들어 $Z$를 구하라. (2분. "차트가 뭘 좌표로 쓰는지"가 손에 잡힌다.)</p>
+<p><strong>여기서 한 번 더 밀어야 다른 차트가 생각난다.</strong> $A(t)=(tI\mid I)$의 행공간은 $t=0$에서도 멀쩡하지만, 앞 블록을 $I$로 만든 좌표 $(I\mid t^{-1}I)$만 폭발한다. 뒤 블록으로 읽으면 $(tI\mid I)$라 그대로 이어진다. 또 $\operatorname{span}(e_1,e_3)$은 앞·뒤 블록이 모두 특이하고 혼합 minor $p_{13}$만 살아 있다. 이 두 실물이 "0이 아닌 아무 $p_{ij}$로 나눈다"와 여섯 차트를 강제한다. 자세한 곡선·RREF 자유도·겹침 계산은 <a href="#plucker-gaussian-chart">6a §1.2a</a>에 이어진다.</p>
 <hr />
 <h3>착륙 1 — 플뤼커 임베딩: 왜 하필 소행렬식 6개인가</h3>
 <p><strong>노트가 던진 것.</strong> "플뤼커 소행렬식 6개는 전부 다항식이다: $p_{12}=1,\ p_{13}=c,\dots$" — 소행렬식이 왜 좌표가 되는지 설명 없음.</p>
@@ -55,6 +56,7 @@
 <p><strong>관찰 (이게 전부다).</strong> 2×4 행렬 $A$의 행에 $g\in GL(2)$를 곱하면, $A$의 <strong>2×2 소행렬식들은 전부 같은 스칼라 $\det g$로 곱해진다</strong>:</p>
 <p>$$p_{ij}(gA) = \det(g)\,p_{ij}(A).$$</p>
 <p>성분은 엉키는데 소행렬식은 "다 같이" 변한다. 그러니 소행렬식 6개의 <strong>비율</strong> $[p_{12}:p_{13}:\cdots:p_{34}]$는 평면만의 함수다 → $\mathbb{CP}^5$의 점. 이게 플뤼커 임베딩이고, 소행렬식이 좌표인 이유의 전부다.</p>
+<p><strong>여섯 차트와 여기서 만난다.</strong> $p_{ij}\ne0$은 곧 $i,j$열을 $I$로 만들 수 있다는 뜻이고, $[p]$의 $p_{ij}\ne0$ 아핀 차트에서 그 성분으로 전부 나누는 일이 바로 그 가우스 소거다. 즉 $[v\wedge w]$는 여섯 차트를 따로 기억하는 것이 아니라 <strong>여섯 정규화 가능성을 한 번에 포장한 전역 기록</strong>이다. 더구나 $W=\{x:x\wedge(v\wedge w)=0\}$이므로 이 기록에서 평면을 그대로 복원한다 — 프로젝트 Plücker 좌표가 다르면 평면도 다르다. 성분 복원과 한 줄 증명은 <a href="#plucker-wedge-coordinates">6a §2.5·§3.2</a>에서 푼다.</p>
 <p><strong>이미 아는 물건이다.</strong> $\mathbb{R}^3$에서 외적 $v\times w$의 성분이 정확히 2×2 소행렬식들이고, $v\times w$가 "평면을 (스칼라배 모호성만 남기고) 지정"하는 것과 같은 현상. 일반화가 쐐기곱: $v\wedge w\in\Lambda^2\mathbb{C}^4\cong\mathbb{C}^6$, 기저 $e_i\wedge e_j$에 대한 성분이 $p_{ij}$.</p>
 <p><strong>클라인 관계도 공짜.</strong> $(v\wedge w)\wedge(v\wedge w)=0$ (같은 벡터가 두 번 들어가므로)을 성분으로 쓰면 그대로</p>
 <p>$$p_{12}p_{34}-p_{13}p_{24}+p_{14}p_{23}=0.$$</p>
@@ -241,6 +243,24 @@
 <p>차트가 몇 장 필요한가도 ℂP¹과 평행하다. ℂP¹은 $\psi_0\neq0$ 차트와 $\psi_1\neq0$ 차트 2장 $=\binom{2}{1}$. 여기는 "어느 두 열이 가역 블록이 되나"로 $\binom{4}{2}=6$장. (이 6이라는 수를 기억해 두라 — §3에서 다시 만난다.)</p>
 <p><strong>손계산 1.</strong> $A=\begin{pmatrix}1&amp;2&amp;0&amp;1\\0&amp;1&amp;1&amp;0\end{pmatrix}$의 행공간을 $(I\mid Z)$꼴로 정규화해 $Z$를 구하라.
 <em>풀이 확인: $A_{[12]}=\begin{pmatrix}1&amp;2\\0&amp;1\end{pmatrix}$, $A_{[12]}^{-1}=\begin{pmatrix}1&amp;-2\\0&amp;1\end{pmatrix}$, 곱하면 $Z=\begin{pmatrix}-2&amp;1\\1&amp;0\end{pmatrix}$.</em></p>
+<h4>1.2a 다른 차트는 어디서 생각나는가 — 평면은 멀쩡한데 좌표만 터진다</h4>
+<p>"어느 두 열이 가역이면 된다"를 처음부터 아는 척하지 말고, 한 차트로 평면을 실제로 따라가 본다. ℂP¹에서</p>
+<p>$$\psi(t)=\begin{pmatrix}t\\1\end{pmatrix}$$</p>
+<p>는 $t=0$에서도 멀쩡한 비영벡터다. 그런데 첫 성분을 1로 고집하면 $t\ne0$에서 $(1,1/t)$가 되어 $t\to0$에 좌표만 폭발한다. 점이 죽은 것이 아니라 <strong>"첫 성분으로 나눈다"는 규칙이 죽었다.</strong> 둘째 성분으로 나누어 $(t,1)$로 쓰면 $t=0$까지 이어지고, 겹치는 곳에서 두 이름은 $z'=1/z$로 바뀐다. 두 번째 차트는 정의에서 하늘로 떨어진 것이 아니라 이 폭발을 피하려다 생겼다.</p>
+<p>Gr(2,4)에서도 같은 곡선을 쓴다:</p>
+<p>$$A(t)=\begin{pmatrix}t&amp;0&amp;1&amp;0\\0&amp;t&amp;0&amp;1\end{pmatrix}=(tI\mid I),
+\qquad W(t)=\operatorname{rowspan}A(t).$$</p>
+<p>$t=0$에서도 $W(0)=\operatorname{span}(e_3,e_4)$는 정상적인 2-평면이다. 하지만 $t\ne0$에서 앞 블록을 $I$로 만들면</p>
+<p>$$t^{-1}A(t)=(I\mid t^{-1}I)$$</p>
+<p>라서 좌표가 터진다. 뒤 블록을 $I$로 두면 원래의 $(tI\mid I)$가 $t=0$까지 그대로 이어진다. 겹치는 $t\ne0$에서 $Z=t^{-1}I$, $Z'=tI$, 즉 $Z'=Z^{-1}$. <strong>평면은 멀쩡한데 한 소행렬식이 0이 되는 순간, 살아 있는 다른 소행렬식으로 나누라는 요구가 강제로 생긴다.</strong></p>
+<p>앞·뒤 두 블록만으로도 충분하지 않다. 예를 들어</p>
+<p>$$\begin{pmatrix}1&amp;0&amp;0&amp;0\\0&amp;0&amp;1&amp;0\end{pmatrix}$$</p>
+<p>은 앞 블록도 뒤 블록도 특이하지만 1·3번 열 블록은 $I$다. 따라서 "앞이 죽으면 뒤"가 아니라 <strong>0이 아닌 아무 $2\times2$ 소행렬식을 골라 그 블록을 $I$로 만든다</strong>가 맞다. 두 열을 고르는 방법은 $\binom42=6$개이고, 이것이 여섯 열린 차트</p>
+<p>$$U_{ij}=\{W:p_{ij}(W)\ne0\}$$</p>
+<p>를 만든다. 여러 $p_{ij}$가 동시에 0이 아니면 같은 평면에 여러 정규화가 동시에 가능하다 — 그것이 차트의 겹침이다.</p>
+<p>여기서 strict RREF와도 갈라진다. $A(0)$의 RREF 피벗은 $(3,4)$이고 자유변수가 0개지만, 그 주변은</p>
+<p>$$\begin{pmatrix}a&amp;b&amp;1&amp;0\\c&amp;d&amp;0&amp;1\end{pmatrix}$$</p>
+<p>의 네 변수로 움직인다. $a,b,c,d$를 켜는 순간 RREF 피벗형이 바뀔 뿐이다. RREF는 평면을 서로 안 겹치는 층으로 <strong>분류</strong>하고, $U_{ij}$는 한 평면의 주변을 계속 <strong>따라가는 좌표</strong>다.</p>
 <h4>1.3 사영자와의 다리 (걸음 2 접속)</h4>
 <p>걸음 2의 $P=vv^*/\|v\|^2$의 rank-2 버전은</p>
 <p>$$P_W \;=\; A^\dagger (AA^\dagger)^{-1} A \qquad (\text{rank-2 직교사영자},\; P_W^2=P_W=P_W^\dagger).$$</p>
@@ -276,6 +296,15 @@
 <p><strong>손계산 3.</strong> 위 전개를 손으로 한 번. 그다음 $v\wedge w$ 성분 공식을 $v=(1,0,a,b)$, $w=(0,1,c,d)$로 전개해서</p>
 <p>$$p_{12}=1,\quad p_{13}=c,\quad p_{14}=d,\quad p_{23}=-a,\quad p_{24}=-b,\quad p_{34}=ad-bc$$</p>
 <p>를 얻어라. <em>(주의: $p_{23}=v_2w_3-v_3w_2 = 0\cdot c - a\cdot 1 = -a$ — 부호가 여기서 나온다.)</em> 노트 §2의 첫 식이 이제 "정의에서 나온 것"이다. <code>verify6_plucker.py</code> [01]이 같은 걸 기계로 한다.</p>
+<h4>2.5 여섯 차트를 한꺼번에 싸는 봉투가 $[v\wedge w]$다</h4>
+<p>§1.2a에서 $p_{ij}$는 "그 두 열로 가우스 정규화할 수 있는가"를 검사하는 여섯 스위치였다. §2.4에서 보니 그 여섯 수는 우연히 모인 목록이 아니라 한 이중벡터</p>
+<p>$$p=v\wedge w=\sum_{i&lt;j}p_{ij}e_i\wedge e_j$$</p>
+<p>의 여섯 성분이다. 기저를 바꾸면 $p\mapsto(\det g)p$이므로, 스케일을 버린 $[p]\in\mathbb{CP}^5$는 <strong>어느 차트를 고르기 전의 평면 정보를 한 봉투에 담는다.</strong></p>
+<p>$\mathbb{CP}^5$의 표준 아핀 차트 $\{p_{ij}\ne0\}$를 플뤼커 사상으로 되당기면 정확히</p>
+<p>$$\varphi^{-1}\big(\{[p]:p_{ij}\ne0\}\big)=U_{ij}$$</p>
+<p>다. 그리고 $U_{ij}$에서 하는 가우스 소거는 플뤼커 쪽에서 모든 성분을 $p_{ij}$로 나누어 그 좌표를 1로 만드는 동작이다. 따라서</p>
+<p>$$\boxed{\text{여섯 가우스 차트}=\text{한 }[v\wedge w]\text{의 여섯 표준 아핀 읽기}}$$</p>
+<p>다. 차트를 나중에 억지로 붙여 Plücker를 만드는 것이 아니다. Plücker 벡터가 여섯 정규화 가능성을 처음부터 동시에 기록하고 있었고, 차트 하나를 고른다는 것은 그중 한 성분으로 나누어 봉투를 여는 것이다.</p>
 <hr />
 <h3>§3. 클라인 관계 — 이차초곡면은 어디서 오나</h3>
 <p><a id="plucker-reconstruction"></a></p>
@@ -299,6 +328,11 @@
 <p>이고, 클라인 관계 $p_{12}p_{34}=p_{13}p_{24}-p_{14}p_{23}$ (여기서 $p_{12}=1$)가 정확히 이것이 $p_{34}$임을 보장한다. <strong>즉 관계식을 만족하는 점은 전부 평면 하나로 복원된다</strong> (다른 $p_{ij}\neq0$ 경우도 첨자를 바꾸면 동일). 그러므로</p>
 <p>$$\varphi\big(\mathrm{Gr}(2,4)\big) \;=\; \{\,[p]\in\mathbb{CP}^5 \;:\; p_{12}p_{34}-p_{13}p_{24}+p_{14}p_{23}=0\,\} \;=\; \text{클라인 이차초곡면}.$$</p>
 <p><strong>Gr(2,4)는 ℂP⁵ 안에서 이차식 하나로 잘리는 초곡면이다.</strong> 차원도 맞는다: $5-1=4$ ✓. 그리고 단사성도 이 복원 논증이 준다 — $p$에서 평면이 유일하게 복원되므로 $\varphi$는 임베딩.</p>
+<p>단사성은 쐐기곱으로 더 짧게 봉인할 수 있다. $p=v\wedge w\ne0$에 대해</p>
+<p>$$\boxed{\;W=\operatorname{span}(v,w)=\{x\in\mathbb C^4:x\wedge p=0\}\;}$$</p>
+<p>이다. $x\in W$이면 같은 $v$ 또는 $w$가 두 번 나와 $x\wedge v\wedge w=0$. 반대로 $x\notin W$이면 $x,v,w$가 독립이므로 그 3중 쐐기는 0이 아니다. 따라서 $[p]$만 주어져도 위 영공간을 풀어 원래 평면을 되찾는다. $p$를 $\lambda p$로 바꿔도 영공간은 같으므로 프로젝트 스케일은 정확히 기저 선택만 지운다. 결론:</p>
+<p>$$[p]=[q]\iff \{x:x\wedge p=0\}=\{x:x\wedge q=0\}\iff W_p=W_q.$$</p>
+<p>즉 서로 스칼라배가 아닌 두 Plücker 벡터는 반드시 서로 다른 평면을 준다. §3.2의 성분 복원은 이 한 줄을 $p_{12}\ne0$ 차트에서 실제 가우스 소거로 푼 판이다.</p>
 <p><em>(6c에서 이 "이차식 하나" (차수 2)가 부피 $\pi^4/12$의 2로 돌아온다.)</em></p>
 <p>여기까지가 이번 우회로의 선형대수 부분이다. metric과 다시 만나려면 <a href="#plucker-cauchy-binet">6b §2의 Cauchy--Binet 계산</a>으로 가고, 원래 질문은 <a href="Projector로_Gr24에_metric주기.html#projector-why-plucker">Projector 노트 §7.2</a>에서 다시 받는다.</p>
 <hr />
