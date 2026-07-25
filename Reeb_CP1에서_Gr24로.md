@@ -2067,3 +2067,130 @@ $$\boxed{\ A_{13}=A_{12}-d\vartheta\ }.$$
 $$dA_{13}=dA_{12}-d(d\vartheta)=dA_{12}.$$
 
 $A$가 차트마다 달라지는 양은 Reeb 원 위에서 절단을 얼마나 돌려 골랐는지를 기록한다. $dA$가 그 차이를 잊기 때문에 아래층 $\mathrm{Gr}(2,4)$의 전역 2-형식이 된다. 이 계산을 이름으로 부르면 $S^1\hookrightarrow\Sigma^9\to\mathrm{Gr}(2,4)$의 접속과 곡률이고, 이 특별한 원다발을 Boothby–Wang 다발이라고 한다.
+
+---
+
+<a id="reeb-u2-curvature"></a>
+
+## §10. 위상 하나만이 아니었다 — $U(2)$ 접속의 곡률에서 $\Omega$가 나온다
+
+**검산.** `verify_reeb_curvature.py` — 이 절의 전 주장 **11/11 통과**.
+
+§9까지 이 글이 탄 원은 하나였다: Reeb 원, 즉 Plücker 위상. 그런데 [Projector 노트 §9](Projector로_Gr24에_metric주기.html#projector-u2-fiber)에서 확인했듯 프레임 층의 게이지는 원이 아니라 $U(2)$ 전체이고, 접속도 $A$ 하나가 아니라 $\mathfrak u(2)$값
+
+$$
+\Theta=\tilde V^*d\tilde V,
+\qquad
+\tilde V=V(V^*V)^{-1/2}
+$$
+
+가 있다. 이 절에서는 **$\Theta$의 곡률을 곱미분으로 직접 계산**해서, 이 글 머리의 정규화 박스($\pi^*\Omega=d\alpha$, $\omega=\tfrac12\Omega$)가 그 곡률의 자취임을 보인다. 그리고 자취 밖에 — $k=1$에서는 아예 없던 — 곡률이 한 층 더 있음을 본다.
+
+### 10.1 구조방정식 — 곱미분 두 줄
+
+$\tilde V^*\tilde V=I_2$인 프레임에서 미분을 수직·수평으로 가른다 (Projector 노트 §9.2):
+
+$$
+d\tilde V=\tilde V\,\Theta+\eta,
+\qquad
+\eta:=(I_4-P)\,d\tilde V,
+\qquad
+\tilde V^*\eta=0.
+$$
+
+$\Theta$를 한 번 더 미분한다. $d(\tilde V^*d\tilde V)=d\tilde V^*\wedge d\tilde V$ (라이프니츠와 $d^2=0$)이고, 위 분해와 $\Theta^*=-\Theta$를 넣으면
+
+$$
+\begin{aligned}
+d\Theta
+&=\bigl(-\Theta\tilde V^*+\eta^*\bigr)\wedge\bigl(\tilde V\Theta+\eta\bigr)\\
+&=-\Theta\underbrace{(\tilde V^*\tilde V)}_{I_2}\wedge\;\Theta
+-\Theta\wedge\underbrace{(\tilde V^*\eta)}_{0}
++\underbrace{(\eta^*\tilde V)}_{0}\wedge\;\Theta
++\eta^*\wedge\eta\\
+&=-\Theta\wedge\Theta+\eta^*\wedge\eta.
+\end{aligned}
+$$
+
+$$
+\boxed{\ \mathcal F:=d\Theta+\Theta\wedge\Theta=\eta^*\wedge\eta.\ }
+$$
+
+넷 중 둘이 $\tilde V^*\eta=0$ 하나로 죽는다 — Reeb 문서에서 $(1-P)(i\psi)=0$이 하던 일과 같은 자리다. 이 등식의 이름이 Cartan 구조방정식이지만, 계산은 곱미분 두 줄이 전부다.
+
+절단을 $\tilde V\mapsto\tilde VU$로 바꾸면 $\eta\mapsto\eta U$이므로 $\mathcal F\mapsto U^*\mathcal F U$ — 곡률은 게이지에 **공변**이고, 그 자취는 **불변**이다. §9에서 $A$는 달라지고 $dA$는 그대로였던 것과 같은 자리의 문장이다.
+
+### 10.2 수평 페어링이 §7.3의 에르미트형식이다
+
+$\eta$를 차트로 평가하면 ($V=(I_2;Z)$, $G=I_2+Z^*Z$, $H=I_2+ZZ^*$, 방향 $\dot Z=D$)
+
+$$
+\eta(D)=(I_4-P)\begin{pmatrix}0\\D\end{pmatrix}G^{-1/2}
+\qquad\Longrightarrow\qquad
+\operatorname{tr}\bigl[\eta(D)^*\eta(E)\bigr]
+=\operatorname{tr}\bigl[G^{-1}D^*H^{-1}E\bigr]
+=h_Z(D,E).
+$$
+
+**Projector 노트 §7.3의 $h_Z$가 수평 성분들의 Frobenius 페어링이었다.** 거기서 $g_{\mathrm{FS}}=\operatorname{Re}h_Z$, $\omega=\operatorname{Im}h_Z$라 읽었던 두 얼굴이, 이제 한 다발 안에서 자리를 얻는다: 실부는 수평의 길이(§6.2의 수평 lift가 재던 것), 허부는 —
+
+### 10.3 자취 층 — $\Omega$는 곡률의 자취다
+
+$\mathcal F=\eta^*\wedge\eta$를 두 방향에 먹이고 자취를 취한다:
+
+$$
+\operatorname{tr}\mathcal F(D,E)
+=\operatorname{tr}\bigl[\eta(D)^*\eta(E)\bigr]-\operatorname{tr}\bigl[\eta(E)^*\eta(D)\bigr]
+=h_Z(D,E)-\overline{h_Z(D,E)}
+=2i\operatorname{Im}h_Z(D,E).
+$$
+
+한편 §6의 단위 절단 $s$는 정규화 프레임의 두 열을 쐐기로 묶은 것($s=\tilde v_1\wedge\tilde v_2$)이고, 행렬식 방향의 미분이 자취로 접히므로
+
+$$
+s^\dagger ds=\operatorname{tr}\Theta
+\qquad\Longrightarrow\qquad
+A=-i\operatorname{tr}\Theta.
+$$
+
+$\operatorname{tr}(\Theta\wedge\Theta)=0$ (1-형식의 쌍이 첨자 교환으로 소거)이므로
+
+$$
+\boxed{\ dA=-i\,\operatorname{tr}\mathcal F=2\operatorname{Im}h_Z=2\,\omega=\Omega.\ }
+$$
+
+**이 글 머리에서 규약으로 놓았던 $\omega=\tfrac12\Omega$ — 레포의 두 번째 factor 지뢰 $d\alpha=2\,dA_{FS}$ — 가 곡률 등식에서 유도되었다.** $\tfrac12$의 출처는 $\operatorname{tr}\mathcal F=2i\operatorname{Im}h_Z$의 $2i$다: 에르미트 페어링의 반대칭화가 허부를 두 번 세기 때문이고, $\mathbb{CP}^1$로 내리면 ($1\times1$: $\Theta=iA$, $\Theta\wedge\Theta=0$)
+
+$$
+\mathcal F=d\Theta=-\frac{dz\wedge d\bar z}{K^2},
+\qquad
+-\frac i2\operatorname{tr}\mathcal F=\frac i2\,\partial\bar\partial\log K=\omega
+$$
+
+로 §1의 계산과 문자 그대로 만난다.
+
+### 10.4 자취 밖 — $k=1$에 없던 곡률
+
+$\mathcal F$는 $\mathfrak u(2)$값이고 자취는 그중 한 방향이다. 나머지 무자취($\mathfrak{su}(2)$) 부분은 $Z=0$에서 바로 보인다. 그 점에서 $G=H=I_2$라
+
+$$
+\mathcal F\big|_{0}(D,E)=D^*E-E^*D,
+$$
+
+예컨대 $D=E_{11}$, $E=E_{12}$를 넣으면
+
+$$
+\mathcal F\big|_0(E_{11},E_{12})
+=E_{11}E_{12}-E_{21}E_{11}
+=E_{12}-E_{21}
+$$
+
+— 반에르미트, **무자취, 0이 아니다.** $dA$는 이 성분을 전혀 보지 못한다(자취가 0이므로). $k=1$에서는 이 층 자체가 없었다: $\mathfrak{su}(1)=\{0\}$이라 $1\times1$ 접속은 자취가 전부였고, 그래서 $\mathbb{CP}^1$에서는 "곡률 = $dA$ = $2\omega$"로 이야기가 끝났던 것이다. $\mathrm{Gr}(2,4)$에서 곡률은 세 층으로 갈라진다:
+
+| 층 | 값 | 이 글에서의 정체 |
+|---|---|---|
+| $\operatorname{tr}\mathcal F$ | $2i\,\omega$ | Reeb 원($\Sigma^9\to\mathrm{Gr}$)의 곡률 — §9의 $dA$, 머리의 $\Omega$ |
+| 무자취 $\mathcal F$ | $\mathfrak{su}(2)$값, $\ne0$ | $V_2(\mathbb C^4)\to\Sigma^9$ 층($SU(2)$)의 곡률 — $k=1$엔 없음 |
+| $\operatorname{Re}$ 페어링 | $g_{\mathrm{FS}}$ | 같은 수평 페어링 $h_Z$의 대칭부 (§6.2·§8) |
+
+한 문장으로: **$g$와 $\omega$는 수평 페어링 $h_Z=\operatorname{tr}[\eta^*(\cdot)\eta(\cdot)]$의 실부와 허부이고, $\omega$는 정확히 $U(2)$ 곡률의 자취 $-\tfrac i2\operatorname{tr}\mathcal F$이며, 자취 밖에는 $k=1$이 보여줄 수 없던 $\mathfrak{su}(2)$ 곡률이 실제로 서 있다.** 전수조사 노트의 표어 — 갈라짐의 뿌리는 특이값이 하나뿐이었다는 것 — 가 곡률에서도 반복된다.

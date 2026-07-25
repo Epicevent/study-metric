@@ -1197,3 +1197,5 @@ $$
 | 올 $=U(1)$ 한 층 | 올 $=U(2)=SU(2)\cdot U(1)$, $\det$로 두 층 |
 
 한 문장으로: **정규화는 이 주다발의 국소 절단을 고르는 행위이고($G^{-1/2}$는 polar 게이지), 남는 $U(2)$는 지울 중복이 아니라 $e^{i\theta}$가 자란 올이며, metric이 게이지에 불변인 것은 그것이 Stiefel에서 Grassmannian으로 내려간다는 뜻이다.**
+
+$\Theta$의 **곡률** $d\Theta+\Theta\wedge\Theta$가 어디로 떨어지는지는 [Reeb 노트 §10](Reeb_CP1에서_Gr24로.html#reeb-u2-curvature)에서 계산한다 — 자취가 $2i\,\omega$ (머리의 $\Omega$, 즉 $d\alpha=2\omega$ 지뢰의 유도), 자취 밖에 $k=1$엔 없던 $\mathfrak{su}(2)$ 곡률.
