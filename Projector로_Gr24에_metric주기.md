@@ -2,9 +2,9 @@
 
 > **질문 하나.** $4\times2$ 행렬 $X$가 나타내는 평면을 $P=XX^*$로 기억하기로 했다. 그렇다면 이런 rank-$2$ projector들의 모임에 길이는 어떻게 주는가?
 
-**읽는 순서와 범위.** §0부터 §6까지가 metric을 만드는 본선이다. §7은 그 결과를 다른 계산과 대조하며, Plücker와 $\mathbb{CP}^5$의 필요성은 [§7.2](#projector-why-plucker)에서만 따로 묻는다. $4\times4$ 성분표, Ricci, 부피, 측지거리는 다루지 않는다.
+**읽는 순서와 범위.** §0부터 §6까지가 metric을 만드는 본선이다. §7은 그 결과를 다른 계산과 대조하며, Plücker와 $\mathbb{CP}^5$의 필요성은 [§7.2](#projector-why-plucker)에서만 따로 묻는다. §9는 정규화가 남긴 $U(2)$ 자유도가 잉여가 아니라 **올(fiber)**임을 확인하고 — $e^{i\theta}$의 올바른 일반화 — Reeb 계산·걸음 6c의 다발 그림과 합류한다. $4\times4$ 성분표, Ricci, 부피, 측지거리는 다루지 않는다.
 
-**검산.** `verify_projector_gr24_metric.py` — 본문의 행렬곱·미분·trace·계수 **32/32 통과**.
+**검산.** `verify_projector_gr24_metric.py` — 본문 §0–§7의 행렬곱·미분·trace·계수 **32/32 통과**. `verify_projector_u2_fiber.py` — §9의 수직/수평 분해·접속·다발 합류 **11/11 통과**.
 
 ---
 
@@ -1099,3 +1099,101 @@ g_P^{\mathrm{QFI}}(A,C)=2\operatorname{tr}(AC).
 $$
 
 계수 $4$는 rank가 $2$라서 생긴 것이 아니라, CP¹ 손노트에서 단위 Bloch 구면을 택했던 정규화를 그대로 유지한 결과다.
+
+---
+
+<a id="projector-u2-fiber"></a>
+
+## §9. 정규화가 남긴 자유도는 잉여가 아니라 올이다 — $e^{i\theta}$에서 $U(2)$로
+
+**검산.** `verify_projector_u2_fiber.py` — 이 절의 전 주장 **11/11 통과**.
+
+§6의 계산은 프레임을 정규화($\tilde V:=VG^{-1/2}$, $\tilde V^*\tilde V=I_2$)한 뒤에도 자유도를 남긴다:
+
+$$
+\tilde V\longmapsto\tilde V U,
+\qquad U\in U(2).
+$$
+
+이 자유를 "값은 어차피 같으니 지워도 되는 중복"으로 읽으면 §0을 거꾸로 읽는 것이다. CP¹에서 $\psi$를 정규화해도 $e^{i\theta}$가 남았고, 그 $e^{i\theta}$는 결함이 아니라 **Hopf 다발 $S^3\to\mathbb{CP}^1$의 올**이었다 — $\alpha$가 그 올의 접속이었고, $\int\omega=\pi$가 그 올의 감김수였다. 같은 문장이 여기서 승격된다:
+
+$$
+\boxed{
+\ S^3\xrightarrow{\ U(1)\ }\mathbb{CP}^1
+\quad\rightsquigarrow\quad
+V_2(\mathbb C^4)\xrightarrow{\ U(2)\ }\mathrm{Gr}(2,4).\ }
+$$
+
+정규화된 프레임 전체는 Stiefel 다양체 $V_2(\mathbb C^4)=\{\tilde V:\tilde V^*\tilde V=I_2\}$이고, 위상원 $e^{i\theta}$의 올바른 일반화가 유니터리군 $U(2)$다. 차원 셈도 닫힌다: $\dim_{\mathbb R}V_2(\mathbb C^4)=12$, $\dim_{\mathbb R}\mathfrak u(2)=4$, $12-4=8=\dim_{\mathbb R}\mathrm{Gr}(2,4)$.
+
+### 9.1 §0.1의 곡선이 바로 수직 곡선이었다
+
+올을 따라가는 곡선은 $\tilde V e^{tX}$ ($X\in\mathfrak u(2)$, 반에르미트) 꼴이고, 그 위에서
+
+$$
+P(t)=\tilde Ve^{tX}\bigl(\tilde Ve^{tX}\bigr)^*
+=\tilde Ve^{tX}e^{-tX}\tilde V^*
+=P
+$$
+
+로 projector가 정지한다. **§0.1의 $X_0R(t)$가 정확히 이 곡선이다** — 노트는 처음부터 "수직 방향에는 길이를 주지 않는다"는 다발의 문장으로 시작했던 것이고, §3의 대각블록 소멸($A_{11}=A_{22}=0$)이 그 문장의 접공간 판이다.
+
+수직 생성원도 명시적이다. $t=0$에서 속도는 $\tilde VX$이고, $(I_4-P)\tilde V=0$이므로
+
+$$
+\boxed{\ (I_4-P)\,\tilde VX=0,\qquad X\in\mathfrak u(2)\ \text{(실 4차원)}.\ }
+$$
+
+CP¹ Reeb 계산의 다리 $(1-P)(i\psi)=0$에서 $i\psi=\psi\cdot(i)$의 $i\in\mathfrak u(1)$이 $X\in\mathfrak u(2)$로 자란 것이다. "사영이 정규화의 방향 보정을 죽인다"는 관찰의 정체는 **"사영이 올 방향을 죽인다"**이다.
+
+### 9.2 접속도 승격된다 — $i\alpha$에서 비가환 $\Theta$로
+
+$\tilde V^*\tilde V=I_2$를 미분하면 $\Theta:=\tilde V^*d\tilde V$가 반에르미트임이 나오고, $d\tilde V$는 두 조각으로 갈라진다:
+
+$$
+\boxed{\ d\tilde V=\underbrace{\tilde V\,\Theta}_{\text{수직}}+\underbrace{(I_4-P)\,d\tilde V}_{\text{수평}},\qquad \Theta=\tilde V^*d\tilde V\in\mathfrak u(2).\ }
+$$
+
+$dP$는 수평 조각만 먹는다: $dP=(\text{수평})\tilde V^*+\tilde V(\text{수평})^*$ — §6의 $K+K^*$가 바로 이것이었고, §8 첫 줄의 metric이 "수평 조각의 평평한 노름"인 이유다. 절단을 교체하면
+
+$$
+\tilde V\mapsto\tilde VU
+\quad\Longrightarrow\quad
+\Theta\mapsto U^*\Theta U+U^*dU
+$$
+
+— CP¹에서 $s\mapsto e^{i\theta}s$일 때 $s^*\alpha\mapsto s^*\alpha+d\theta$였던 규칙의 비가환판이다 ($1\times1$이면 $U^*\Theta U=\Theta$라 정확히 옛 규칙으로 퇴화). §4의 게이지 불변성은 이제 "아무 기저나 같은 값"이 아니라 **"metric이 $V_2(\mathbb C^4)$에서 $\mathrm{Gr}(2,4)$로 내려간다"**로 읽는다 — $d\alpha$가 내려가던 그 문장의 rank-2 판.
+
+### 9.3 $e^{i\theta}$는 어디로 갔나 — $\det:U(2)\to U(1)$과 세 다발
+
+$U(2)$ 게이지를 Plücker 성분에서 보면 한 줄로 갈라진다:
+
+$$
+p(\tilde VU)=\det(U)\cdot p(\tilde V).
+$$
+
+즉 게이지 전체가 Plücker 벡터에는 **위상 $\det U$ 하나로만** 작용한다. 따라서
+
+$$
+\underbrace{SU(2)}_{\det=1,\ p\ \text{고정}}\hookrightarrow U(2)\xrightarrow{\ \det\ }\underbrace{U(1)}_{p\ \text{위상}},
+\qquad
+V_2(\mathbb C^4)\xrightarrow{SU(2),\,\dim3}\Sigma^9\xrightarrow{S^1,\,\dim1}\mathrm{Gr}(2,4),
+\qquad 3+1=4\ \checkmark
+$$
+
+— 걸음 6c §3.2에서 차원 셈($12-3=9$, $9-1=8$)으로 세웠던 세 다발이 게이지군의 분해로 재현된다. 원래의 $e^{i\theta}$는 사라진 것이 아니라 $\det U$로 — $U(2)$의 가환화로 — 살아남았고, 대각원 $e^{i\theta}I_2$가 Plücker 위상 $e^{2i\theta}$를 주는 것이 §7.3의 Reeb 계산이 타는 Boothby–Wang 원이다. 접속 쪽도 같은 분해를 따른다: $\operatorname{tr}\Theta$가 그 원의 $i\alpha$이고, 무자취 부분이 $SU(2)$ 세 방향이다.
+
+### 9.4 대응표 — $e^{i\theta}$의 일반화 사전
+
+| CP¹ ($S^3\to\mathbb{CP}^1$) | $\mathrm{Gr}(2,4)$ ($V_2(\mathbb C^4)\to\mathrm{Gr}(2,4)$) |
+|---|---|
+| $\psi\mapsto e^{i\theta}\psi$ | $\tilde V\mapsto\tilde VU$, $U\in U(2)$ |
+| 수직 생성원 $i\psi$ (실 1차원) | $\tilde VX$, $X\in\mathfrak u(2)$ (실 4차원) |
+| $(1-P)(i\psi)=0$ | $(1-P)(\tilde VX)=0$ |
+| 국소 절단 $s_0=(1,z)/\sqrt N$ | polar 절단 $\tilde V=VG^{-1/2}$ |
+| 접속 $i\alpha=s^*ds\in\mathfrak u(1)$ | $\Theta=\tilde V^*d\tilde V\in\mathfrak u(2)$ |
+| $s^*\alpha\mapsto s^*\alpha+d\theta$ | $\Theta\mapsto U^*\Theta U+U^*dU$ |
+| 게이지 불변 = FS가 $S^3$에서 내려감 | 게이지 불변 = FS가 $V_2(\mathbb C^4)$에서 내려감 |
+| 올 $=U(1)$ 한 층 | 올 $=U(2)=SU(2)\cdot U(1)$, $\det$로 두 층 |
+
+한 문장으로: **정규화는 이 주다발의 국소 절단을 고르는 행위이고($G^{-1/2}$는 polar 게이지), 남는 $U(2)$는 지울 중복이 아니라 $e^{i\theta}$가 자란 올이며, metric이 게이지에 불변인 것은 그것이 Stiefel에서 Grassmannian으로 내려간다는 뜻이다.**

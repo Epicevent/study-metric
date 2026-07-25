@@ -34,7 +34,7 @@ DOCS = [
     dict(track="dict", kind="md", src="Projector로_Gr24에_metric주기.md", out="Projector로_Gr24에_metric주기.html",
          series="study metric — 사전 후속",
          card=("Projector들의 모임에 metric 주기 — CP¹ 손노트에서 Gr(2,4)로",
-               "<b>§0–§6이 metric 본선이다.</b> 평면의 실제 움직임부터 g<sub>FS</sub>=½Tr(dP²)까지 계산한다. §7.2는 Plücker·ℂP⁵가 필요한 별도의 이유와 걸음 6의 해당 계산만 연결한다. 검산 32/32")),
+               "<b>§0–§6이 metric 본선이다.</b> 평면의 실제 움직임부터 g<sub>FS</sub>=½Tr(dP²)까지 계산한다. §7.2는 Plücker·ℂP⁵가 필요한 별도의 이유와 걸음 6의 해당 계산만 연결한다. <b>§9</b>: 정규화가 남긴 U(2) 자유도는 잉여가 아니라 <i>올</i>이다 — e<sup>iθ</sup>의 일반화가 U∈U(2)이고, (1−P)(iψ)=0이 (1−P)(ṼX)=0으로, 접속 iα가 비가환 Θ=Ṽ*dṼ로 승격되며, det:U(2)→U(1)이 세 다발(V₂→Σ⁹→Gr)을 재현한다. 검산 32/32 + 11/11")),
     dict(track="dict", kind="md", src="Reeb_CP1에서_Gr24로.md", out="Reeb_CP1에서_Gr24로.html",
          series="study metric — 사전 후속",
          card=("Reeb 벡터장 — S³에서 Σ⁹로, CP¹에서 Gr(2,4)로",
