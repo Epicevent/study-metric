@@ -1,0 +1,264 @@
+# 라플라시안에서 RR의 $+1$로 — 무한대의 $-2\log|z|$가 기억한 것
+
+> **이 글의 출발점.** L0·L5에서 이미
+> $$g=e^{2u}|dz|^2,qquad K,dA=-\Delta u,dx,dy,qquad \int_{\mathbb{CP}^1}K,dA=4\pi$$
+> 를 손으로 계산했다. 그런데 마지막 숫자 $2=4\pi/(2\pi)$는 왜 접다발의 차수가 되고, 왜 다시 절반이 되어 Riemann--Roch의 $+1$로 들어가는가? 이 글은 새 공식을 옆에서 붙이지 않고, **무한대의 한 로그항을 네 번 읽어** 그 사슬을 만든다.
+>
+> **정직한 범위.** §0–§5는 좌표변환·미분·경계적분으로 직접 계산한다. §6의 Hirzebruch--Riemann--Roch 공식 자체는 입력으로 받으며, 넣은 뒤 $d+1$이 나오는 계산을 전개한다.
+>
+> **검산.** `verify_laplacian_rr.py` — 12/12.
+
+---
+
+## 0. 핵심 식 하나 — 함수 $K$보다 측도 $K\,dA$
+
+$z=x+iy$에서
+
+$$\Delta=\partial_x^2+\partial_y^2=4\partial_z\partial_{\bar z}$$
+
+로 두고 $g=e^{2u}|dz|^2$라 쓰자. 등각좌표의 Gauss 곡률과 면적은
+
+$$K=-e^{-2u}\Delta u,qquad dA=e^{2u}dx\,dy.$$
+
+둘을 곱하면 등각인자가 지워진다:
+
+$$\boxed{\;K\,dA=-\Delta u\,dx\,dy.\;}\tag{0.1}$$
+
+이 한 줄이 이 글의 엔진이다. 점마다의 곡률 $K$는 눈금에 따라 바뀌지만, 곡률측도는 $u$의 평범한 라플라시안이다. 적분하면 내부의 미분은 경계 flux로 밀려난다.
+
+---
+
+## 1. 둥근 $\mathbb{CP}^1$ — 하던 라플라시안 계산
+
+입체사영 좌표 $z\in\mathbb C=\mathbb{CP}^1\setminus\{\infty\}$에서 곡률 1인 둥근 계량은
+
+$$g=\frac{4|dz|^2}{(1+|z|^2)^2}.$$
+
+따라서
+
+$$u(z)=\log2-\log(1+|z|^2).$$
+
+$r^2=x^2+y^2$로 놓고 직접 미분하면
+
+$$\Delta\log(1+r^2)=\frac4{(1+r^2)^2},$$
+
+그래서
+
+$$-\Delta u=\frac4{(1+r^2)^2}=e^{2u},qquad K=-e^{-2u}\Delta u=1.$$
+
+여기까지는 L1의 Liouville 계산이다. 새 질문은 $r\to\infty$에서 보이는
+
+$$\boxed{\;u(z)=-2\log|z|+O(1)\;}\tag{1.1}$$
+
+의 **2가 무엇을 세는가**다.
+
+---
+
+## 2. 무한대에서 계량은 안 터진다 — 로그항은 Jacobian에 넘겨진다
+
+무한대 근방의 좌표를 $w=1/z$로 잡는다. 같은 계량을 $w$로 쓰면
+
+$$e^{2u_w(w)}|dw|^2=e^{2u_z(1/w)}\left|\frac{dz}{dw}\right|^2|dw|^2,$$
+
+즉
+
+$$u_w(w)=u_z(1/w)+\log\left|\frac{dz}{dw}\right|.$$
+
+각 항을 따로 보면
+
+$$u_z(1/w)=\log2+2\log|w|-\log(1+|w|^2),$$
+
+$$\log\left|\frac{dz}{dw}\right|=\log\left|{-\frac1{w^2}}\right|=-2\log|w|.$$
+
+두 특이항이 정확히 상쇄되어
+
+$$\boxed{\;u_w(w)=\log2-\log(1+|w|^2).\;}\tag{2.1}$$
+
+$w=0$에서도 매끄럽다. 여기서 처음 목격할 것은 다음이다.
+
+> $u$ 자체는 전역함수가 아니다. 차트를 바꾸면 holomorphic Jacobian의 로그 절댓값만큼 어긋난다. 그 항은 겹침에서 조화함수라 $\Delta$에는 안 보이지만, $dz/dw=-w^{-2}$의 **차수 2**는 전이함수에 남는다.
+
+국소 라플라시안이 전역 정수를 알아내는 문은 바로 이 어긋남이다.
+
+---
+
+## 3. 첫 번째 읽기 — 경계 flux가 $4\pi$와 $2$를 뱉는다
+
+(0.1)을 반지름 $R$인 원판에서 적분한다. Green 정리에 의해
+
+$$\int_{D_R}K\,dA=-\int_{\partial D_R}\partial_r u\,ds.$$
+
+여기서
+
+$$\partial_r u=-\frac{2r}{1+r^2},\qquad ds=R\,d\theta,$$
+
+이므로
+
+$$\int_{D_R}K\,dA
+=-\left(-\frac{2R}{1+R^2}\right)(2\pi R)
+=\frac{4\pi R^2}{1+R^2}.$$
+
+$R\to\infty$로 보내면
+
+$$\boxed{\;\int_{\mathbb{CP}^1}K\,dA=4\pi,\qquad
+\frac1{2\pi}\int_{\mathbb{CP}^1}K\,dA=2.\;}\tag{3.1}$$
+
+점근식만 보고도 같은 수를 읽는다. 일반적으로 $u(r)=-m\log r+O(1)$이면 $\partial_ru=-m/r+o(r^{-1})$이고 경계 원의 길이 인자 $2\pi r$가 곱해져 flux는 $2\pi m$으로 간다. 우리 경우 $m=2$다. **무한대의 로그계수 2가 총곡률을 만든다.**
+
+Gauss--Bonnet이라는 이름을 붙이면 이 수는
+
+$$\frac1{2\pi}\int K\,dA=\chi(\mathbb{CP}^1)=2$$
+
+다. 그러나 값 자체는 이미 경계 원 하나에서 계산했다.
+
+---
+
+## 4. 두 번째 읽기 — 같은 Jacobian이 $T\mathbb{CP}^1\simeq\mathcal O(2)$를 만든다
+
+이번에는 좌표벡터를 갈아탄다. 연쇄법칙 한 줄:
+
+$$\frac{\partial}{\partial w}
+=\frac{dz}{dw}\frac{\partial}{\partial z}
+=-\frac1{w^2}\frac{\partial}{\partial z}
+=-z^2\frac{\partial}{\partial z}.$$
+
+겹침에서 접다발의 두 국소 frame $\partial_w$, $\partial_z$를 잇는 함수는 본질적으로 $z^2$다. 부호 $-1$은 0이 아닌 상수라 감김수에 기여하지 않고, $z^2$가 원을 두 번 감는다. 따라서
+
+$$\boxed{\;T\mathbb{CP}^1\simeq\mathcal O(2),\qquad
+K_{\mathbb{CP}^1}=T^*\mathbb{CP}^1\simeq\mathcal O(-2).\;}\tag{4.1}$$
+
+§2에서 $u$의 특이항을 없애 준 것도 $dz/dw=-z^2$였고, 여기서 접다발의 차수를 정한 것도 같은 $dz/dw$다. 그래서
+
+$$\boxed{
+-2\log|z|\text{의 경계 flux}
+=z^2\text{의 감김수}
+=\deg T\mathbb{CP}^1=2.}
+\tag{4.2}$$
+
+서로 다른 세 사실이 우연히 2인 것이 아니다. 한 Jacobian을 실수 로그로 읽었는지, 복소 전이함수로 읽었는지만 다르다.
+
+---
+
+## 5. 세 번째 읽기 — Chern 곡률은 $K\,dA$의 복소 옷이다
+
+$T\mathbb{CP}^1$의 국소 holomorphic frame $\partial_z$의 Hermitian 노름을 상수배까지
+
+$$h_z=\|\partial_z\|^2=e^{2u_z}$$
+
+로 쓴다. 선다발의 Chern 곡률을
+
+$$F_h=-\partial\bar\partial\log h_z=-2\partial\bar\partial u_z$$
+
+로 잡자. $\Delta=4\partial_z\partial_{\bar z}$와 $dz\wedge d\bar z=-2i\,dx\wedge dy$를 쓰면
+
+$$iF_h=-\Delta u\,dx\,dy=K\,dA.$$
+
+따라서 첫 Chern form은
+
+$$\boxed{\;c_1(T\mathbb{CP}^1,h)
+=\frac{i}{2\pi}F_h
+=\frac{K\,dA}{2\pi}.\;}\tag{5.1}$$
+
+적분하면
+
+$$\boxed{\;\int_{\mathbb{CP}^1}c_1(T\mathbb{CP}^1)=2.\;}\tag{5.2}$$
+
+이제 (3.1), (4.1), (5.2)는 완전히 같은 계산의 세 언어다:
+
+| 읽는 대상 | 계산 | 나온 수 |
+|---|---|---:|
+| 실수 등각인자 | $-\Delta u$의 경계 flux | $4\pi/(2\pi)=2$ |
+| holomorphic frame | $\partial_w=-z^2\partial_z$ | $\deg T=2$ |
+| Hermitian 선다발 | $iF_h=K\,dA$ | $\int c_1(T)=2$ |
+
+---
+
+## 6. 네 번째 읽기 — 그 2의 절반이 RR의 $+1$이다
+
+$H=c_1(\mathcal O(1))$로 놓고 $\int_{\mathbb{CP}^1}H=1$로 정규화한다. §4–5가 준 것은
+
+$$c_1(T\mathbb{CP}^1)=2H.$$
+
+복소차원 1에서는 2차를 넘는 코호몰로지 항이 적분에 기여하지 않으므로 Todd class는
+
+$$\operatorname{Td}(T\mathbb{CP}^1)
+=1+\frac12c_1(T\mathbb{CP}^1)
+=1+H.$$
+
+또
+
+$$\operatorname{ch}(\mathcal O(d))=e^{dH}=1+dH$$
+
+까지만 남는다. 이제 **입력으로 받는 HRR 공식**
+
+$$\chi(\mathcal O(d))
+=\int_{\mathbb{CP}^1}
+\operatorname{ch}(\mathcal O(d))\operatorname{Td}(T\mathbb{CP}^1)$$
+
+에 대입하면
+
+$$\begin{aligned}
+\chi(\mathcal O(d))
+&=\int_{\mathbb{CP}^1}(1+dH)(1+H)\\
+&=\int_{\mathbb{CP}^1}(d+1)H\\
+&=\boxed{d+1}.
+\end{aligned}$$
+
+상수항만 떼어 보면
+
+$$\boxed{
+\underbrace{\int c_1(T\mathbb{CP}^1)}_{2}
+\;\xrightarrow{\ \operatorname{Td}_1=\frac12c_1\ }\;
+\underbrace{\chi(\mathcal O)}_{1}.}
+\tag{6.1}$$
+
+따라서 RR의 $+1$은 바깥에서 새로 들어온 보정수가 아니다. 라플라시안의 경계 flux가 만든 접다발의 Chern 수 2를 Todd class가 절반으로 읽은 값이다.
+
+---
+
+## 7. 토러스 검문 — 같은 칸들이 한꺼번에 0이 되는가
+
+복소 토러스 $E=\mathbb C/\Lambda$에는 평탄계량 $g=|dz|^2$가 내려간다. 여기서는
+
+$$u=0,qquad \Delta u=0,qquad K=0.$$
+
+$dz$와 $\partial_z$도 전역 frame이므로 전이함수의 감김이 없다. 따라서
+
+$$TE\simeq\mathcal O_E,qquad K_E\simeq\mathcal O_E,qquad c_1(TE)=0.$$
+
+Todd class의 2차 성분도 0이고
+
+$$\chi(\mathcal O_E)=\int_E\frac12c_1(TE)=0.$$
+
+| 대상 | $\int K\,dA$ | $\int c_1(T)$ | 접다발 | $\chi(\mathcal O)$ |
+|---|---:|---:|---|---:|
+| $\mathbb{CP}^1$ | $4\pi$ | $2$ | $\mathcal O(2)$ | $1$ |
+| $E$ | $0$ | $0$ | $\mathcal O_E$ | $0$ |
+
+독립된 사실 넷이 우연히 동시에 사라진 것이 아니다. 전역 Jacobian의 감김이 0이어서 전부 같은 뿌리에서 사라졌다.
+
+---
+
+## 8. 봉인 — 한 로그항을 네 번 읽었다
+
+$$\boxed{
+u(z)\sim-2\log|z|
+\longrightarrow
+\begin{cases}
+-\Delta u\text{의 경계 flux}=4\pi,\\
+dz/dw=-z^2\text{의 감김수}=2,\\
+\int c_1(T\mathbb{CP}^1)=2,\\
+\frac12\int c_1(T\mathbb{CP}^1)=\chi(\mathcal O)=1.
+\end{cases}}
+$$
+
+학술 이름은 순서대로 Gauss--Bonnet, 전이함수와 선다발의 차수, Chern--Weil, Todd class와 Riemann--Roch다. 그러나 계산의 발생 순서는 이름의 반대다:
+
+1. $u$를 라플라시안에 넣는다.
+2. 적분을 경계로 밀었더니 점근계수 2가 남는다.
+3. 무한대에서 좌표를 바꾸니 그 2가 $dz/dw=-z^2$였음을 본다.
+4. 같은 Jacobian이 접다발의 전이함수이고, 같은 곡률측도가 첫 Chern form임을 확인한다.
+5. 마지막에 Todd class가 그 수의 절반을 취한다.
+
+> **문제.** $u(z)=\log2-\log(1+|z|^2)$에서 시작하여 (2.1), (3.1), (4.1), (5.1), (6.1)을 빈 종이에 순서대로 재현하라. 그다음 $u=0$인 토러스에서 각 줄의 어느 항이 먼저 0이 되는지 표시하라.
+

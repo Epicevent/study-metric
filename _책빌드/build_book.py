@@ -698,7 +698,7 @@ Gr(2,4) 핵심계산 — 주제별 완전판 · 원전: Gr24_핵심계산모음.
 </body>
 </html>"""
 
-OUT = r"C:\\Users\\com\\Documents\\study metric\\Gr24_핵심계산_주제별완전판.html"
+OUT = os.path.join(os.path.dirname(BASE), "Gr24_핵심계산_주제별완전판.html")
 with open(OUT, "w", encoding="utf-8") as f:
     f.write(html_doc)
 print("BOOK written:", OUT, f"({len(html_doc)//1024} KB)")
