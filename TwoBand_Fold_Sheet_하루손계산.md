@@ -473,11 +473,79 @@ $$
 과 독립적으로 맞는다. $(0,0)$에서는 $N=1$이라 $1/2$,
 $(\pi,\pi)$에서는 $N=-3$이라 $-1/18$이다.
 
+### W5-C. 그래서 실제로 $\bar\lambda\,dk_x\wedge dk_y$가 무엇인가
+
+이제 signed 2-form과 리만 면적형식을 같은 것처럼 말하지 않는다. target의
+FS metric은 chart 원점에서
+
+$$
+g_{\mathrm{FS}}=2(dX^2+dY^2),
+\qquad
+\omega_{\mathrm{FS}}=2\,dX\wedge dY
+$$
+
+이다. 북극 예시의 Jacobian
+$D(w_+\circ f)=\operatorname{diag}(-1/2,-1/2)$를 두 식에 각각 넣으면
+
+$$
+g_{(0,0)}
+=\frac12(dk_x^2+dk_y^2),
+\qquad
+(f^*\omega_{\mathrm{FS}})_{(0,0)}
+=\frac12\,dk_x\wedge dk_y.
+$$
+
+따라서 이 점에서는
+
+$$
+dA_g=\frac12\,dk_x\wedge dk_y,
+\qquad
+f^*\omega_{\mathrm{FS}}=+dA_g.
+\tag{W5.C+}
+$$
+
+반면 남극 예시의 Jacobian은
+$D(w_-\circ f)=\operatorname{diag}(1/6,-1/6)$다. 따라서
+
+$$
+g_{(\pi,\pi)}
+=\frac1{18}(du^2+dv^2),
+\qquad
+(f^*\omega_{\mathrm{FS}})_{(\pi,\pi)}
+=-\frac1{18}\,du\wedge dv.
+$$
+
+리만 면적형식은 고정한 토러스 orientation에 대해 양수여야 하므로
+
+$$
+dA_g=+\frac1{18}\,du\wedge dv,
+\qquad
+f^*\omega_{\mathrm{FS}}=-dA_g.
+\tag{W5.C-}
+$$
+
+이다. 이것이 질문한 형식의 실물이다.
+
+$$
+\boxed{
+f^*\omega_{\mathrm{FS}}
+=\bar\lambda\,dk_x\wedge dk_y
+=\operatorname{sgn}(\bar\lambda)\,dA_g,
+\qquad
+dA_g=|\bar\lambda|\,dk_x\wedge dk_y.
+}
+\tag{W5.C}
+$$
+
+$\bar\lambda\,dk_x\wedge dk_y$는 **부호 있는 pullback 면적형식**이다.
+$K_gdA_g$도 아니고, 언제나 양수인 리만 면적형식 $dA_g$도 아니다.
+
 | 엔티티 | 뜻 | 부호 |
 |---|---|---|
 | $-\Delta_wu$ | 구면의 곡률면적 밀도 | 항상 $+$ |
-| $\det Df$ | 방향을 보존·반전하는 signed Jacobian | $+,0,-$ |
-| $\bar\lambda$ | $f^*\omega_{\mathrm{FS}}$의 계수 | $\det Df$와 같음 |
+| $\det D(w\circ f)$ | 선택한 orientation-preserving target chart에서의 signed Jacobian | $+,0,-$ |
+| $\bar\lambda$ | $f^*\omega_{\mathrm{FS}}$의 토러스 좌표계수 | $\det D(w\circ f)$와 같음 |
+| $|\bar\lambda|$ | 리만 면적형식 $dA_g$의 토러스 좌표계수 | regular point에서 항상 $+$ |
 
 음의 $\bar\lambda$는 구면의 곡률이 음수가 됐다는 뜻이 아니다. 양의
 구면 면적을 $f$가 뒤집어서 가져왔다는 뜻이다.
@@ -649,6 +717,17 @@ $$
 
 ## W9. 이제서야 중간값정리와 Gauss–Bonnet을 붙인다
 
+먼저 논리의 층위를 고정한다. **$\bar\lambda\ne0$은 이 map에 대해
+확인한 사실이 아니다.** W7에서 이미
+
+$$
+\bar\lambda(\pi/2,\pi/2)=0
+$$
+
+을 직접 계산했다. 아래의 $\bar\lambda\ne0$은 “그 계산을 모르고도
+singular point가 반드시 존재함을 보일 수 있는가?”를 묻기 위해 잠시
+놓는 **귀류 가정**이다.
+
 만일 $f:T^2\to S^2$가 어디에서도 singular하지 않다면
 $\bar\lambda\ne0$이다. $\bar\lambda$는 연속이고 $T^2$는 연결되어
 있으므로 $\bar\lambda>0$ 전체 또는 $\bar\lambda<0$ 전체다.
@@ -665,15 +744,125 @@ $$
 
 다. Gauss 곡률 스칼라 $K_g$가 아니다.
 
-가정 아래 $g=f^*g_{S^2}$는 매끄러운 Riemannian metric이고
-$f$는 각 regular sheet에서 local isometry다. 따라서
+이제 “pullback metric이므로 local isometry”라는 정리를 가져와 곡률을
+옮기지 않는다. W5에서 잡은 실제 좌표로 라플라시안을 다시 계산한다.
+
+regular patch에서
 
 $$
-K_g=1,\qquad
-K_g\,dA_g=2|\bar\lambda|\,dk_x\wedge dk_y.
+J=\det\frac{\partial(X,Y)}{\partial(k_x,k_y)}\ne0,
+\qquad
+\varepsilon=\operatorname{sgn}J
+=\operatorname{sgn}\bar\lambda
 $$
 
-그러므로
+라 두고
+
+$$
+\xi=X,\qquad \eta=\varepsilon Y
+$$
+
+로 놓는다. 그러면
+
+$$
+d\xi\wedge d\eta
+=\varepsilon\,dX\wedge dY
+=|J|\,dk_x\wedge dk_y>0,
+$$
+
+이므로 $(\xi,\eta)$는 토러스의 고정된 orientation과 맞는 실제
+국소좌표다. FS metric의 등각인자를
+
+$$
+v(\xi,\eta)
+=\frac12\log2-\log(1+\xi^2+\eta^2)
+$$
+
+라고 쓰면, $Y=\varepsilon\eta$이고 $\varepsilon^2=1$이므로 pullback
+metric은 대입만으로
+
+$$
+g=f^*g_{\mathrm{FS}}
+=e^{2v}(d\xi^2+d\eta^2),
+\qquad
+e^{2v}=\frac2{(1+\xi^2+\eta^2)^2}
+$$
+
+가 된다. 여기서는 local isometry나 곡률 불변성을 쓰지 않았다.
+$X,Y$를 source의 좌표로 다시 이름 붙여 metric에 직접 넣었을 뿐이다.
+
+이제 최근 라플라시안 계산을 그대로 한다. $R^2=\xi^2+\eta^2$라 하면
+
+$$
+v_\xi=-\frac{2\xi}{1+R^2},
+\qquad
+v_\eta=-\frac{2\eta}{1+R^2},
+$$
+
+$$
+\begin{aligned}
+v_{\xi\xi}
+&=-\frac2{1+R^2}+\frac{4\xi^2}{(1+R^2)^2},\\
+v_{\eta\eta}
+&=-\frac2{1+R^2}+\frac{4\eta^2}{(1+R^2)^2},
+\end{aligned}
+$$
+
+$$
+-\Delta v
+=\frac4{(1+R^2)^2}
+=2e^{2v}.
+$$
+
+따라서 등각 metric의 곡률면적 계산은
+
+$$
+\begin{aligned}
+K_g\,dA_g
+&=-\Delta v\,d\xi\wedge d\eta\\
+&=2e^{2v}\,d\xi\wedge d\eta\\
+&=2e^{2v}|J|\,dk_x\wedge dk_y\\
+&=\boxed{2|\bar\lambda|\,dk_x\wedge dk_y}.
+\end{aligned}
+\tag{W9.1}
+$$
+
+따라서 $dA_g=|\bar\lambda|dk_x\wedge dk_y$로 나누면 $K_g=2$도
+나오지만, 이번에는 그것을 local-isometry 사실로 가져온 것이 아니라
+$-\Delta v$ 계산의 **결과**로 얻었다.
+
+마지막 등호는 W5.2의
+
+$$
+\bar\lambda=e^{2v}J
+$$
+
+를 쓴 것이다. 동시에 세 형식의 차이가 정확히 보인다.
+
+$$
+\boxed{
+f^*\omega_{\mathrm{FS}}
+=\bar\lambda\,dk_x\wedge dk_y,
+\qquad
+dA_g=|\bar\lambda|\,dk_x\wedge dk_y,
+\qquad
+K_gdA_g=2|\bar\lambda|\,dk_x\wedge dk_y.
+}
+\tag{W9.2}
+$$
+
+W5의 두 점에 대입하면 표가 숫자로 닫힌다.
+
+| source point | $f^*\omega_{\mathrm{FS}}$ | $dA_g$ | $K_gdA_g$ |
+|---|---:|---:|---:|
+| $(0,0)$ | $+\frac12\,dk_x\wedge dk_y$ | $\frac12\,dk_x\wedge dk_y$ | $1\,dk_x\wedge dk_y$ |
+| $(\pi,\pi)$ | $-\frac1{18}\,du\wedge dv$ | $\frac1{18}\,du\wedge dv$ | $\frac19\,du\wedge dv$ |
+
+이제 처음의 가정 $\bar\lambda\ne0$로 돌아간다. 중간값정리의 직관은
+$\bar\lambda$의 부호가 토러스 전체에서 하나로 고정된다는 데 쓰인다.
+그래서 $f^*\omega_{\mathrm{FS}}$는 전역적으로 $+dA_g$이거나
+$-dA_g$이다. 한편 $|\bar\lambda|$는 compact한 토러스 위의 연속인
+양의 함수이므로
 
 $$
 \int_{T^2}K_g\,dA_g

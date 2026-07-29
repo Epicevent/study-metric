@@ -108,6 +108,10 @@ def check_actual_torus_patches(h: float = 1e-6) -> dict[str, object]:
         expected_density = float(case["expected_density"])
         assert abs(pulled_back_density - expected_density) < 2e-10
         assert abs(signed_density(*center) - expected_density) < 1e-15
+        riemannian_area_density = abs(pulled_back_density)
+        curvature_area_density = 2.0 * riemannian_area_density
+        assert riemannian_area_density > 0.0
+        assert curvature_area_density > 0.0
         rows.append(
             {
                 "patch": case["patch"],
@@ -116,6 +120,8 @@ def check_actual_torus_patches(h: float = 1e-6) -> dict[str, object]:
                 "determinant": determinant,
                 "half_minus_laplacian_at_chart_origin": 2.0,
                 "pullback_density": pulled_back_density,
+                "riemannian_area_density": riemannian_area_density,
+                "curvature_area_density": curvature_area_density,
                 "global_formula_density": signed_density(*center),
             }
         )
@@ -127,10 +133,39 @@ def check_actual_torus_patches(h: float = 1e-6) -> dict[str, object]:
     minus_n3 = [lower_bloch(PI + x, PI + y)[2] for x in q for y in q]
     assert min(plus_n3) > 0.0
     assert max(minus_n3) < 0.0
+
+    # Independent finite-difference check of the W9 conformal calculation
+    # -Delta v = 2 exp(2v), v=log(sqrt(2))-log(1+xi^2+eta^2).
+    def v_fs(x: float, y: float) -> float:
+        return 0.5 * math.log(2.0) - math.log(1.0 + x * x + y * y)
+
+    laplacian_rows = []
+    hv = 2e-4
+    for x, y in ((0.0, 0.0), (0.3, -0.2), (1.1, 0.7)):
+        center_v = v_fs(x, y)
+        laplacian = (
+            v_fs(x + hv, y)
+            + v_fs(x - hv, y)
+            + v_fs(x, y + hv)
+            + v_fs(x, y - hv)
+            - 4.0 * center_v
+        ) / hv**2
+        measured = -laplacian
+        expected = 2.0 * math.exp(2.0 * center_v)
+        assert abs(measured - expected) < 3e-7, (x, y, measured, expected)
+        laplacian_rows.append(
+            {
+                "xi": x,
+                "eta": y,
+                "minus_laplacian_v": measured,
+                "twice_exp_2v": expected,
+            }
+        )
     return {
         "rows": rows,
         "U_plus_min_n3": float(min(plus_n3)),
         "U_minus_max_n3": float(max(minus_n3)),
+        "fs_laplacian": laplacian_rows,
     }
 
 
