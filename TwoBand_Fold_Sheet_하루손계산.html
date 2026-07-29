@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>구면의 양의 곡률면적이 토러스에서 뒤집히는 순간</title>
+<link rel="stylesheet" href="assets/katex.min.css">
+<link rel="stylesheet" href="assets/site.css">
+
+</head>
+<body>
+<nav class="sitenav"><a class="home" href="index.html">← 목록</a><span class="navtitle">구면의 양의 곡률면적이 토러스에서 뒤집히는 순간</span><span class="pn"><a href="라플라시안에서_RR의_+1로.html" title="라플라시안에서 RR의 +1로 — 무한대의 −2log|z|가 기억한 것">‹ 이전</a> <a href="CP1_A와_Q_두벌계산.html" title="ℂP¹ 계산 대조표 — A→dA와 Q→(Re Q, Im Q)">다음 ›</a></span></nav>
+<header class="titlepage"><p class="series">study metric — two-band 곡률 손계산</p><h1>구면의 양의 곡률면적이 토러스에서 뒤집히는 순간</h1></header>
+<main>
+<h2>winding form 적분에서 two-band map의 fold와 cusp까지</h2>
+<blockquote>
+<p>오늘 처음 계산할 것은 Hamiltonian도 projector도 아니다. 반지름 $R$인 원을
+$\gamma_m(t)=(R\cos mt,R\sin mt)$, $0\le t\le2\pi$
+로 $m$번 돌고
+$\displaystyle
+\oint_{\gamma_m}\frac{-Y\,dX+X\,dY}{X^2+Y^2}=2\pi m$
+을 얻는 일이다.</p>
+<p>그다음 같은 적분을 $-\oint *du$, $\int K\,dA$,
+$\int f^*\omega_{\mathrm{FS}}$, regular value의 원상 주위 winding으로
+차례로 다시 읽는다. 독자가 two-band 계산에 도착했을 때에는
+“새 적분이 아니라, 부호를 가진 winding form을 또 적분하는구나”라고
+느껴야 한다.</p>
+<p>정리나 필연성은 마지막이다. 먼저 실제 대각선 $k(t)=(t,t)$에서
+$\bar\lambda(0,0)=\frac12$,
+$\bar\lambda(\frac\pi2,\frac\pi2)=0$,
+$\bar\lambda(\pi,\pi)=-\frac1{18}$
+을 계산하여, 구면의 양의 곡률면적을 $f$가 같은 방향으로 옮기다가
+한 번 납작해지고, 그 뒤 뒤집어 옮기는 장면부터 본다.</p>
+</blockquote>
+<p><img alt="domain singular curve와 target critical-value curve" src="assets/two_band_fold_sheet_trace.svg" /></p>
+<hr />
+<h2>이 노트에서 사실의 출처를 읽는 법</h2>
+<ul>
+<li><strong>[논문]</strong> Huang, <em>A Gauss-Bonnet Theorem for Quantum States</em>의 식 또는 명시적 주장이다.</li>
+<li><strong>[유도]</strong> 논문의 실제 $d(k)$를 넣어 이 노트에서 전개한 식이다.</li>
+<li><strong>[수치]</strong> 아래 검산 스크립트가 독립적으로 계산한 근 또는 적분 근삿값이다.</li>
+<li><strong>[검산]</strong> 다른 계산 경로와 맞춰 본 결과다.</li>
+</ul>
+<p>논문: <a href="https://arxiv.org/abs/2510.15760">arXiv 2510.15760</a> · <a href="https://arxiv.org/html/2510.15760v1">HTML 원문</a></p>
+<p>독립 검산:</p>
+<p>$$
+\texttt{python verify\_two\_band\_fold\_trace.py
+--write-svg assets/two\_band\_fold\_sheet\_trace.svg}
+$$</p>
+<hr />
+<h1>0. 긴 워밍업 — 끝까지 남는 계산은 winding form 적분이다</h1>
+<p>이 절에서는 아직 논문의 $d(k)$를 쓰지 않는다. 미적분학에서 이미 아는
+원, 로그, Jacobian만으로 이후 계산에 나오는 모든 부호를 먼저 목격한다.</p>
+<h2>W1. 원을 한 번 돌면 왜 $2\pi$인가</h2>
+<p>원점을 뺀 평면에 1-form</p>
+<p>$$
+\vartheta=\frac{-Y\,dX+X\,dY}{X^2+Y^2}
+$$</p>
+<p>를 둔다. $\vartheta$는 국소적으로 $d\arg(X+iY)$다. 그러나 원점을
+한 바퀴 도는 영역 전체에서는 $\arg$를 한 값으로 고를 수 없으므로,
+$\vartheta$를 전역적인 $d$(한 값 함수)라고 생각하면 안 된다.</p>
+<p>반지름 $R&gt;0$인 원을 반시계로 $m$번 도는 곡선</p>
+<p>$$
+\gamma_m(t)=(R\cos mt,R\sin mt),\qquad 0\le t\le2\pi
+$$</p>
+<p>에 직접 대입한다.</p>
+<p>$$
+X=R\cos mt,\quad Y=R\sin mt,\quad
+dX=-Rm\sin mt\,dt,\quad dY=Rm\cos mt\,dt.
+$$</p>
+<p>따라서</p>
+<p>$$
+\begin{aligned}
+\gamma_m^*\vartheta
+&amp;=\frac{-R\sin mt(-Rm\sin mt\,dt)
++R\cos mt(Rm\cos mt\,dt)}{R^2}\\
+&amp;=m\,dt,
+\end{aligned}
+$$</p>
+<p>$$
+\boxed{\oint_{\gamma_m}\vartheta=2\pi m.}
+\tag{W1}
+$$</p>
+<p>반시계 한 바퀴는 $+2\pi$, 시계 한 바퀴는 $-2\pi$다. 반지름은
+사라진다. 이 적분은 크기가 아니라 감긴 횟수를 센다.</p>
+<h2>W2. $-m\log r$의 경계 flux는 같은 적분이다</h2>
+<p>orientation을 $dX\wedge dY$로 고정하고</p>
+<p>$$
+*dX=dY,\qquad *dY=-dX
+$$</p>
+<p>로 둔다. $r=\sqrt{X^2+Y^2}$, $u_m=-m\log r$이면</p>
+<p>$$
+du_m=-m\frac{X\,dX+Y\,dY}{X^2+Y^2},
+$$</p>
+<p>$$
+*du_m=-m\frac{X\,dY-Y\,dX}{X^2+Y^2}=-m\vartheta.
+$$</p>
+<p>그러므로</p>
+<p>$$
+\boxed{-*du_m=m\vartheta,\qquad
+-\oint_{C_R}*du_m=2\pi m.}
+\tag{W2.1}
+$$</p>
+<p>임의의 $u$에 대해서도</p>
+<p>$$
+*du=u_X\,dY-u_Y\,dX,
+$$</p>
+<p>$$
+d(*du)
+=(u_{XX}+u_{YY})\,dX\wedge dY
+=\Delta u\,dX\wedge dY.
+$$</p>
+<p>따라서</p>
+<p>$$
+\boxed{-\Delta u\,dX\wedge dY=-d(*du),}
+\tag{W2.2}
+$$</p>
+<p>$$
+\int_D-\Delta u\,dX\,dY=-\oint_{\partial D}*du.
+$$</p>
+<p><strong>관찰.</strong> 라플라시안의 이중적분은 새 계산이 아니다. 경계에서
+winding form을 적분하는 계산으로 밀려난다.</p>
+<h2>W3. 둥근 구면의 총곡률은 두 바퀴다</h2>
+<p>입체사영 좌표 $w=X+iY$, $r=|w|$에서</p>
+<p>$$
+g_{S^2}=e^{2u}|dw|^2,\qquad
+u=\log2-\log(1+r^2).
+$$</p>
+<p>직접 미분하면</p>
+<p>$$
+du=-\frac{2r}{1+r^2}\,dr,\qquad *dr=r\,d\theta,
+$$</p>
+<p>$$
+-*du=\frac{2r^2}{1+r^2}\,d\theta.
+$$</p>
+<p>그러므로</p>
+<p>$$
+-\oint_{C_R}*du
+=\frac{4\pi R^2}{1+R^2}
+\longrightarrow4\pi.
+$$</p>
+<p>즉</p>
+<p>$$
+\boxed{-*du\longrightarrow2\,d\theta,\qquad
+\int_{S^2}K\,dA=4\pi.}
+\tag{W3.1}
+$$</p>
+<p>최근 라플라시안 노트의 $u=-2\log r+O(1)$에서 보였던 숫자 $2$는
+winding form $d\theta$가 두 번 남는다는 뜻이다.</p>
+<p>이 노트의 FS 정규화는</p>
+<p>$$
+\omega_{\mathrm{FS}}=\frac12K\,dA.
+$$</p>
+<p>따라서</p>
+<p>$$
+A_{\mathrm{conn}}
+:=-\frac12*du
+=\frac{r^2}{1+r^2}\,d\theta
+=\frac{X\,dY-Y\,dX}{1+X^2+Y^2}
+$$</p>
+<p>로 놓으면</p>
+<p>$$
+dA_{\mathrm{conn}}
+=\omega_{\mathrm{FS}}
+=\frac{2}{(1+r^2)^2}\,dX\wedge dY,
+$$</p>
+<p>$$
+\boxed{\lim_{R\to\infty}\oint_{C_R}A_{\mathrm{conn}}
+=\oint d\theta=2\pi
+=\int_{S^2}\omega_{\mathrm{FS}}.}
+\tag{W3.2}
+$$</p>
+<p>둥근 총곡률은 두 바퀴, FS 면적은 한 바퀴다. 이 factor $2$를 이후에
+다시 발명하지 않는다.</p>
+<h2>W4. 무한대의 좌표변환도 같은 두 바퀴를 기록한다</h2>
+<p>$z=1/w$이면</p>
+<p>$$
+\frac{dz}{dw}=-\frac1{w^2}.
+$$</p>
+<p>$w=\varepsilon e^{i\theta}$를 한 바퀴 돌릴 때</p>
+<p>$$
+\log\left|\frac{dz}{dw}\right|=-2\log|w|,
+\qquad
+d\arg\frac{dz}{dw}=-2\,d\theta.
+$$</p>
+<p>최근 노트의 $-2\log|w|$, 접다발 전이함수의 차수 $2$, 총곡률
+$4\pi$는 모두 같은 $w^{-2}$를 실수 로그, 복소 위상, winding
+integral로 달리 읽은 값이다.</p>
+<h2>W5. 양의 구면 밀도를 map으로 당기면 부호는 어디서 생기는가</h2>
+<p>먼저 W5.1에서 W5.2로 가는 줄을 생략 없이 쓴다. 구면의
+orientation을 보존하는 입체사영 좌표를 $w=X+iY$라 하자. W3에서</p>
+<p>$$
+\omega_{\mathrm{FS}}
+=\frac12(-\Delta_wu)\,dX\wedge dY,
+\qquad
+-\Delta_wu=\frac4{(1+X^2+Y^2)^2}
+$$</p>
+<p>를 이미 계산했다. 토러스의 orientation은
+$dk_x\wedge dk_y$로 고정한다. 이제 실제로 당긴다.</p>
+<p>$$
+(w\circ f)(k_x,k_y)
+=X(k_x,k_y)+iY(k_x,k_y),
+$$</p>
+<p>$$
+dX=X_x\,dk_x+X_y\,dk_y,\qquad
+dY=Y_x\,dk_x+Y_y\,dk_y,
+$$</p>
+<p>$$
+f^*(dX\wedge dY)
+=(X_xY_y-X_yY_x)\,dk_x\wedge dk_y.
+$$</p>
+<p>여기까지가 2-form $dX\wedge dY$를 당긴 계산이다. 이제 양의 함수
+$-\Delta_wu$도 합성함수로 당긴다.</p>
+<p>$$
+\begin{aligned}
+f^*\omega_{\mathrm{FS}}
+&amp;=f^*\!\left[
+\frac12(-\Delta_wu)(X,Y)\,dX\wedge dY
+\right]\\
+&amp;=\frac12(-\Delta_wu)(X(k),Y(k))
+\,f^*(dX\wedge dY)\\
+&amp;=\frac12(-\Delta_wu)(f(k))
+\det\frac{\partial(X,Y)}{\partial(k_x,k_y)}
+\,dk_x\wedge dk_y.
+\end{aligned}
+\tag{W5.1}
+$$</p>
+<p>왼쪽 2-form의 계수를</p>
+<p>$$
+f^*\omega_{\mathrm{FS}}
+=\bar\lambda(k)\,dk_x\wedge dk_y
+$$</p>
+<p>라고 <strong>정의하여 양변의 $dk_x\wedge dk_y$ 계수를 읽으면</strong> 비로소</p>
+<p>$$
+\boxed{
+\bar\lambda(k)
+=
+\frac12(-\Delta_wu)(f(k))
+\det\frac{\partial(X,Y)}{\partial(k_x,k_y)}.
+}
+\tag{W5.2}
+$$</p>
+<p>이다. 즉 W5.1에서 W5.2로 갈 때 없어진 것은 없다. 공통 기저
+$dk_x\wedge dk_y$를 양변에서 읽어 그 앞의 숫자함수를
+$\bar\lambda$라고 부른 것뿐이다.</p>
+<p>이제 장난감 map이 아니라 이 노트의 실제 map</p>
+<p>$$
+f(k)=-\frac{d(k)}{|d(k)|},\qquad
+d(k)=(\sin k_x,\sin k_y,1-\cos k_x-\cos k_y)
+$$</p>
+<p>에서 토러스 패치 두 개를 직접 잡는다. 약자로</p>
+<p>$$
+s_x=\sin k_x,\quad s_y=\sin k_y,\quad
+c_x=\cos k_x,\quad c_y=\cos k_y,\quad
+\rho=|d(k)|
+$$</p>
+<p>를 쓴다.</p>
+<h3>W5-A. 북극으로 가는 토러스 패치: 부호 $+$</h3>
+<p>토러스에서</p>
+<p>$$
+U_+=\{(k_x,k_y):|k_x|&lt;\pi/6,\ |k_y|&lt;\pi/6\}
+$$</p>
+<p>를 잡는다. 이 안에서는</p>
+<p>$$
+1-c_x-c_y&lt;1-2\cos(\pi/6)=1-\sqrt3&lt;0,
+$$</p>
+<p>이므로 $n=f(k)=-d/\rho$의 세 번째 성분은 $n_3&gt;0$이다. 따라서
+$f(U_+)$는 북반구에 들어가며 남극을 뺀 orientation-preserving chart</p>
+<p>$$
+w_+(n)=\frac{n_1+in_2}{1+n_3}=X_++iY_+
+$$</p>
+<p>를 실제로 쓸 수 있다. $n=-d/\rho$를 대입하면</p>
+<p>$$
+(w_+\circ f)(k)
+=\frac{-s_x-is_y}{\rho-1+c_x+c_y}.
+\tag{W5.A1}
+$$</p>
+<p>$(0,0)$에서는 $d=(0,0,-1)$, $\rho=1$, $f(0,0)=(0,0,1)$,
+$w_+\circ f=0$이고 분모는 $2$다. 분자가 $0$이므로 이 점에서
+몫의 미분은 분자의 미분을 $2$로 나눈 것뿐이다.</p>
+<p>$$
+\begin{aligned}
+X_+(k)&amp;=\frac{-\sin k_x}{\rho-1+c_x+c_y},
+&amp;Y_+(k)&amp;=\frac{-\sin k_y}{\rho-1+c_x+c_y},\\
+\partial_{k_x}X_+(0,0)&amp;=-\frac12,
+&amp;\partial_{k_y}X_+(0,0)&amp;=0,\\
+\partial_{k_x}Y_+(0,0)&amp;=0,
+&amp;\partial_{k_y}Y_+(0,0)&amp;=-\frac12.
+\end{aligned}
+$$</p>
+<p>따라서</p>
+<p>$$
+D(w_+\circ f)_{(0,0)}
+=\begin{pmatrix}-1/2&amp;0\\0&amp;-1/2\end{pmatrix},
+\qquad
+\det D(w_+\circ f)_{(0,0)}=\frac14.
+$$</p>
+<p>target 좌표가 $w_+=0$이므로 $(-\Delta u)(0)=4$. W5.2에 숫자를
+그대로 넣으면</p>
+<p>$$
+\boxed{
+\bar\lambda(0,0)
+=\frac12\cdot4\cdot\frac14
+=\frac12&gt;0.
+}
+\tag{W5.A2}
+$$</p>
+<p>토러스 패치의 두 좌표방향은 구면 북극 패치에서 둘 다 반전되지만,
+두 번 반전되므로 <strong>면의 orientation은 보존</strong>된다.</p>
+<h3>W5-B. 남극으로 가는 토러스 패치: 부호 $-$</h3>
+<p>이번에는 토러스의 $(\pi,\pi)$ 주위에서 orientation을 보존하는 국소좌표</p>
+<p>$$
+u=k_x-\pi,\qquad v=k_y-\pi,\qquad du\wedge dv=dk_x\wedge dk_y
+$$</p>
+<p>를 쓰고</p>
+<p>$$
+U_-=\{(u,v):|u|&lt;\pi/6,\ |v|&lt;\pi/6\}
+$$</p>
+<p>를 잡는다. 이 안에서는 $c_x,c_y&lt;-\sqrt3/2$이므로</p>
+<p>$$
+1-c_x-c_y&gt;1+\sqrt3&gt;0,
+$$</p>
+<p>따라서 $n_3&lt;0$이고 $f(U_-)$는 남반구에 들어간다. 남극 근처에서는
+북극을 뺀 chart를 쓴다. orientation을 보존하려면 복소켤레가 들어간</p>
+<p>$$
+w_-(n)=\frac{n_1-in_2}{1-n_3}=X_-+iY_-
+$$</p>
+<p>를 써야 한다. 이 켤레를 빼면 target chart 자체가 orientation을
+뒤집으므로 지금 찾는 $f$의 부호와 chart의 부호가 섞인다. 실제 map을
+대입하면</p>
+<p>$$
+(w_-\circ f)(k)
+=\frac{-s_x+is_y}{\rho+1-c_x-c_y}.
+\tag{W5.B1}
+$$</p>
+<p>$(\pi,\pi)$에서는 $d=(0,0,3)$, $\rho=3$,
+$f(\pi,\pi)=(0,0,-1)$, $w_-\circ f=0$이고 분모는 $6$이다.
+$\sin(\pi+u)=-\sin u$, $\sin(\pi+v)=-\sin v$이므로</p>
+<p>$$
+X_-(u,v)=\frac{\sin u}{6}+O(u^2+v^2),
+\qquad
+Y_-(u,v)=\frac{-\sin v}{6}+O(u^2+v^2).
+$$</p>
+<p>따라서</p>
+<p>$$
+D(w_-\circ f)_{(0,0)}
+=\begin{pmatrix}1/6&amp;0\\0&amp;-1/6\end{pmatrix},
+\qquad
+\det D(w_-\circ f)_{(0,0)}=-\frac1{36}.
+$$</p>
+<p>이번에도 target 좌표는 $w_-=0$이므로 $(-\Delta u)(0)=4$. W5.2는</p>
+<p>$$
+\boxed{
+\bar\lambda(\pi,\pi)
+=\frac12\cdot4\cdot\left(-\frac1{36}\right)
+=-\frac1{18}&lt;0.
+}
+\tag{W5.B2}
+$$</p>
+<p>를 준다. $u$-방향은 target의 $X_-$-방향으로 가지만 $v$-방향은
+$Y_-$-방향을 거꾸로 가므로, 이 토러스 패치는 구면의 양의 면적형식을
+뒤집어 가져온다.</p>
+<p>두 계산은 뒤에서 유도할 전역식</p>
+<p>$$
+\bar\lambda(k)=\frac{N}{2(3-2N)^{3/2}},
+\qquad N=c_x+c_y-c_xc_y
+$$</p>
+<p>과 독립적으로 맞는다. $(0,0)$에서는 $N=1$이라 $1/2$,
+$(\pi,\pi)$에서는 $N=-3$이라 $-1/18$이다.</p>
+<table>
+<thead>
+<tr>
+<th>엔티티</th>
+<th>뜻</th>
+<th>부호</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$-\Delta_wu$</td>
+<td>구면의 곡률면적 밀도</td>
+<td>항상 $+$</td>
+</tr>
+<tr>
+<td>$\det Df$</td>
+<td>방향을 보존·반전하는 signed Jacobian</td>
+<td>$+,0,-$</td>
+</tr>
+<tr>
+<td>$\bar\lambda$</td>
+<td>$f^*\omega_{\mathrm{FS}}$의 계수</td>
+<td>$\det Df$와 같음</td>
+</tr>
+</tbody>
+</table>
+<p>음의 $\bar\lambda$는 구면의 곡률이 음수가 됐다는 뜻이 아니다. 양의
+구면 면적을 $f$가 뒤집어서 가져왔다는 뜻이다.</p>
+<blockquote>
+<p>$u$를 고정된 $(k_x,k_y)$에 대한 토러스의 전역 등각인자라고 쓰지
+않는다. $u$는 target 입체사영 좌표의 함수이고, regular sheet에서
+$w\circ f$를 통해 당겨 쓴다.</p>
+</blockquote>
+<h2>W6. 세 개의 map으로 $+$, $-$, fold를 먼저 본다</h2>
+<p>$$
+F_+(p,q)=(p,q),\qquad \det DF_+=1,
+$$</p>
+<p>$$
+F_-(p,q)=(p,-q),\qquad \det DF_-=-1.
+$$</p>
+<p>첫 map은 작은 반시계 원을 반시계 원으로, 둘째 map은 시계 원으로
+보낸다. winding integral은 각각 $+2\pi$, $-2\pi$다.</p>
+<p>이제 fold 모형</p>
+<p>$$
+F_{\mathrm{fold}}(p,q)=(p,q^2)
+$$</p>
+<p>을 계산한다.</p>
+<p>$$
+DF_{\mathrm{fold}}
+=\begin{pmatrix}1&amp;0\\0&amp;2q\end{pmatrix},
+\qquad
+\det DF_{\mathrm{fold}}=2q.
+$$</p>
+<p>따라서 $q&gt;0$에서는 $+$, $q=0$에서는 $0$, $q&lt;0$에서는 $-$다.
+target 점 $(a,b)$의 원상은</p>
+<p>$$
+p=a,\qquad q^2=b.
+$$</p>
+<ul>
+<li>$b&gt;0$: $(a,+\sqrt b)$, $(a,-\sqrt b)$, 부호는 $+,-$.</li>
+<li>$b=0$: 두 원상이 $(a,0)$에서 만나고 Jacobian이 $0$.</li>
+<li>$b&lt;0$: 실수 원상이 없다.</li>
+</ul>
+<p>원상 개수는 $2\to1_{\mathrm{critical}}\to0$으로 변하지만 생성·소멸하는
+signed sum은</p>
+<p>$$
+(+1)+(-1)=0.
+$$</p>
+<p>이것이 이후 $1\leftrightarrow3$에서 보게 될 쌍의 국소 모형이다.</p>
+<h2>W7. 실제 two-band map의 대각선에서 $+\to0\to-$를 본다</h2>
+<p>뒤에 직접 유도할 식을 한 줄 먼저 빌린다.</p>
+<p>$$
+\bar\lambda(k_x,k_y)
+=\frac{N}{2(3-2N)^{3/2}},
+\qquad
+N=\cos k_x+\cos k_y-\cos k_x\cos k_y.
+$$</p>
+<p>$k(t)=(t,t)$, $c=\cos t$이면</p>
+<p>$$
+N(t,t)=c(2-c),
+$$</p>
+<p>$$
+\boxed{
+\bar\lambda(t,t)
+=\frac{c(2-c)}{2(3-4c+2c^2)^{3/2}}.
+}
+\tag{W7.1}
+$$</p>
+<p>따라서</p>
+<p>$$
+\bar\lambda(0,0)=\frac12,\qquad
+\bar\lambda\!\left(\frac\pi2,\frac\pi2\right)=0,\qquad
+\bar\lambda(\pi,\pi)=-\frac1{18}.
+$$</p>
+<p>이 경로에서 실제로 $+\to0\to-$를 목격한다. 가운데에서는</p>
+<p>$$
+\det g=\bar\lambda^2=0
+$$</p>
+<p>이므로 두 domain 방향이 target에서 독립적인 두 방향으로 움직이지
+못한다. 이 장면을 본 뒤에만 singular point라는 이름을 붙인다.</p>
+<h2>W8. regular value 주위의 작은 원들이 degree를 센다</h2>
+<p>regular value $y\in S^2$에 대해</p>
+<p>$$
+f^{-1}(y)=\{k_1,\dots,k_r\}
+$$</p>
+<p>라 하자. 각 $k_i$ 주위에 작은 반시계 원 $C_i$를 잡고, orientation을
+보존하는 target 국소좌표 $\zeta$를 $\zeta(y)=0$이 되게 고른다. 그러면</p>
+<p>$$
+\boxed{
+\varepsilon_i
+=
+\frac1{2\pi}\oint_{C_i}
+d\arg\bigl(\zeta(f(k))\bigr)
+=
+\operatorname{sgn}\det df_{k_i}.
+}
+\tag{W8.1}
+$$</p>
+<p>왼쪽은 winding form 적분이고 오른쪽은 sheet의 $+$, $-$다. 따라서</p>
+<p>$$
+\boxed{
+\deg f
+=
+\sum_{k_i\in f^{-1}(y)}\varepsilon_i
+=
+\frac1{2\pi}\int_{T^2}f^*\omega_{\mathrm{FS}}.
+}
+\tag{W8.2}
+$$</p>
+<p>$y$를 뺀 구면에서 $\omega_{\mathrm{FS}}=dA_y$가 되도록 $y$에서만
+gauge 특이성을 가진 $A_y$를 고른다. $k_i$ 주위의 작은 원판을
+도려내고 Stokes 정리를 쓴다. 부호를 생략하지 말자. $C_i$는 source의
+반시계 원이지만, 도려낸 영역의 경계 orientation은 $-C_i$다. 또한
+target에서 반시계로 $y$를 도는 작은 원을 $C_y$라 하면</p>
+<p>$$
+\oint_{C_y}A_y\longrightarrow-2\pi,
+$$</p>
+<p>즉 $A_y$의 특이한 부분은 $-d\arg\zeta$다. 따라서</p>
+<p>$$
+\begin{aligned}
+\int_{T^2}f^*\omega_{\mathrm{FS}}
+&amp;=\lim_{\varepsilon\to0}
+\sum_i\oint_{-C_i}f^*A_y\\
+&amp;=\sum_i\bigl[-(-2\pi\varepsilon_i)\bigr]\\
+&amp;=2\pi\sum_i\varepsilon_i.
+\end{aligned}
+$$</p>
+<p>첫 번째 음수는 source에서 원판을 도려낸 경계 orientation, 두 번째
+음수는 target 접속형식의 특이항에서 왔다. 매끄러운 나머지의 작은 원
+적분은 $0$으로 간다.</p>
+<p>fold의 두 원상은 target을 반대 방향으로 감으므로</p>
+<p>$$
+(+2\pi)+(-2\pi)=0.
+$$</p>
+<p>원상 개수는 바뀌지만 degree가 바뀌지 않는 이유는 winding integral의
+상쇄다.</p>
+<h2>W9. 이제서야 중간값정리와 Gauss–Bonnet을 붙인다</h2>
+<p>만일 $f:T^2\to S^2$가 어디에서도 singular하지 않다면
+$\bar\lambda\ne0$이다. $\bar\lambda$는 연속이고 $T^2$는 연결되어
+있으므로 $\bar\lambda&gt;0$ 전체 또는 $\bar\lambda&lt;0$ 전체다.</p>
+<p>여기서 전체가 양수 또는 음수인 정확한 엔티티는</p>
+<p>$$
+\boxed{
+\bar\lambda
+=
+\frac{f^*\omega_{\mathrm{FS}}}{dk_x\wedge dk_y}
+}
+$$</p>
+<p>다. Gauss 곡률 스칼라 $K_g$가 아니다.</p>
+<p>가정 아래 $g=f^*g_{S^2}$는 매끄러운 Riemannian metric이고
+$f$는 각 regular sheet에서 local isometry다. 따라서</p>
+<p>$$
+K_g=1,\qquad
+K_g\,dA_g=2|\bar\lambda|\,dk_x\wedge dk_y.
+$$</p>
+<p>그러므로</p>
+<p>$$
+\int_{T^2}K_g\,dA_g
+=2\int_{T^2}|\bar\lambda|\,dk_x\,dk_y&gt;0.
+$$</p>
+<p>그러나 Gauss–Bonnet은</p>
+<p>$$
+\int_{T^2}K_g\,dA_g=2\pi\chi(T^2)=0
+$$</p>
+<p>이라고 한다. 모순이다. 따라서 $\bar\lambda=0$인 점이 반드시 있다.</p>
+<p>이 결론은 마지막 줄이다. 발생 순서는 반대였다.</p>
+<p>$$
+\oint d\theta
+\longrightarrow
+-\oint *du
+\longrightarrow
+\int K\,dA
+\longrightarrow
+\int f^*\omega_{\mathrm{FS}}
+\longrightarrow
+\sum\operatorname{sgn}\det df
+\longrightarrow
+\text{singularity의 필연성}.
+$$</p>
+<hr />
+<h1>I. 먼저 풀 문제 — 검산 답은 II부에 있다</h1>
+<h2>하루 배치</h2>
+<table>
+<thead>
+<tr>
+<th>묶음</th>
+<th style="text-align: right;">권장 시간</th>
+<th>손에 남겨야 할 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W1–W2. 원·로그·flux</td>
+<td style="text-align: right;">45분</td>
+<td>$\oint\vartheta=2\pi m$과 $-*d(-m\log r)=m\vartheta$를 빈 종이에 재현</td>
+</tr>
+<tr>
+<td>W3–W4. 구면·무한대</td>
+<td style="text-align: right;">40분</td>
+<td>$4\pi$는 두 winding, $2\pi$는 한 winding이라는 factor 표</td>
+</tr>
+<tr>
+<td>W5–W7. pullback·toy fold</td>
+<td style="text-align: right;">55분</td>
+<td>양의 밀도 $\times$ signed Jacobian, $F(p,q)=(p,q^2)$, 실제 $+\to0\to-$</td>
+</tr>
+<tr>
+<td>W8–W9. 작은 원·필연성</td>
+<td style="text-align: right;">40분</td>
+<td>각 원상 주위 $\pm2\pi$와 마지막 Gauss–Bonnet 모순</td>
+</tr>
+<tr>
+<td>0. 규약 고정</td>
+<td style="text-align: right;">20분</td>
+<td>부호와 $2\pi/4\pi$를 적은 한 장</td>
+</tr>
+<tr>
+<td>1. signed density</td>
+<td style="text-align: right;">50분</td>
+<td>$\bar\lambda=N/[2(3-2N)^{3/2}]$ 직접 유도</td>
+</tr>
+<tr>
+<td>2. singular/critical curve</td>
+<td style="text-align: right;">70분</td>
+<td>$T^2$의 $\Sigma$와 $S^2$의 $\widetilde\Sigma$를 따로 그리기</td>
+</tr>
+<tr>
+<td>3. 정확한 fold trace</td>
+<td style="text-align: right;">90분</td>
+<td>$\theta=0^\circ\to40^\circ$ root ledger</td>
+</tr>
+<tr>
+<td>4. cusp 주변 continuation</td>
+<td style="text-align: right;">80분</td>
+<td>root ID가 교환되는 표</td>
+</tr>
+<tr>
+<td>5. 적분과 degree</td>
+<td style="text-align: right;">60분</td>
+<td>signed/unsigned 적분을 각각 한 번</td>
+</tr>
+<tr>
+<td>6. CP¹ 계산과 접합</td>
+<td style="text-align: right;">35분</td>
+<td>$ub-va$가 여기서 무슨 부호인지</td>
+</tr>
+<tr>
+<td>7. 마지막 위상 논리</td>
+<td style="text-align: right;">25분</td>
+<td>계산 뒤에만 covering obstruction 쓰기</td>
+</tr>
+</tbody>
+</table>
+<p>중간에 막히면 문제 전체를 읽지 말고, 현재 표에서 <strong>다음 줄의 같은 sheet가 무엇인지</strong>만 찾는다.</p>
+<hr />
+<h2>워밍업 재현 카드 — 위 풀이를 덮고 여섯 번 다시 한다</h2>
+<ol>
+<li>$R=3$, $m=-2$인 $\gamma_m$에 $\vartheta$를 직접 대입하여
+   $-4\pi$를 얻어라. 반지름 $3$이 사라지는 줄에 밑줄을 그어라.</li>
+<li>$u=-3\log r$에 대해 $-*du=3\vartheta$를 $dX,dY$ 성분으로
+   다시 계산하라.</li>
+<li>$u=\log2-\log(1+r^2)$에서 $R=1$인 원판의 둥근 총곡률이
+   $2\pi$, FS 면적이 $\pi$임을 경계적분으로 계산하라.</li>
+<li>$F(p,q)=(p,q^2)$에서 target $(2,\tfrac14)$의 두 원상과
+   $\det DF$의 부호를 적고, 두 작은 원의 winding 합을 계산하라.</li>
+<li>$k(t)=(t,t)$에서 $t=\tfrac\pi3,\tfrac\pi2,\tfrac{2\pi}3$의
+   $\bar\lambda$ 부호를 분모 계산 없이 먼저 판정한 뒤 실제 값으로 검산하라.</li>
+<li>regular value의 원상이 세 개이고 부호가 $+,+,-$일 때
+   $\sum_i\oint_{C_i}d\arg(\zeta\circ f)$를 계산하고
+   $\deg f$를 읽어라.</li>
+</ol>
+<p>이 여섯 문제의 목적은 공식을 외우는 것이 아니다. 원상, Jacobian,
+곡률적분이 등장할 때마다 손이 자동으로 <strong>“작은 원을 어느 방향으로 몇
+번 감았나?”</strong>로 돌아가게 만드는 것이다.</p>
+<hr />
+<h2>0번. Convention lock를 손으로 한 번 베껴 쓴다</h2>
+<ol>
+<li>$T^2=(-\pi,\pi]^2/\sim$와 orientation $dk_x\wedge dk_y$를 적어라.</li>
+<li>$d(k)$, $\widehat d$, lower-band projector $P$, lower-band Bloch vector $n$ 사이의 부호를 적어라.</li>
+<li>unit Bloch sphere의 outward area form $\omega_{S^2}$, paper/FS area form $\omega_{\mathrm{FS}}$, normalized form $\tau$의 총적분을 각각 적어라.</li>
+<li>$\bar\lambda&gt;0$가 orientation preserving이라는 규약을 적어라.</li>
+</ol>
+<hr />
+<h2>1번. $d(k)$에서 signed Jacobian을 만든다</h2>
+<p><strong>[논문 Eq. (22)]</strong></p>
+<p>$$
+d(k_x,k_y)
+=
+(\sin k_x,\sin k_y,1-\cos k_x-\cos k_y).
+$$</p>
+<p>다음을 한 줄씩 계산하라.</p>
+<ol>
+<li>$\partial_xd$, $\partial_yd$.</li>
+<li>$\partial_xd\times\partial_yd$.</li>
+<li>$d\cdot(\partial_xd\times\partial_yd)$.</li>
+<li>$r^2=|d|^2$.</li>
+<li><strong>[논문 Eq. (38)]</strong>
+   $$
+   \bar\lambda
+   =-\frac12\widehat d\cdot
+   (\partial_x\widehat d\times\partial_y\widehat d)
+   $$
+   에 넣고 한 분수로 정리.</li>
+<li>$g_{\mu\nu}=\operatorname{tr}[(\partial_\mu P)(\partial_\nu P)]$에서
+   $\det g=\bar\lambda^2$를 직접 보일 것.</li>
+</ol>
+<p>계산 중간에</p>
+<p>$$
+N(k):=\cos k_x+\cos k_y-\cos k_x\cos k_y
+$$</p>
+<p>를 도입하되, 왜 이 $N$을 도입했는지 한 문장으로 적어라.</p>
+<hr />
+<h2>2번. domain의 singular curve와 target의 critical-value curve를 분리한다</h2>
+<ol>
+<li>$\det g=0$을 $N(k)=0$으로 바꾸어라.</li>
+<li>논문 Appendix D Eq. (75)에 $\tan k\,\sin k=\sin^2k/\cos k$를 넣고, $\cos k_x\cos k_y$를 곱해 $N=0$과 비교하라.</li>
+<li>왜 Eq. (75)를 글자 그대로 쓰면 $\cos k_x=\cos k_y=0$인 cusp 점이 식의 정의역에서 빠지는지 적어라.</li>
+<li>$c=\cos k_x$로 두고
+   $$
+   \cos k_y=-\frac{c}{1-c}
+   $$
+   를 얻어라. 허용 범위가 $c\in[-1,\tfrac12]$임을 확인하라.</li>
+<li>$\Sigma$ 위에서 $|d|^2=3$임을 보이고, critical-value curve
+   $$
+   \widetilde\Sigma=f(\Sigma)
+   $$
+   를 $c$와 두 sine 부호로 매개화하라.</li>
+<li>$(\pi/2,\pi/2)$에서 kernel과 $\Sigma$의 tangent가 같음을 직접 계산하라.</li>
+<li>$(-\pi/3,\pi)$에서는 kernel과 $\Sigma$의 tangent가 서로 가로지름을 직접 계산하라.</li>
+</ol>
+<p>마지막 두 계산 뒤에만 각각 cusp와 ordinary fold라는 이름을 붙인다.</p>
+<hr />
+<h2>3번. 정확한 fold trace — 근 공식을 써서 $1\leftrightarrow3$을 완주한다</h2>
+<p>target 경로를</p>
+<p>$$
+q(\theta)=(\sin\theta,0,-\cos\theta),
+\qquad 0\le\theta\le40^\circ
+$$</p>
+<p>로 잡는다.</p>
+<ol>
+<li>$q_y=0$에서 모든 원상이 $k_y=0$ 또는 $k_y=\pi$ 위에 있어야 함을 보이라.</li>
+<li>$k_y=0$ branch를 정확히 구해 sheet $A$라 이름 붙여라.</li>
+<li>$k_y=\pi$, $u=-k_x\in[0,\pi]$에서
+   $$
+   \frac{\sin u}{2-\cos u}=\tan\theta
+   $$
+   를 얻어라.</li>
+<li>$t=\tan(u/2)$를 넣어 이차방정식을 만들고 두 근을 sheet $B,C$로 계속 추적하라.</li>
+<li>판별식이 사라지는 $\theta$와 두 근이 만나는 source 점을 정확히 구하라.</li>
+<li>아래 표를 계산기로 직접 채워라. $B,C$는 정렬 순서가 아니라 앞 단계 근과의 연속성으로 이어라.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">$\theta$</th>
+<th>$q(\theta)$</th>
+<th>sheet $A$</th>
+<th>sheet $B$</th>
+<th>sheet $C$</th>
+<th style="text-align: right;">signed sum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">$0^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$10^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$20^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$25^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$29^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$29.9^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$30^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;">critical</td>
+</tr>
+<tr>
+<td style="text-align: right;">$30.1^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$35^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: right;">$40^\circ$</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4번. cusp 주변에서는 root의 이름까지 보존한다</h2>
+<p>source cusp</p>
+<p>$$
+k_c=(\pi/2,\pi/2)
+$$</p>
+<p>와 그 target</p>
+<p>$$
+q_c=\frac{(-1,-1,-1)}{\sqrt3}
+$$</p>
+<p>를 쓴다. target tangent frame을</p>
+<p>$$
+e_A=\frac{(1,1,-2)}{\sqrt6},
+\qquad
+e_B=\frac{(1,-1,0)}{\sqrt2}
+$$</p>
+<p>로 잡고</p>
+<p>$$
+q(A,B)=
+\frac{q_c+A e_A+B e_B}{\sqrt{1+A^2+B^2}}
+$$</p>
+<p>로 움직인다.</p>
+<ol>
+<li>$A=0.04$를 고정하고 $B=-0.012\to0.012$로 움직여 모든 원상을 구하라.</li>
+<li>한 단계의 root를 다음 단계 root에 torus 거리로 연결하라.</li>
+<li>들어갈 때 생기는 $+$, $-$ pair와 나올 때 사라지는 pair를 서로 구분하라.</li>
+<li>원상 개수 $1,3,1$만 적었을 때 놓치는 사실을 한 문장으로 적어라.</li>
+<li>선택 도전: $k_x=\pi/2+s+t$, $k_y=\pi/2+s-t$를 넣어 cusp의 leading term을 구하라.</li>
+</ol>
+<p>수치 root finder를 썼다면 반드시 다음을 기록한다.</p>
+<ul>
+<li>시작 seed 집합</li>
+<li>torus wrapping 방식</li>
+<li>root clustering tolerance</li>
+<li>full three-vector residual</li>
+<li>이전 step과 다음 step 사이의 root matching 기준</li>
+</ul>
+<hr />
+<h2>5번. 원상 trace를 실제 적분으로 닫는다</h2>
+<ol>
+<li>$\theta&lt;30^\circ$의 regular target 주위에 작은 원판 $D\subset S^2$를 잡고, 세 원상 근방을 $U_A,U_B,U_C$라 하라.</li>
+<li>각 제한 $f:U_i\to D$에서 change of variables를 적용해
+   $$
+   \int_{U_i}f^*(\omega_{S^2}/2)
+   $$
+   를 $D$의 면적으로 바꾸어라.</li>
+<li>$\theta&lt;30^\circ$와 $\theta&gt;30^\circ$에서 실제 부호 합을 각각 써라.</li>
+<li>$T^2$ 전체에서
+   $$
+   \frac1{2\pi}\int_{T^2}\bar\lambda\,dk_x\,dk_y
+   $$
+   와
+   $$
+   \frac1{2\pi}\int_{T^2}|\bar\lambda|\,dk_x\,dk_y
+   $$
+   를 midpoint grid로 따로 계산하라.</li>
+<li>unsigned integral이 signed integral보다 큰 양이 정확히 무엇의 두 배인지 적어라.</li>
+</ol>
+<hr />
+<h2>6번. CP¹ 손계산의 $ub-va$를 이 문제에 꽂는다</h2>
+<p>선생님의 기존 계산</p>
+<p>$$
+dA_{\mathrm{conn}}
+=\frac{2}{(1+|z|^2)^2}\,dx\wedge dy,
+$$</p>
+<p>$$
+\operatorname{Im}Q(X,Y)
+=\frac{ub-va}{(1+|z|^2)^2},
+\qquad
+\frac12dA_{\mathrm{conn}}=\operatorname{Im}Q
+$$</p>
+<p>를 사용한다.</p>
+<ol>
+<li>unit sphere area form이
+   $$
+   \omega_{S^2}
+   =\frac{4}{(1+|z|^2)^2}\,dx\wedge dy
+   $$
+   임을 대조하라.</li>
+<li>이 논문의 $\bar\lambda\,dk_x\wedge dk_y$가
+   $f^*dA_{\mathrm{conn}}$인지 $f^*\operatorname{Im}Q$인지 factor를 확인하라.</li>
+<li>$ub-va$의 부호가 sheet orientation과 같은 이유를 적어라.</li>
+</ol>
+<hr />
+<h2>7번. 이제서야 singularity의 필연성을 쓴다</h2>
+<p>계산을 모두 마친 뒤 다음 빈칸을 채운다.</p>
+<blockquote>
+<p>만약 $f:T^2\to S^2$가 모든 점에서 rank $2$라면 $f$는 <strong><em>_</em>_이다.
+$T^2$가 compact이므로 이는 proper이고, 따라서 </strong><strong><em>_이 된다.
+그런데 $S^2$는 simply connected이므로 connected covering은 </em></strong>___이어야 한다.
+이는 $T^2\not\cong S^2$와 모순이다.</p>
+</blockquote>
+<p>이 논리는 앞의 root trace를 대체하지 않는다. 앞 계산에서 실제로 본 fold pair의 출생과 소멸을, 전역적으로 피할 수 없다는 마지막 확인일 뿐이다.</p>
+<hr />
+<h1>II. 검산용 완전 풀이</h1>
+<h2>0. Convention lock</h2>
+<p><strong>[논문 Eq. (21)–(22)]</strong></p>
+<p>$$
+T^2=(-\pi,\pi]^2/\sim,
+\qquad
+\operatorname{or}(T^2)=dk_x\wedge dk_y,
+$$</p>
+<p>$$
+d=(\sin k_x,\sin k_y,1-\cos k_x-\cos k_y),
+\qquad
+\widehat d=\frac d{|d|}.
+$$</p>
+<p><strong>[논문 Eq. (22) 아래]</strong></p>
+<p>$$
+P=\frac12(I-\widehat d\cdot\sigma).
+$$</p>
+<p><strong>[유도: lower-band 부호를 target 좌표로 옮김]</strong></p>
+<p>$$
+P=\frac12(I+n\cdot\sigma)
+\quad\Longrightarrow\quad
+n=-\widehat d.
+$$</p>
+<p>따라서 이 노트의 실제 map은</p>
+<p>$$
+f:T^2\longrightarrow S^2,
+\qquad
+f(k)=n(k)=-\widehat d(k).
+$$</p>
+<p>unit Bloch sphere에는 outward orientation을 주고</p>
+<p>$$
+\omega_{S^2,n}(u,v)=n\cdot(u\times v),
+\qquad
+\int_{S^2}\omega_{S^2}=4\pi
+$$</p>
+<p>로 둔다.</p>
+<p><strong>[유도]</strong></p>
+<p>$$
+\omega_{\mathrm{FS}}:=\frac12\omega_{S^2},
+\qquad
+\int_{S^2}\omega_{\mathrm{FS}}=2\pi,
+$$</p>
+<p>$$
+\tau:=\frac{\omega_{S^2}}{4\pi}
+=\frac{\omega_{\mathrm{FS}}}{2\pi},
+\qquad
+\int_{S^2}\tau=1.
+$$</p>
+<p><strong>[논문 Eq. (23)–(24), Eq. (38) + 위 부호 변환]</strong></p>
+<p>$$
+f^*\omega_{\mathrm{FS}}
+=\bar\lambda\,dk_x\wedge dk_y,
+\qquad
+\bar\lambda
+=\frac12n\cdot(\partial_xn\times\partial_yn)
+=-\frac12\widehat d\cdot
+(\partial_x\widehat d\times\partial_y\widehat d).
+$$</p>
+<p>따라서 이 노트에서는</p>
+<p>$$
+\bar\lambda&gt;0
+\Longleftrightarrow
+f\text{가 }(dk_x,dk_y)\text{의 방향을 보존},
+$$</p>
+<p>$$
+\bar\lambda&lt;0
+\Longleftrightarrow
+f\text{가 방향을 뒤집음}
+$$</p>
+<p>으로 고정한다. <strong>이후의 모든 $+$, $-$는 이 한 줄의 부호다.</strong></p>
+<hr />
+<h2>1. signed density를 $d(k)$ 하나에서 끝까지 유도</h2>
+<p>약자를</p>
+<p>$$
+s_x=\sin k_x,\quad c_x=\cos k_x,
+\qquad
+s_y=\sin k_y,\quad c_y=\cos k_y
+$$</p>
+<p>로 둔다.</p>
+<h3>1.1 세 벡터</h3>
+<p><strong>[유도]</strong></p>
+<p>$$
+d=(s_x,s_y,1-c_x-c_y),
+$$</p>
+<p>$$
+\partial_xd=(c_x,0,s_x),
+\qquad
+\partial_yd=(0,c_y,s_y).
+$$</p>
+<p>따라서</p>
+<p>$$
+\begin{aligned}
+\partial_xd\times\partial_yd
+&amp;=
+\begin{vmatrix}
+\mathbf i&amp;\mathbf j&amp;\mathbf k\\
+c_x&amp;0&amp;s_x\\
+0&amp;c_y&amp;s_y
+\end{vmatrix}\\
+&amp;=(-s_xc_y,-c_xs_y,c_xc_y).
+\end{aligned}
+$$</p>
+<h3>1.2 triple product</h3>
+<p><strong>[유도]</strong></p>
+<p>$$
+\begin{aligned}
+d\cdot(\partial_xd\times\partial_yd)
+&amp;=-s_x^2c_y-c_xs_y^2+(1-c_x-c_y)c_xc_y\\
+&amp;=-(1-c_x^2)c_y-c_x(1-c_y^2)
+  +(1-c_x-c_y)c_xc_y\\
+&amp;=-c_y+c_x^2c_y-c_x+c_xc_y^2
+  +c_xc_y-c_x^2c_y-c_xc_y^2\\
+&amp;=-c_x-c_y+c_xc_y.
+\end{aligned}
+$$</p>
+<p>여기서</p>
+<p>$$
+\boxed{N(k):=c_x+c_y-c_xc_y}
+$$</p>
+<p>라고 둔다. 이 $N$은 장식이 아니다. <strong>signed density의 분자이면서 singular set의 방정식</strong>이 되기 때문에 한 번 이름을 붙인다.</p>
+<p>즉</p>
+<p>$$
+d\cdot(\partial_xd\times\partial_yd)=-N.
+$$</p>
+<h3>1.3 분모</h3>
+<p><strong>[유도]</strong></p>
+<p>$$
+\begin{aligned}
+r^2=|d|^2
+&amp;=s_x^2+s_y^2+(1-c_x-c_y)^2\\
+&amp;=(1-c_x^2)+(1-c_y^2)
+  +1+c_x^2+c_y^2-2c_x-2c_y+2c_xc_y\\
+&amp;=3-2(c_x+c_y-c_xc_y)\\
+&amp;=\boxed{3-2N}.
+\end{aligned}
+$$</p>
+<h3>1.4 paper formula에 대입</h3>
+<p>정규화된 벡터의 triple product에는</p>
+<p>$$
+\widehat d\cdot
+(\partial_x\widehat d\times\partial_y\widehat d)
+=
+\frac{d\cdot(\partial_xd\times\partial_yd)}{|d|^3}
+$$</p>
+<p>가 성립한다. $\partial\widehat d$에 생기는 $d$ 방향 항은 마지막 triple product에서 두 번 같은 방향이 들어가 사라진다.</p>
+<p><strong>[유도]</strong></p>
+<p>$$
+\begin{aligned}
+\bar\lambda
+&amp;=-\frac12
+\frac{d\cdot(\partial_xd\times\partial_yd)}{r^3}\\
+&amp;=-\frac12\frac{-N}{r^3}\\
+&amp;=\boxed{
+\frac{N}{2(3-2N)^{3/2}}
+}.
+\end{aligned}
+$$</p>
+<h3>1.5 metric determinant와 같은 zero set</h3>
+<p><strong>[논문 Eq. (2)]</strong></p>
+<p>$$
+g_{\mu\nu}
+=\operatorname{tr}[(\partial_\mu P)(\partial_\nu P)].
+$$</p>
+<p>Pauli trace $\operatorname{tr}(\sigma_i\sigma_j)=2\delta_{ij}$와</p>
+<p>$$
+\partial_\mu P=\frac12(\partial_\mu n)\cdot\sigma
+$$</p>
+<p>를 넣으면</p>
+<p>$$
+g_{\mu\nu}
+=\frac12\partial_\mu n\cdot\partial_\nu n.
+$$</p>
+<p>따라서</p>
+<p>$$
+\begin{aligned}
+\det g
+&amp;=\frac14\left(
+|\partial_xn|^2|\partial_yn|^2
+-(\partial_xn\cdot\partial_yn)^2
+\right)\\
+&amp;=\frac14|\partial_xn\times\partial_yn|^2.
+\end{aligned}
+$$</p>
+<p>$\partial_xn,\partial_yn$은 unit sphere의 tangent이므로 그 cross product는 $n$과 나란하다. 그러므로</p>
+<p>$$
+\det g
+=\frac14
+\left[n\cdot(\partial_xn\times\partial_yn)\right]^2
+=\boxed{\bar\lambda^2}.
+$$</p>
+<p><strong>[검산]</strong> metric이 퇴화하는 점, signed density가 $0$인 점, map의 orientation이 바뀌는 경계가 모두 같은 $N=0$으로 합쳐졌다.</p>
+<hr />
+<h2>2. $\Sigma\subset T^2$와 $\widetilde\Sigma\subset S^2$</h2>
+<h3>2.1 singular set</h3>
+<p><strong>[유도]</strong></p>
+<p>$$
+\det g=0
+\Longleftrightarrow
+\bar\lambda=0
+\Longleftrightarrow
+\boxed{N=c_x+c_y-c_xc_y=0}.
+$$</p>
+<p><strong>[논문 Appendix D, Eq. (75)]</strong></p>
+<p>$$
+\tan k_x\sin k_x+\tan k_y\sin k_y+c_x+c_y-1=0.
+$$</p>
+<p>여기서</p>
+<p>$$
+\tan k_x\sin k_x=\frac{s_x^2}{c_x}
+$$</p>
+<p>를 넣고 $c_xc_y$를 곱하면</p>
+<p>$$
+s_x^2c_y+s_y^2c_x+c_x^2c_y+c_xc_y^2-c_xc_y=0.
+$$</p>
+<p>$$
+s_x^2+c_x^2=1,
+\qquad
+s_y^2+c_y^2=1
+$$</p>
+<p>을 묶으면</p>
+<p>$$
+c_y+c_x-c_xc_y=0,
+$$</p>
+<p>즉 $N=0$이다.</p>
+<p><strong>주의.</strong> Eq. (75)의 $\tan$ 표현은 $c_xc_y=0$에서 글자 그대로 정의되지 않는다. 반면 triple-product에서 직접 얻은 $N=0$은 그 점에서도 잘 정의된다. 따라서 cusp 네 점은 Eq. (75)의 <strong>closure</strong>에서 복구되는 것이 아니라, 직접 유도한 $N=0$에 원래부터 들어 있다.</p>
+<h3>2.2 domain curve의 실제 매개화</h3>
+<p>$$
+c:=c_x
+$$</p>
+<p>로 두면</p>
+<p>$$
+c+c_y-cc_y=0
+$$</p>
+<p>이므로</p>
+<p>$$
+\boxed{c_y=-\frac{c}{1-c}}.
+$$</p>
+<p>$|c_y|\le1$을 풀면</p>
+<p>$$
+\boxed{-1\le c\le\frac12}.
+$$</p>
+<p>각 $c$에 대해</p>
+<p>$$
+k_x=\varepsilon_x\arccos c,
+\qquad
+k_y=\varepsilon_y
+\arccos\left(-\frac{c}{1-c}\right),
+\qquad
+\varepsilon_x,\varepsilon_y\in\{\pm1\},
+$$</p>
+<p>로 네 arc를 얻고, torus 경계에서 서로 이어 붙인다.</p>
+<h3>2.3 target critical-value curve</h3>
+<p>$\Sigma$에서는 $N=0$이므로</p>
+<p>$$
+r^2=3-2N=3.
+$$</p>
+<p>따라서 target 값은</p>
+<p>$$
+\boxed{
+q_\Sigma
+=-\frac1{\sqrt3}
+\left(
+\varepsilon_x\sqrt{1-c^2},
+\varepsilon_y\sqrt{1-\frac{c^2}{(1-c)^2}},
+1-c+\frac{c}{1-c}
+\right)
+}.
+$$</p>
+<p>동일한 셋째 성분을</p>
+<p>$$
+1-c-c_y=1-cc_y
+$$</p>
+<p>로 써도 된다.</p>
+<p><strong>[논문]</strong> 논문은 Appendix D에서 source singular curve의 방정식을 주고, Fig. 3에서 target의 critical-value contour를 그림으로 제시한다.</p>
+<p><strong>[유도]</strong> 위 상자는 그 target contour를 이 모델에서 직접 찍을 수 있게 만든 명시적 매개화다.</p>
+<h3>2.4 cusp 네 점</h3>
+<p>$c=0$이면 $c_y=0$이다. 따라서</p>
+<p>$$
+(k_x,k_y)=(\pm\pi/2,\pm\pi/2)
+$$</p>
+<p>의 네 점이 나오고,</p>
+<p>$$
+\boxed{
+q_c=\frac{(-\varepsilon_x,-\varepsilon_y,-1)}{\sqrt3}
+}
+$$</p>
+<p>가 네 cusp value다.</p>
+<p>이제 $(\pi/2,\pi/2)$ 하나를 직접 본다.</p>
+<p>$$
+d=(1,1,1),
+\qquad
+\partial_xd=(0,0,1),
+\qquad
+\partial_yd=(0,0,1).
+$$</p>
+<p>따라서</p>
+<p>$$
+\partial_xn=\partial_yn
+$$</p>
+<p>이고 kernel은</p>
+<p>$$
+\eta=(1,-1).
+$$</p>
+<p>한편</p>
+<p>$$
+\nabla N
+=
+(-s_x(1-c_y),-s_y(1-c_x))
+$$</p>
+<p>이므로 cusp source에서</p>
+<p>$$
+\nabla N=(-1,-1).
+$$</p>
+<p>$\Sigma=N^{-1}(0)$의 tangent는 $\nabla N$에 수직인</p>
+<p>$$
+u=(1,-1)
+$$</p>
+<p>이다. 즉</p>
+<p>$$
+\boxed{\eta\parallel u}.
+$$</p>
+<p>kernel 방향으로 걸어도 일차 변화가 없고, 그 kernel 자체가 singular curve를 따라간다. <strong>[논문 + 직접 확인]</strong> 이 점이 cusp다.</p>
+<h3>2.5 오늘 건널 ordinary fold</h3>
+<p>$$
+k_f=(-\pi/3,\pi)
+$$</p>
+<p>에서는</p>
+<p>$$
+d=\left(-\frac{\sqrt3}{2},0,\frac32\right),
+$$</p>
+<p>$$
+\partial_xd
+=\left(\frac12,0,-\frac{\sqrt3}{2}\right)
+=-\frac1{\sqrt3}d,
+$$</p>
+<p>이므로</p>
+<p>$$
+\partial_xn=0.
+$$</p>
+<p>따라서 kernel은 $\eta=\partial_x$다.</p>
+<p>또</p>
+<p>$$
+\nabla N=(\sqrt3,0),
+$$</p>
+<p>이므로 $\Sigma$의 tangent는 $\partial_y$다. 즉</p>
+<p>$$
+\boxed{\eta=\partial_x\ \text{는}\ T\Sigma=\operatorname{span}(\partial_y)\ \text{를 가로지른다}.}
+$$</p>
+<p>kernel이 singular curve와 나란하지 않고 횡단한다. 이 점이 ordinary fold다.</p>
+<p>그 target은</p>
+<p>$$
+\begin{aligned}
+q_f
+&amp;=-\frac d{|d|}\\
+&amp;=-\frac1{\sqrt3}
+\left(-\frac{\sqrt3}{2},0,\frac32\right)\\
+&amp;=\boxed{\left(\frac12,0,-\frac{\sqrt3}{2}\right)}
+=q(\pi/6).
+\end{aligned}
+$$</p>
+<hr />
+<h2>3. 자오선 위 모든 원상의 정확한 계보</h2>
+<h3>3.1 $k_y$가 먼저 갈라진다</h3>
+<p>$$
+q_y(\theta)=0.
+$$</p>
+<p>그런데</p>
+<p>$$
+n_y(k)=-\frac{\sin k_y}{|d(k)|}.
+$$</p>
+<p>$|d|&gt;0$이므로</p>
+<p>$$
+\sin k_y=0
+$$</p>
+<p>이고</p>
+<p>$$
+\boxed{k_y=0\quad\text{또는}\quad k_y=\pi}.
+$$</p>
+<h3>3.2 sheet $A$: $k_y=0$</h3>
+<p>$$
+d(k_x,0)=(\sin k_x,0,-\cos k_x),
+\qquad
+|d|=1.
+$$</p>
+<p>따라서</p>
+<p>$$
+n(k_x,0)=(-\sin k_x,0,\cos k_x).
+$$</p>
+<p>$$
+n=q(\theta)
+$$</p>
+<p>를 만족하는 연속 branch는</p>
+<p>$$
+\boxed{
+k_A(\theta)=(-\pi+\theta,0)
+}.
+$$</p>
+<p>이 branch에서는</p>
+<p>$$
+N=c_x+1-c_x=1,
+\qquad
+\bar\lambda_A=\frac12,
+$$</p>
+<p>따라서 항상 $+$ sheet다.</p>
+<h3>3.3 sheets $B,C$: $k_y=\pi$</h3>
+<p>$$
+d(k_x,\pi)
+=(\sin k_x,0,2-\cos k_x).
+$$</p>
+<p>$q_x&gt;0$인 경로를 따라 $k_x=-u$, $0\le u\le\pi$로 두면</p>
+<p>$$
+d=(-\sin u,0,2-\cos u).
+$$</p>
+<p>target의 $x$-성분과 $-z$-성분의 비를 취하면</p>
+<p>$$
+\frac{\sin u}{2-\cos u}=\tan\theta.
+$$</p>
+<p>$$
+t=\tan\frac u2
+$$</p>
+<p>를 넣으면</p>
+<p>$$
+\sin u=\frac{2t}{1+t^2},
+\qquad
+\cos u=\frac{1-t^2}{1+t^2}
+$$</p>
+<p>이므로</p>
+<p>$$
+\frac{2t}{1+3t^2}=\tan\theta.
+$$</p>
+<p>따라서</p>
+<p>$$
+3\tan\theta\,t^2-2t+\tan\theta=0
+$$</p>
+<p>이고 두 근은</p>
+<p>$$
+\boxed{
+t_{B,C}
+=
+\frac{1\mp\sqrt{1-3\tan^2\theta}}
+{3\tan\theta}
+},
+$$</p>
+<p>$$
+\boxed{
+k_{B,C}(\theta)
+=
+\left(
+-2\arctan t_{B,C},
+\pi
+\right)
+}.
+$$</p>
+<p>$\theta\to0$에서</p>
+<p>$$
+t_B\to0,\qquad t_C\to\infty
+$$</p>
+<p>이므로</p>
+<p>$$
+k_B(0)=(0,\pi),
+\qquad
+k_C(0)=(-\pi,\pi).
+$$</p>
+<p>이 극한이 sheet 이름의 provenance다. 각 step에서 $k_x$의 정렬 순서로 이름을 다시 붙이지 않는다.</p>
+<h3>3.4 두 근이 실제로 만나는 순간</h3>
+<p>판별식은</p>
+<p>$$
+1-3\tan^2\theta.
+$$</p>
+<p>따라서</p>
+<p>$$
+\theta&lt;\pi/6
+$$</p>
+<p>에서는 두 근,</p>
+<p>$$
+\theta=\pi/6
+$$</p>
+<p>에서는 중근,</p>
+<p>$$
+\theta&gt;\pi/6
+$$</p>
+<p>에서는 실근이 없다.</p>
+<p>중근은</p>
+<p>$$
+t=\frac1{\sqrt3},
+\qquad
+u=2\arctan\frac1{\sqrt3}=\frac\pi3,
+$$</p>
+<p>따라서</p>
+<p>$$
+\boxed{k_B=k_C=(-\pi/3,\pi)}.
+$$</p>
+<p>앞 절에서 독립적으로 찾은 ordinary fold와 정확히 같은 점이다.</p>
+<h3>3.5 orientation</h3>
+<p>$k_y=\pi$에서는</p>
+<p>$$
+N=c_x-1+c_x=2\cos u-1.
+$$</p>
+<p>따라서</p>
+<p>$$
+u_B&lt;\pi/3
+\Longrightarrow N_B&gt;0,
+$$</p>
+<p>$$
+u_C&gt;\pi/3
+\Longrightarrow N_C&lt;0.
+$$</p>
+<p>즉 $B$는 $+$, $C$는 $-$이고, fold에서 둘 다 $0$으로 만난다.</p>
+<h3>3.6 완성된 trace ledger</h3>
+<p>아래 $k$ 좌표는 radian이다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">$\theta$</th>
+<th>$q(\theta)$</th>
+<th>$A:(k_x,k_y);\operatorname{sgn}\bar\lambda$</th>
+<th>$B:(k_x,k_y);\operatorname{sgn}\bar\lambda$</th>
+<th>$C:(k_x,k_y);\operatorname{sgn}\bar\lambda$</th>
+<th style="text-align: right;">signed sum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">$0^\circ$</td>
+<td>$(0,0,-1)$</td>
+<td>$(-3.141593,0);+$</td>
+<td>$(0,\pi);+$</td>
+<td>$(-3.141593,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$10^\circ$</td>
+<td>$(0.173648,0,-0.984808)$</td>
+<td>$(-2.967060,0);+$</td>
+<td>$(-0.180154,\pi);+$</td>
+<td>$(-2.612373,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$20^\circ$</td>
+<td>$(0.342020,0,-0.939693)$</td>
+<td>$(-2.792527,0);+$</td>
+<td>$(-0.404221,\pi);+$</td>
+<td>$(-2.039240,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$25^\circ$</td>
+<td>$(0.422618,0,-0.906308)$</td>
+<td>$(-2.705260,0);+$</td>
+<td>$(-0.570675,\pi);+$</td>
+<td>$(-1.698253,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$29^\circ$</td>
+<td>$(0.484810,0,-0.874620)$</td>
+<td>$(-2.635447,0);+$</td>
+<td>$(-0.817524,\pi);+$</td>
+<td>$(-1.311778,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$29.9^\circ$</td>
+<td>$(0.498488,0,-0.866897)$</td>
+<td>$(-2.619739,0);+$</td>
+<td>$(-0.971148,\pi);+$</td>
+<td>$(-1.126738,\pi);-$</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$30^\circ$</td>
+<td>$(0.500000,0,-0.866025)$</td>
+<td>$(-2.617994,0);+$</td>
+<td>$(-1.047198,\pi);0$</td>
+<td>같은 critical root, $B=C$</td>
+<td style="text-align: right;">critical</td>
+</tr>
+<tr>
+<td style="text-align: right;">$30.1^\circ$</td>
+<td>$(0.501511,0,-0.865151)$</td>
+<td>$(-2.616249,0);+$</td>
+<td>없음</td>
+<td>없음</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$35^\circ$</td>
+<td>$(0.573576,0,-0.819152)$</td>
+<td>$(-2.530727,0);+$</td>
+<td>없음</td>
+<td>없음</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$40^\circ$</td>
+<td>$(0.642788,0,-0.766044)$</td>
+<td>$(-2.443461,0);+$</td>
+<td>없음</td>
+<td>없음</td>
+<td style="text-align: right;">$+1$</td>
+</tr>
+</tbody>
+</table>
+<p>$30^\circ$ 행의 $B,C$ 두 칸은 서로 다른 두 점이 아니라 같은 critical root를 provenance 때문에 두 번 표시한 것이다.</p>
+<p>$$
+A=(-2.617994,0),\qquad
+B=C=(-1.047198,\pi).
+$$</p>
+<p>fold 직전에는 위치만 가까워지는 것이 아니다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">$\theta$</th>
+<th style="text-align: right;">$\bar\lambda_A$</th>
+<th style="text-align: right;">$\bar\lambda_B$</th>
+<th style="text-align: right;">$\bar\lambda_C$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">$29^\circ$</td>
+<td style="text-align: right;">$+0.500000$</td>
+<td style="text-align: right;">$+0.054026$</td>
+<td style="text-align: right;">$-0.030766$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$29.9^\circ$</td>
+<td style="text-align: right;">$+0.500000$</td>
+<td style="text-align: right;">$+0.014168$</td>
+<td style="text-align: right;">$-0.011841$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$30^\circ$</td>
+<td style="text-align: right;">$+0.500000$</td>
+<td style="text-align: right;">$0$</td>
+<td style="text-align: right;">$0$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$30.1^\circ$</td>
+<td style="text-align: right;">$+0.500000$</td>
+<td style="text-align: right;">없음</td>
+<td style="text-align: right;">없음</td>
+</tr>
+</tbody>
+</table>
+<p>두 sheet의 signed area density가 서로 반대편에서 $0$으로 들어오고, 같은 source 점에서 사라진다.</p>
+<hr />
+<h2>4. cusp 주변: 개수 $1,3,1$보다 더 많은 일이 일어난다</h2>
+<h3>4.1 수치 경로와 계산법</h3>
+<p><strong>[유도]</strong></p>
+<p>$$
+q_c=\frac{(-1,-1,-1)}{\sqrt3},
+\quad
+e_A=\frac{(1,1,-2)}{\sqrt6},
+\quad
+e_B=\frac{(1,-1,0)}{\sqrt2}.
+$$</p>
+<p>$$
+q(0.04,B)
+=
+\frac{q_c+0.04e_A+B e_B}
+{\sqrt{1+0.04^2+B^2}}.
+$$</p>
+<p><strong>[수치 방법]</strong></p>
+<ul>
+<li>$[-\pi,\pi)^2$의 $17\times17$ seed grid에서 시작했다.</li>
+<li>두 target tangent 성분에 Newton method를 적용했다.</li>
+<li>매 step마다 $k$를 $[-\pi,\pi)$로 wrap했다.</li>
+<li>full residual $\|n(k)-q\|&lt;10^{-8}$인 후보만 남겼다.</li>
+<li>torus 거리 $10^{-6}$ 안의 후보는 같은 root로 묶었다.</li>
+<li>표의 sheet ID는 이전 $B$ step의 root와 가장 가까운 연속 branch를 따라 붙였다.</li>
+</ul>
+<h3>4.2 두 fold crossing의 정확한 위치</h3>
+<p><strong>[수치 + critical curve의 명시적 매개화로 독립 확인]</strong></p>
+<p>$$
+B_* = 0.0055714973\ldots
+$$</p>
+<p>이다.</p>
+<p>들어가는 fold:</p>
+<p>$$
+B=-B_*,
+\qquad
+k=(1.3594165,1.8395366).
+$$</p>
+<p>나오는 fold:</p>
+<p>$$
+B=+B_*,
+\qquad
+k=(1.8395366,1.3594165).
+$$</p>
+<h3>4.3 provenance를 보존한 표</h3>
+<p>$S_0^+$는 $B=-0.012$에서 이미 있던 sheet다.
+$S_{\mathrm{new}}^+$와 $S^-$는 첫 fold에서 함께 태어난다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">$B$</th>
+<th>target $q=(q_x,q_y,q_z)$</th>
+<th>sheet ID</th>
+<th>source $k=(k_x,k_y)$</th>
+<th style="text-align: center;">sign</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">$-0.012$</td>
+<td>$(-0.569010,-0.552054,-0.609479)$</td>
+<td>$S_0^+$</td>
+<td>$(2.047018,1.039696)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$-0.006$</td>
+<td>$(-0.564801,-0.556323,-0.609512)$</td>
+<td>$S_0^+$</td>
+<td>$(2.018354,1.092921)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$-0.005$</td>
+<td>$(-0.564098,-0.557032,-0.609515)$</td>
+<td>$S_{\mathrm{new}}^+$</td>
+<td>$(1.293557,1.889099)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$-0.005$</td>
+<td>같은 $q$</td>
+<td>$S^-$</td>
+<td>$(1.430834,1.781812)$</td>
+<td style="text-align: center;">$-$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$-0.005$</td>
+<td>같은 $q$</td>
+<td>$S_0^+$</td>
+<td>$(2.012459,1.103344)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$0$</td>
+<td>$(-0.560572,-0.560572,-0.609523)$</td>
+<td>$S_{\mathrm{new}}^+$</td>
+<td>$(1.167291,1.974302)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$0$</td>
+<td>같은 $q$</td>
+<td>$S^-$</td>
+<td>$(1.613965,1.613965)$</td>
+<td style="text-align: center;">$-$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$0$</td>
+<td>같은 $q$</td>
+<td>$S_0^+$</td>
+<td>$(1.974302,1.167291)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$+0.005$</td>
+<td>$(-0.557032,-0.564098,-0.609515)$</td>
+<td>$S_{\mathrm{new}}^+$</td>
+<td>$(1.103344,2.012459)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$+0.005$</td>
+<td>같은 $q$</td>
+<td>$S^-$</td>
+<td>$(1.781812,1.430834)$</td>
+<td style="text-align: center;">$-$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$+0.005$</td>
+<td>같은 $q$</td>
+<td>$S_0^+$</td>
+<td>$(1.889099,1.293557)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$+0.006$</td>
+<td>$(-0.556323,-0.564801,-0.609512)$</td>
+<td>$S_{\mathrm{new}}^+$</td>
+<td>$(1.092921,2.018354)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+<tr>
+<td style="text-align: right;">$+0.012$</td>
+<td>$(-0.552054,-0.569010,-0.609479)$</td>
+<td>$S_{\mathrm{new}}^+$</td>
+<td>$(1.039696,2.047018)$</td>
+<td style="text-align: center;">$+$</td>
+</tr>
+</tbody>
+</table>
+<p>따라서 실제 사건은 다음과 같다.</p>
+<p>$$
+\begin{array}{ccl}
+B&lt;-B_* &amp;:&amp; S_0^+\\[2mm]
+B=-B_* &amp;:&amp; S_{\mathrm{new}}^+,\ S^- \text{가 pair로 출생}\\[2mm]
+-B_*&lt;B&lt;B_* &amp;:&amp; S_0^+,\ S_{\mathrm{new}}^+,\ S^-\\[2mm]
+B=B_* &amp;:&amp; S_0^+,\ S^- \text{가 pair로 소멸}\\[2mm]
+B&gt;B_* &amp;:&amp; S_{\mathrm{new}}^+
+\end{array}
+$$</p>
+<p><strong>고립된 원상 개수만 보면 놓치는 것.</strong> 개수는 그저 $1\to3\to1$이지만, 마지막의 한 원상은 처음의 $S_0^+$가 아니다. cusp lobe를 통과하는 동안 <strong>살아남는 sheet의 identity가 교환</strong>되었다.</p>
+<h3>4.4 cusp의 leading term</h3>
+<p>$$
+k_x=\frac\pi2+s+t,
+\qquad
+k_y=\frac\pi2+s-t
+$$</p>
+<p>로 둔다. $t$는 cusp에서의 kernel/tangent 방향이고, $s$는 그 횡방향이다.</p>
+<p><strong>[유도: Taylor leading terms]</strong></p>
+<p>$$
+N=-2s-s^2+t^2+\text{higher terms}.
+$$</p>
+<p>$\Sigma:N=0$ 위에서는</p>
+<p>$$
+s=\frac12t^2+O(t^4).
+$$</p>
+<p>target tangent coordinates</p>
+<p>$$
+a=q\cdot e_A,
+\qquad
+b=q\cdot e_B
+$$</p>
+<p>의 leading term은</p>
+<p>$$
+a=
+\frac{2\sqrt2}{3}s+\frac{\sqrt2}{6}t^2+\cdots,
+\qquad
+b=
+\frac2{\sqrt6}st+\cdots.
+$$</p>
+<p>$\Sigma$의 $s=\tfrac12t^2+\cdots$를 넣으면</p>
+<p>$$
+\boxed{
+a=\frac{\sqrt2}{2}t^2+\cdots,
+\qquad
+b=\frac1{\sqrt6}t^3+\cdots
+}.
+$$</p>
+<p>따라서 critical-value curve는 cusp 근방에서</p>
+<p>$$
+\boxed{
+b^2=\frac{\sqrt2}{3}a^3+\text{higher terms}
+}
+$$</p>
+<p>의 semicubical cusp를 만든다.</p>
+<p>$a=0.04$를 넣은 leading prediction은</p>
+<p>$$
+|b|\approx0.00549
+$$</p>
+<p>이고, 실제 critical curve 교점은</p>
+<p>$$
+|B_*|=0.0055714973\ldots
+$$</p>
+<p>였다. <strong>[검산]</strong> local Taylor 계산과 전역 수치 root trace가 같은 cusp 폭을 준다.</p>
+<hr />
+<h2>5. trace를 signed area와 degree로 닫기</h2>
+<h3>5.1 작은 target 원판 하나</h3>
+<p>$\theta&lt;30^\circ$인 regular target $q(\theta)$ 주위에 critical-value curve를 만나지 않는 작은 원판 $D\subset S^2$를 잡는다.</p>
+<p>세 원상 근방을 $U_A,U_B,U_C$라 하면 각 제한</p>
+<p>$$
+f_i:U_i\longrightarrow D
+$$</p>
+<p>는 한 장짜리 local diffeomorphism이다.</p>
+<p>따라서</p>
+<p>$$
+\int_{U_i}f^*\omega_{\mathrm{FS}}
+=
+\operatorname{sgn}(\bar\lambda_i)
+\int_D\omega_{\mathrm{FS}}.
+$$</p>
+<p>fold 전에는</p>
+<p>$$
+\begin{aligned}
+\sum_{i=A,B,C}\int_{U_i}f^*\omega_{\mathrm{FS}}
+&amp;=(+1+1-1)\int_D\omega_{\mathrm{FS}}\\
+&amp;=\boxed{\int_D\omega_{\mathrm{FS}}}.
+\end{aligned}
+$$</p>
+<p>fold 후에는 $A$ 하나만 있으므로</p>
+<p>$$
+\int_{U_A}f^*\omega_{\mathrm{FS}}
+=+1\int_D\omega_{\mathrm{FS}}.
+$$</p>
+<p>즉 fold는 원상 수를 $3\to1$로 바꾸지만, 사라지는 두 장의 부호가 $+,-$이므로 signed multiplicity는</p>
+<p>$$
+\boxed{+1}
+$$</p>
+<p>로 남는다.</p>
+<h3>5.2 전역 적분</h3>
+<p><strong>[수치: $800\times800$ midpoint grid]</strong></p>
+<p>$$
+\int_{T^2}\bar\lambda\,dk_x\,dk_y
+=6.283185307179587,
+$$</p>
+<p>$$
+\boxed{
+\frac1{2\pi}\int_{T^2}\bar\lambda\,dk_x\,dk_y
+=1.0000000000000002
+}.
+$$</p>
+<p>반면</p>
+<p>$$
+\int_{T^2}|\bar\lambda|\,dk_x\,dk_y
+=7.470388507829067,
+$$</p>
+<p>$$
+\boxed{
+\frac1{2\pi}\int_{T^2}|\bar\lambda|\,dk_x\,dk_y
+=1.188949257837884
+}.
+$$</p>
+<p>negative sheet의 면적 크기는</p>
+<p>$$
+A_-:=
+\int_{\bar\lambda&lt;0}(-\bar\lambda)\,dk_x\,dk_y
+=0.5936016003247402
+$$</p>
+<p>이고</p>
+<p>$$
+\frac{A_-}{2\pi}=0.0944746289.
+$$</p>
+<p>따라서</p>
+<p>$$
+\int|\bar\lambda|-\int\bar\lambda
+=2A_-.
+$$</p>
+<p><strong>[논문 수치]</strong> 논문은 unsigned quantum volume을 $1.1889\times2\pi$, triple-covered target 영역의 한 장 면적을 $0.0945\times2\pi$로 보고한다.</p>
+<p><strong>[검산]</strong> 이 노트의 독립 midpoint 값 $1.1889493$과 $0.0944746$가 각각 일치한다.</p>
+<p>이것이 “fold 때문에 volume은 커지지만 Chern number는 그대로”라는 문장의 계산 내용이다. $+$, $-$를 버리면 extra two sheets가 둘 다 면적으로 더해지고, 부호를 보존하면 서로 지워진다.</p>
+<hr />
+<h2>6. CP¹에서 계산한 $ub-va$는 여기서 무엇인가</h2>
+<p>stereographic coordinate $z=x+iy$, $S=1+|z|^2$에서 unit sphere area form은</p>
+<p>$$
+\omega_{S^2}
+=\frac4{S^2}\,dx\wedge dy.
+$$</p>
+<p>따라서</p>
+<p>$$
+\omega_{\mathrm{FS}}
+=\frac12\omega_{S^2}
+=\frac2{S^2}\,dx\wedge dy.
+$$</p>
+<p>선생님의 기존 CP¹ 계산은</p>
+<p>$$
+dA_{\mathrm{conn}}
+=\frac2{S^2}\,dx\wedge dy
+=\omega_{\mathrm{FS}},
+$$</p>
+<p>$$
+\operatorname{Im}Q(X,Y)
+=\frac{ub-va}{S^2},
+$$</p>
+<p>$$
+\frac12dA_{\mathrm{conn}}=\operatorname{Im}Q
+$$</p>
+<p>였다.</p>
+<p>이제 source tangent 두 개를 target chart로 보낸다.</p>
+<p>$$
+df(\partial_{k_x})
+=u\partial_x+v\partial_y,
+$$</p>
+<p>$$
+df(\partial_{k_y})
+=a\partial_x+b\partial_y.
+$$</p>
+<p>그러면</p>
+<p>$$
+\begin{aligned}
+\bar\lambda
+&amp;=
+(f^*\omega_{\mathrm{FS}})
+(\partial_{k_x},\partial_{k_y})\\
+&amp;=
+\omega_{\mathrm{FS}}
+(df(\partial_{k_x}),df(\partial_{k_y}))\\
+&amp;=
+\frac2{S^2}(ub-va).
+\end{aligned}
+$$</p>
+<p>따라서 factor까지 적으면</p>
+<p>$$
+\boxed{
+\bar\lambda
+=dA_{\mathrm{conn}}
+(df\partial_{k_x},df\partial_{k_y})
+=2\,\operatorname{Im}Q
+(df\partial_{k_x},df\partial_{k_y})
+}.
+$$</p>
+<p>여기서</p>
+<p>$$
+ub-va
+=
+\det
+\begin{pmatrix}
+u&amp;v\\
+a&amp;b
+\end{pmatrix}
+$$</p>
+<p>는 target chart에서 두 image tangent가 만드는 방향 있는 평행사변형 넓이다.</p>
+<ul>
+<li>$ub-va&gt;0$: $+$ sheet</li>
+<li>$ub-va&lt;0$: $-$ sheet</li>
+<li>$ub-va=0$: 두 image tangent가 일직선이 되어 fold/singular set</li>
+</ul>
+<p>즉 CP¹ 계산은 이 노트의 중심 문제를 대신하지 않는다. 다만 root trace에서 매번 붙인 $+,-$가 어디서 나온 부호인지 정확히 설명한다.</p>
+<hr />
+<h2>7. 계산 뒤의 topology</h2>
+<p>빈칸의 답은 다음과 같다.</p>
+<blockquote>
+<p>만약 $f:T^2\to S^2$가 모든 점에서 rank $2$라면 $f$는 <strong>local diffeomorphism</strong>이다.
+$T^2$가 compact이므로 이는 proper이고, 따라서 <strong>covering map</strong>이 된다.
+그런데 $S^2$는 simply connected이므로 connected covering은 <strong>one-sheeted, 즉 diffeomorphism</strong>이어야 한다.
+이는 $T^2\not\cong S^2$와 모순이다.</p>
+</blockquote>
+<p>그래서 singularity는 피할 수 없다. 하지만 오늘 계산에서 더 많이 본 것은 그 존재 명제가 아니다.</p>
+<ol>
+<li>ordinary fold에서 $+$, $-$ sheet가 pair로 합쳐져 사라졌다.</li>
+<li>cusp lobe에서는 들어갈 때 태어난 $+$ sheet가 나간 뒤의 survivor가 되었다.</li>
+<li>원상 개수는 $1\leftrightarrow3$으로 바뀌어도 signed sum은 $+1$이었다.</li>
+<li>이 $+1$이
+   $$
+   \frac1{2\pi}\int_{T^2}\bar\lambda=1
+   $$
+   과 같은 degree/Chern number였다.</li>
+</ol>
+<hr />
+<h1>III. 마지막 판정 — “각 조각을 구면으로 본다”의 정확한 세 뜻</h1>
+<h2>1. domain의 각 조각 자체가 문자 그대로 $S^2$인가?</h2>
+<p>아니다.</p>
+<p>$$
+M_+,\ M_-,\ M_{+,i},\ U_i
+$$</p>
+<p>는 $T^2$ 안의 부분영역이다. 대개 boundary가 있는 patch이며 닫힌 구면이 아니다. 별도의 doubling, quotient, compactification을 하지 않는 한 그 조각 자체를 $S^2$라 부르지 않는다.</p>
+<h2>2. 각 regular 조각의 image를 Bloch sphere 위 oriented sheet로 세는가?</h2>
+<p>맞다.</p>
+<p>$\bar\lambda\ne0$인 patch에서 $df$는 rank $2$이고, 그 부호가 sheet orientation을 준다. 단, 큰 connected region 전체가 injective가 아니면 한 장이라고 우기지 않고 더 작은 sheet로 나눈다.</p>
+<h2>3. 각 조각의 적분을 구면 면적/degree 계산으로 바꾸는가?</h2>
+<p>맞다. 정확한 식은</p>
+<p>$$
+\int_U f^*\omega_{\mathrm{FS}}
+=
+\int_{f(U)}
+\left[
+\sum_{k\in U\cap f^{-1}(q)}
+\operatorname{sgn}\bar\lambda(k)
+\right]
+\omega_{\mathrm{FS}}(q).
+$$</p>
+<p>한 장짜리 injective patch에서는 단순히</p>
+<p>$$
+\pm\operatorname{Area}_{\mathrm{FS}}(f(U))
+$$</p>
+<p>이고, 모든 sheet를 합치면 degree가 된다.</p>
+<p>오늘의 정확한 root trace는 그 일반식의 괄호 안을 실제로 계산한 것이다.</p>
+<hr />
+<h2>독립 검산 결과</h2>
+<p><strong>[수치]</strong></p>
+<ul>
+<li>winding warm-up에서 $m=-3,-1,1,2,5$와 서로 다른 반지름을 넣어
+  $$
+  \oint_{\gamma_m}\vartheta=2\pi m
+  $$
+  을 midpoint quadrature로 독립 확인했다. 반지름을 바꿔도 오차는
+  $2\times10^{-12}$ 미만이었다.</li>
+<li>구면 경계 flux를 $R=0.25,1,3,20$에서 직접 적분하여
+  $$
+  -\oint *du=\frac{4\pi R^2}{1+R^2},
+  \qquad
+  \oint A_{\mathrm{conn}}=\frac{2\pi R^2}{1+R^2}
+  $$
+  의 factor $2$를 확인했다.</li>
+<li>toy fold의 target $b=0.36$에서 두 원상 Jacobian은
+  $+1.2,-1.2$였고 signed sum은 $0$이었다.</li>
+<li>actual diagonal의 세 값은
+  $$
+  \bar\lambda(0,0)=0.5,\qquad
+  \bar\lambda(\pi/2,\pi/2)=1.18\times10^{-17},\qquad
+  \bar\lambda(\pi,\pi)=-1/18
+  $$
+  로 $+\to0\to-$를 독립 확인했다.</li>
+<li>critical parameterization에서 $\max|N|=1.11\times10^{-16}$</li>
+<li>같은 점들에서 $\max||d|^2-3|=8.88\times10^{-16}$</li>
+<li>analytic $\bar\lambda$와 finite-difference
+  $\tfrac12n\cdot(\partial_xn\times\partial_yn)$의 최대 오차
+  $9.48\times10^{-11}$</li>
+<li>meridian의 모든 닫힌꼴 root에 대해 $\|n(k_i)-q(\theta)\|&lt;5\times10^{-16}$</li>
+<li>cusp trace의 모든 수치 root에서 full residual $&lt;5\times10^{-16}$</li>
+<li>$800\times800$ midpoint:
+  $$
+  \frac1{2\pi}\int\bar\lambda=1.0000000000000002,
+  \qquad
+  \frac1{2\pi}\int|\bar\lambda|=1.188949257837884.
+  $$</li>
+</ul>
+<p>이 검산은 근 공식, seed-grid Newton, 전역 quadrature라는 서로 다른 세 경로가 마지막에만 만난 결과다.</p>
+<footer>원문 마크다운: TwoBand_Fold_Sheet_하루손계산.md — 재빌드: python _책빌드/site.py</footer>
+</main>
+<div class="sitenav-bottom"><a href="라플라시안에서_RR의_+1로.html">‹ 라플라시안에서 RR의 +1로 — 무한대의 −2log|z|가 기억한 것</a><a href="index.html">← 목록으로 돌아가기</a><a href="CP1_A와_Q_두벌계산.html">ℂP¹ 계산 대조표 — A→dA와 Q→(Re Q, Im Q) ›</a></div>
+<script defer src="assets/katex.min.js"></script>
+<script defer src="assets/auto-render.min.js"></script>
+<script defer src="assets/render.js"></script>
+</body>
+</html>
