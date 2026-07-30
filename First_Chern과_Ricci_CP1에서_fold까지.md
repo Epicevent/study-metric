@@ -960,8 +960,10 @@ $$
 
 $$
 \boxed{
-\text{regularized metric의 Gauss curvature가 아니라,
-regular side에서 singular curve로 가는 geodesic curvature}}
+\begin{gathered}
+\text{regularized metric의 Gauss curvature가 아니라,}\\
+\text{regular side에서 singular curve로 가는 geodesic curvature}
+\end{gathered}}
 \tag{10.1}
 $$
 
