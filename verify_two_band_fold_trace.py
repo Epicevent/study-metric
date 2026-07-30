@@ -492,6 +492,50 @@ def check_weierstrass_branch_map() -> dict[str, object]:
     assert abs(pulled_back_area - 4.0 * PI) < 1e-12
     assert abs(gauss_bonnet_total) < 1e-12
 
+    # Exact local branch model w=z^2 with the same FS normalization.
+    # It checks K=-exp(-2u) Delta u=2 without invoking local-isometry language.
+    curvature_rows = []
+    for radius in (0.05, 0.2, 0.7, 1.3):
+        area_density = 8.0 * radius**2 / (1.0 + radius**4) ** 2
+        minus_laplacian_u = 16.0 * radius**2 / (1.0 + radius**4) ** 2
+        curvature = minus_laplacian_u / area_density
+        boundary_geodesic_curvature = 2.0 * PI * (
+            2.0 - 4.0 * radius**4 / (1.0 + radius**4)
+        )
+        assert abs(curvature - 2.0) < 1e-12
+        curvature_rows.append(
+            {
+                "radius": radius,
+                "area_density": area_density,
+                "minus_laplacian_u": minus_laplacian_u,
+                "curvature": curvature,
+                "boundary_geodesic_curvature": boundary_geodesic_curvature,
+            }
+        )
+    assert abs(curvature_rows[0]["boundary_geodesic_curvature"] - 4.0 * PI) < 1e-3
+
+    smoothing_rows = []
+    smoothing_radius = 1.0
+    radial_grid = np.linspace(0.0, smoothing_radius, 200_001)
+    for epsilon in (0.5, 0.2, 0.1, 0.05, 0.02):
+        kernel = -2.0 * epsilon**2 / (radial_grid**2 + epsilon**2) ** 2
+        numerical_mass = float(
+            2.0 * PI * np.trapezoid(kernel * radial_grid, radial_grid)
+        )
+        exact_mass = -2.0 * PI * smoothing_radius**2 / (
+            smoothing_radius**2 + epsilon**2
+        )
+        assert abs(numerical_mass - exact_mass) < 2e-7
+        smoothing_rows.append(
+            {
+                "epsilon": epsilon,
+                "numerical_mass": numerical_mass,
+                "exact_mass": exact_mass,
+                "error_from_minus_2pi": exact_mass + 2.0 * PI,
+            }
+        )
+    assert abs(smoothing_rows[-1]["error_from_minus_2pi"]) < 0.003
+
     return {
         "normalized_curve": "y^2 = 4x(x-1)(x+1)",
         "finite_branch_values": list(branch_values),
@@ -506,6 +550,8 @@ def check_weierstrass_branch_map() -> dict[str, object]:
         "regular_curvature": regular_curvature,
         "branch_defects": branch_defects,
         "gauss_bonnet_total": gauss_bonnet_total,
+        "local_curvature_transport": curvature_rows,
+        "smoothed_atomic_curvature": smoothing_rows,
     }
 
 

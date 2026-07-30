@@ -1036,6 +1036,148 @@ $$
 area를 $F$로 당겨왔을 때 토러스의 좌표 사각형 $dx\wedge dy$ 앞에 붙는 signed
 배율**이다. holomorphic map이라서 음수가 나오지 않지만, branch point에서는 반드시 0이 된다.
 
+### 구면의 $K=2$가 옮겨지는 계산을 실제로 미분한다
+
+**[논문]** 논문은 식 (18) 뒤에서 regular region의 Gauss curvature가 $K_G=2$라고
+계산한다. 여기서는 ``pullback metric이니까 그렇다''를 사용하지 않고 같은 주장을 좌표로
+다시 계산한다.
+
+구면의 metric을 $w=U+iV$ 좌표에서
+
+$$
+g_{S^2}=e^{2v(w)}(dU^2+dV^2),
+\qquad
+e^{2v(w)}=\frac{2}{(1+U^2+V^2)^2}
+\tag{W10.5a}
+$$
+
+라고 쓰자. 그러면
+
+$$
+v(U,V)=\frac12\log2-\log(1+U^2+V^2).
+$$
+
+$R^2=U^2+V^2$라 쓰고 정말로 두 번 미분하면
+
+$$
+v_{UU}=-\frac{2}{1+R^2}+\frac{4U^2}{(1+R^2)^2},
+\qquad
+v_{VV}=-\frac{2}{1+R^2}+\frac{4V^2}{(1+R^2)^2},
+$$
+
+따라서
+
+$$
+\Delta_wv
+=v_{UU}+v_{VV}
+=-\frac{4}{(1+R^2)^2}.
+$$
+
+2차원 conformal metric의 식 $K=-e^{-2v}\Delta v$에 대입하면
+
+$$
+K_{S^2}
+=-\frac{(1+R^2)^2}{2}
+\left(-\frac{4}{(1+R^2)^2}\right)
+=2.
+\tag{W10.5b}
+$$
+
+이제 $w=\wp(z)$를 넣는다. Cauchy--Riemann 식 때문에
+
+$$
+dU^2+dV^2=|\wp'(z)|^2(dx^2+dy^2),
+$$
+
+따라서 토러스의 regular locus $T^2\setminus B$,
+
+$$
+B=\{0,\omega,i\omega,\omega+i\omega\},
+$$
+
+에서 pullback metric은
+
+$$
+g=F^*g_{S^2}=e^{2u(z)}(dx^2+dy^2),
+$$
+
+$$
+u(z)=v(\wp(z))+\log|\wp'(z)|.
+\tag{W10.5c}
+$$
+
+여기서 곡률을 옮기는 핵심 미분을 생략하지 않는다. 임의의 smooth 함수
+$v(U,V)$에 대하여 chain rule은
+
+$$
+\begin{aligned}
+\Delta_z(v\circ\wp)
+={}&v_{UU}|\nabla U|^2
++2v_{UV}\nabla U\cdot\nabla V
++v_{VV}|\nabla V|^2\\
+&+v_U\Delta U+v_V\Delta V.
+\end{aligned}
+$$
+
+$U+iV$가 holomorphic이므로
+
+$$
+|\nabla U|^2=|\nabla V|^2=|\wp'|^2,
+\quad
+\nabla U\cdot\nabla V=0,
+\quad
+\Delta U=\Delta V=0.
+$$
+
+그러므로
+
+$$
+\boxed{
+\Delta_z(v\circ\wp)
+=|\wp'(z)|^2(\Delta_wv)\circ\wp.}
+\tag{W10.5d}
+$$
+
+또 $\wp'\ne0$인 곳에서는 $\log|\wp'|$가 harmonic이므로
+
+$$
+\Delta_z\log|\wp'|=0.
+$$
+
+(W10.5b)--(W10.5d)를 합치면
+
+$$
+\begin{aligned}
+-\Delta_zu
+&=\frac{4|\wp'|^2}{(1+|\wp|^2)^2}\\
+&=2e^{2u},
+\end{aligned}
+$$
+
+따라서
+
+$$
+\boxed{
+K_g=-e^{-2u}\Delta_zu=2
+=K_{S^2}\circ F
+\qquad(z\notin B).}
+\tag{W10.5e}
+$$
+
+곡률 **함수**뿐 아니라 곡률 **2-form**도
+
+$$
+\boxed{
+K_g\,dA_g
+=2e^{2u}dx\wedge dy
+=2F^*\omega_{\mathrm{FS}}
+=F^*(K_{S^2}dA_{S^2})}
+\tag{W10.5f}
+$$
+
+로 실제로 옮겨진다. 다만 이 식의 현재 정의역은 $T^2\setminus B$이다. branch point까지
+아무 설명 없이 등호를 연장하면 바로 논리의 빈칸이 생긴다.
+
 그 0을 실제 계수까지 보자. (W10.4)를 미분하면 $e=\pm1$에서
 $\wp'(a+\xi)=4\xi+O(\xi^3)$이고, $e=0$에서는
 $\wp'(a+\xi)=-2\xi+O(\xi^3)$이다. 따라서 세 경우 모두
@@ -1103,54 +1245,210 @@ $$
 
 로 정확히 맞는다.
 
-### W9의 Gauss--Bonnet 모순이 실제로 해소되는 자리
+### 논문 공격 1 — 점별 limiting curvature는 아무것도 해소하지 않는다
 
-regular한 곳에서는 $F$가 orientation-preserving local isometry가 되도록 pullback metric
-$g=F^*g_{S^2}$를 잡을 수 있고 $K_g=2$이다. 그러나 이 문장은 branch point를 포함하지
-않는다. branch point 가까이에서는 (W10.6)에 의해
+**[유도]** branch point $a$에서 $\xi=z-a=re^{i\theta}$라 두면
+(W10.4)--(W10.6)에 의해
+
+$$
+u(\xi)=\log r+s(\xi),
+\tag{W10.9}
+$$
+
+여기서 $s$는 $\xi=0$까지 smooth한 함수다. 따라서
 
 $$
 g\sim C|\xi|^2|d\xi|^2
 =C\left(r^2dr^2+r^4d\theta^2\right).
 $$
 
+그런데 branch point로 가까이 가도, punctured disk의 모든 점에서 (W10.5e)가 정확히
+성립하므로
+
+$$
+\boxed{\lim_{z\to a,\ z\ne a}K_g(z)=2.}
+\tag{W10.10}
+$$
+
+더구나 작은 원판에 들어 있는 regular curvature는
+
+$$
+\int_{0<|\xi|<\varepsilon}K_g\,dA_g
+=\int_{0<|\xi|<\varepsilon}2e^{2u}\,dxdy
+=O(\varepsilon^4)
+\longrightarrow0.
+\tag{W10.11}
+$$
+
+따라서 ``$K_g$의 점별 극한이 음의 곡률을 만들어 Gauss--Bonnet을 맞춘다''는 해석은
+이 예시에서 거짓이다. 극한은 끝까지 $+2$이고, 그 적분질량도 0으로 간다.
+
+### 논문 공격 2 — 실제 limit은 작은 원의 geodesic curvature다
+
+metric $e^{2u}(dr^2+r^2d\theta^2)$에서 $r=\varepsilon$인 원을 원판의 양의 방향으로
+돌면
+
+$$
+\kappa_g\,ds
+=e^{-u}\left(\frac1r+u_r\right)e^u r\,d\theta
+=(1+ru_r)d\theta.
+\tag{W10.12}
+$$
+
+(W10.9)에서 $ru_r=1+O(r^2)$이므로
+
+$$
+\boxed{
+\lim_{\varepsilon\downarrow0}
+\oint_{|\xi|=\varepsilon}\kappa_g\,ds
+=\int_0^{2\pi}2\,d\theta
+=4\pi.}
+\tag{W10.13}
+$$
+
+평범한 smooth point라면 이 limit은 $2\pi$여야 한다. 따라서 branch point에 남는 양은
+
+$$
+\boxed{2\pi-4\pi=-2\pi.}
+\tag{W10.14}
+$$
+
+이제 앞서 쓴 cone angle도 결과가 아니라 계산으로 나온다. 실제로
 $\rho=\sqrt C\,r^2/2$로 바꾸면
 
 $$
 g\sim d\rho^2+4\rho^2d\theta^2.
 $$
 
-즉 그 점은 평범한 smooth point가 아니라 cone angle $4\pi$인 branch point다. 한 점의
-angle defect는 $2\pi-4\pi=-2\pi$이고 네 점의 defect 합은 $-8\pi$이다. 반면 regular
-부분의 곡률 적분은
+즉 원주각이 $4\pi$이고, (W10.14)는 정확히 그 angle defect다.
+
+### 논문 공격 3 — limiting curvature **measure**로 정말 수렴하는가
+
+``defect''라는 말을 또 신탁으로 남기지 않는다. (W10.9)의 $\log r$을
 
 $$
-\int K_g\,dA_g
-=2\int F^*\omega_{\mathrm{FS}}
-=2\cdot4\pi
-=8\pi.
+u_{\epsilon}(r,\theta)
+=s(r,\theta)+\frac12\log(r^2+\epsilon^2)
+\tag{W10.15}
 $$
 
-따라서
+로 부드럽게 만든다. radial 부분은
 
 $$
-\underbrace{8\pi}_{\text{regular curvature}}
-+\underbrace{4(-2\pi)}_{\text{four branch defects}}
+\begin{aligned}
+\Delta\left(\frac12\log(r^2+\epsilon^2)\right)
+&=\frac1r\frac{d}{dr}
+\left(\frac{r^2}{r^2+\epsilon^2}\right)\\
+&=\frac{2\epsilon^2}{(r^2+\epsilon^2)^2}.
+\end{aligned}
+\tag{W10.16}
+$$
+
+punctured disk에서 $-\Delta u=2e^{2u}$였으므로 smooth 함수 $s$는
+$-\Delta s=2e^{2u}$를 만족한다. 따라서 $g_\epsilon=e^{2u_\epsilon}|d\xi|^2$의
+곡률측도는
+
+$$
+\boxed{
+K_{g_\epsilon}dA_{g_\epsilon}
+=-\Delta u_\epsilon\,dxdy
+=2e^{2u}\,dxdy
+-\frac{2\epsilon^2}{(r^2+\epsilon^2)^2}\,dxdy.}
+\tag{W10.17}
+$$
+
+두 번째 항을 반지름 $R$인 원판에서 직접 적분하면
+
+$$
+\begin{aligned}
+\int_{D_R}
+-\frac{2\epsilon^2}{(r^2+\epsilon^2)^2}\,dxdy
+&=-4\pi\epsilon^2
+\int_0^R\frac{r\,dr}{(r^2+\epsilon^2)^2}\\
+&=-2\pi\frac{R^2}{R^2+\epsilon^2}\\
+&\longrightarrow-2\pi.
+\end{aligned}
+\tag{W10.18}
+$$
+
+즉 pointwise curvature가 아니라 curvature measure가
+
+$$
+K_{g_\epsilon}dA_{g_\epsilon}
+\rightharpoonup
+2F^*\omega_{\mathrm{FS}}-2\pi\delta_a
+\tag{W10.19}
+$$
+
+로 수렴한다. 네 branch point를 모두 합치면 정확한 전역 장부는
+
+$$
+\underbrace{2\int_{T^2}F^*\omega_{\mathrm{FS}}}_{8\pi}
++\underbrace{\sum_{a\in B}(-2\pi)}_{-8\pi}
 =0
 =2\pi\chi(T^2).
-\tag{W10.9}
+\tag{W10.20}
 $$
 
-W9에서 불가능했던 것은 $\bar\lambda\ne0$인 smooth pullback metric이 토러스 전체를 덮는
-상황이었다. $\wp$는 그 금지선을 피하지 않는다. 오히려 **네 점에서 정확히 metric을
-퇴화시켜서** Gauss--Bonnet의 장부를 맞춘다.
+따라서 end goal에 대한 판정은 둘로 갈린다.
+
+$$
+\boxed{
+\text{pointwise limiting }K_g\text{로는 해소되지 않는다.}
+}
+$$
+
+$$
+\boxed{
+\text{limiting curvature measure로는 }-2\pi\delta_a\text{가 생겨 정확히 해소된다.}
+}
+$$
+
+### 이 계산이 논문의 어느 문장을 공격하는가
+
+**[논문]** 논문의 식 (30)은 rank-$1$ fold **곡선**에 접근하는 geodesic curvature의
+limit을 $\kappa_s$로 정의한다. 식 (34)는 그 line integral을 사용한다. 반면 식
+(36)--(37)에서는 이를 일반 degree의 Gauss map으로 확장할 수 있다고 제안한다.
+
+**[유도]** Weierstrass 예시에서는
+
+$$
+dF_a=0,
+\qquad
+\bar\lambda_\wp=C|\xi|^2+O(|\xi|^4),
+\qquad
+d\bar\lambda_\wp(a)=0.
+$$
+
+singular set은 곡선이 아니라 고립점이고, 논문 식 (30)의 transverse derivative
+$\bar\lambda_v$도 0이다. 또한 구면의 normal은 regular locus에서 $\pm F$뿐이므로
+$(F,N)$의 미분도 branch point에서 0이다. 즉 이 map은 논문이 요구하는 front가 아니다.
+따라서 논문의 $\kappa_s$는 이 결손 $-2\pi$를 정의하지 못한다.
+
+이것은 식 (34)의 fold/cusp 정리 자체에 대한 반례는 아니다. **그 정리의 가정 밖에 있는
+예시**이기 때문이다. 그러나 식 (36)--(37)을 ``일반 degree map의 singular
+Gauss--Bonnet''으로 읽는 것은 공격한다. 이 예시에서 필요한 보정은 fold 위의 line
+curvature가 아니라 branch point의 atomic curvature다.
+
+더 날카롭게 말하면 식 (37)은 이 예시에서도
+
+$$
+\frac1{4\pi}\int_{T^2}(K_{S^2}\circ F)\,F^*dA_{S^2}
+=\frac1{4\pi}(2)(4\pi)
+=2
+=\deg F
+$$
+
+로 맞는다. 그러나 이것은 $\kappa_s$가 성공해서가 아니다. 닫힌 2-form의 pullback을
+적분하는 **degree 공식 자체**이므로 맞는 것이다. 따라서 식 (37)의 성공만으로 식
+(30)의 singular-curvature 장치가 일반 singular map을 처리한다고 결론내릴 수 없다.
 
 마지막으로 두 예시를 섞지 않는다.
 
-| map | $\bar\lambda=0$의 모양 | 0을 건널 때 부호 | local 현상 |
+| map | $\bar\lambda=0$의 모양 | 0을 건널 때 부호 | 필요한 singular correction |
 |---|---|---|---|
-| Weierstrass $\wp:T^2\to S^2$ | 고립된 네 점 | $+\to0\to+$ | 두 complex sheet가 $\xi^2$로 branch |
-| 이 노트의 two-band map | $T^2$ 안의 곡선 $N=0$ | $+\to0\to-$ | ordinary fold, cusp에서 root provenance 교환 |
+| Weierstrass $\wp:T^2\to S^2$ | 고립된 네 점 | $+\to0\to+$ | 각 점의 $-2\pi\delta_a$ |
+| 논문의 two-band map | $T^2$ 안의 곡선 $N=0$ | $+\to0\to-$ | fold 곡선의 $2\int\kappa_sds$와 cusp angle |
 
 위상이 요구하는 것은 ``critical point가 반드시 있다''까지다. 그 critical set이 고립된
 branch point인지, 부호가 바뀌는 fold 곡선과 cusp인지까지는 실제 map의 미분을 계산해야
@@ -1175,7 +1473,7 @@ branch point인지, 부호가 바뀌는 fold 곡선과 cusp인지까지는 실�
 | W3–W4. 구면·무한대 | 40분 | $4\pi$는 두 winding, $2\pi$는 한 winding이라는 factor 표 |
 | W5–W7. pullback·toy fold | 55분 | 양의 밀도 $\times$ signed Jacobian, $F(p,q)=(p,q^2)$, 실제 $+\to0\to-$ |
 | W8–W9. 작은 원·필연성 | 40분 | 각 원상 주위 $\pm2\pi$와 마지막 Gauss–Bonnet 모순 |
-| W10. Weierstrass 실제 map | 45분 | 네 branch point, $\bar\lambda_{\wp}\sim8|\xi|^2$, degree $2$, cone defect 장부 |
+| W10. Weierstrass 논문 공격 | 90분 | $K=2$의 직접 이동, pointwise limit 실패, $-2\pi\delta_a$의 measure limit |
 | 0. 규약 고정 | 20분 | 부호와 $2\pi/4\pi$를 적은 한 장 |
 | 1. signed density | 50분 | $\bar\lambda=N/[2(3-2N)^{3/2}]$ 직접 유도 |
 | 2. singular/critical curve | 70분 | $T^2$의 $\Sigma$와 $S^2$의 $\widetilde\Sigma$를 따로 그리기 |
