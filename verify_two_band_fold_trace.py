@@ -454,6 +454,61 @@ def check_global_integrals(grid: int = 800) -> dict[str, float]:
     }
 
 
+def check_weierstrass_branch_map() -> dict[str, object]:
+    """Independent algebraic checks for the normalized square-lattice wp example."""
+
+    branch_values = (-1.0, 0.0, 1.0)
+    second_derivatives = [6.0 * e * e - 2.0 for e in branch_values]
+    assert second_derivatives == [4.0, -2.0, 4.0]
+
+    density_leading_coefficients = []
+    for e, second in zip(branch_values, second_derivatives, strict=True):
+        quadratic_coefficient = 0.5 * second
+        derivative_linear_coefficient = 2.0 * quadratic_coefficient
+        density_leading = (
+            2.0
+            * derivative_linear_coefficient**2
+            / (1.0 + e * e) ** 2
+        )
+        density_leading_coefficients.append(density_leading)
+    pole_chart_density_leading = 2.0 * 2.0**2
+    assert density_leading_coefficients == [8.0, 8.0, 8.0]
+    assert pole_chart_density_leading == 8.0
+
+    generic_x = 2.0
+    y_squared = 4.0 * generic_x * (generic_x - 1.0) * (generic_x + 1.0)
+    assert y_squared > 0.0
+    generic_fiber = (-math.sqrt(y_squared), math.sqrt(y_squared))
+    assert generic_fiber[0] != generic_fiber[1]
+
+    degree = 2
+    ramification_count = 4
+    assert 0 == degree * (-2) + ramification_count
+
+    pulled_back_area = degree * 2.0 * PI
+    regular_curvature = 2.0 * pulled_back_area
+    branch_defects = ramification_count * (-2.0 * PI)
+    gauss_bonnet_total = regular_curvature + branch_defects
+    assert abs(pulled_back_area - 4.0 * PI) < 1e-12
+    assert abs(gauss_bonnet_total) < 1e-12
+
+    return {
+        "normalized_curve": "y^2 = 4x(x-1)(x+1)",
+        "finite_branch_values": list(branch_values),
+        "finite_second_derivatives": second_derivatives,
+        "density_leading_coefficients": density_leading_coefficients,
+        "pole_chart_density_leading": pole_chart_density_leading,
+        "generic_x": generic_x,
+        "generic_fiber_y": list(generic_fiber),
+        "degree": degree,
+        "ramification_count": ramification_count,
+        "pulled_back_area": pulled_back_area,
+        "regular_curvature": regular_curvature,
+        "branch_defects": branch_defects,
+        "gauss_bonnet_total": gauss_bonnet_total,
+    }
+
+
 def svg_point(x: float, y: float, box: tuple[float, float, float, float]) -> tuple[float, float]:
     left, top, width, height = box
     return left + (x + PI) * width / (2.0 * PI), top + (PI - y) * height / (2.0 * PI)
@@ -540,6 +595,7 @@ def main() -> None:
         "cusp": check_cusp_trace(),
         "finite_difference": check_finite_difference(),
         "global_integrals": check_global_integrals(args.grid),
+        "weierstrass_branch_map": check_weierstrass_branch_map(),
     }
     if args.write_svg is not None:
         args.write_svg.parent.mkdir(parents=True, exist_ok=True)

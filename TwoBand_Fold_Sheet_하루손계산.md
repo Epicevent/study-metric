@@ -893,6 +893,275 @@ $$
 \text{singularity의 필연성}.
 $$
 
+## W10. 실제 map 하나 — Weierstrass $\wp:T^2\to S^2$
+
+W9는 ``어딘가에서 미분이 죽어야 한다''고만 말했다. 그러면 정말로 그런 map을 하나 놓고,
+**어느 점에서 무엇이 죽으며 곡률 form이 어떻게 옮겨지는지** 직접 보자.
+
+정사각 격자를
+
+$$
+\Lambda=2\omega\mathbb Z+2i\omega\mathbb Z,
+\qquad
+T^2=\mathbb C/\Lambda
+$$
+
+로 잡는다. 격자의 크기는 $g_2=4$, $g_3=0$이 되도록 한 번 rescale한다. 그러면
+Weierstrass 함수
+
+$$
+\wp(z)
+=\frac1{z^2}
++\sum_{\lambda\in\Lambda\setminus\{0\}}
+\left(
+\frac1{(z-\lambda)^2}-\frac1{\lambda^2}
+\right)
+$$
+
+는 $\Lambda$-주기이고 $\wp(-z)=\wp(z)$이다. 따라서
+
+$$
+F:T^2\longrightarrow\mathbb{CP}^1\simeq S^2,
+\qquad
+F([z])=[\wp(z):1]
+\tag{W10.1}
+$$
+
+가 실제 map으로 내려간다. $z=0$에서는 $\wp$가 발산하지만 $F$가 망가지는 것이 아니다.
+그 점은 target의 북극 $[1:0]=\infty$로 간다. 북극 좌표 $\zeta=1/w$로 보면
+
+$$
+\zeta\circ F(z)=\frac1{\wp(z)}=z^2+O(z^6).
+\tag{W10.2}
+$$
+
+즉 ``무한대로 보내는 점''도 좌표를 바꾸면 그냥 $z\mapsto z^2$이다.
+
+### 먼저 실제로 두 장이 붙는 장면
+
+$\wp$는 다음 미분방정식을 만족한다.
+
+$$
+(\wp')^2=4\wp^3-4\wp
+=4\wp(\wp-1)(\wp+1),
+\qquad
+\wp''=6\wp^2-2.
+\tag{W10.3}
+$$
+
+기본 평행사변형 안의 세 반주기
+
+$$
+a\in\{\omega,i\omega,\omega+i\omega\}
+$$
+
+에서는 $\wp'(a)=0$이고, 그 target 값은 순서를 제외하면
+
+$$
+e=\wp(a)\in\{-1,0,1\}
+$$
+
+이다. $\xi=z-a$라 두고 Taylor 전개하면
+
+$$
+\begin{aligned}
+\wp(a+\xi)
+&=\wp(a)+\wp'(a)\xi+\frac12\wp''(a)\xi^2+O(\xi^4)\\
+&=e+\frac12(6e^2-2)\xi^2+O(\xi^4).
+\end{aligned}
+\tag{W10.4}
+$$
+
+따라서 실제 세 경우는
+
+$$
+\begin{array}{c|c}
+e & \wp(a+\xi)\\ \hline
+1 & 1+2\xi^2+O(\xi^4)\\
+0 & -\xi^2+O(\xi^4)\\
+-1 & -1+2\xi^2+O(\xi^4)
+\end{array}
+$$
+
+이다. (W10.2)의 $\infty$까지 합치면 branch point는 네 개이고, 네 곳 모두 local model은
+
+$$
+\boxed{\xi\longmapsto \xi^2}
+$$
+
+이다. 작은 $\eta\ne0$의 원상은 $\xi=\pm\sqrt\eta$ 두 개이지만 $\eta=0$에서는 둘이
+$\xi=0$ 하나로 붙는다. 이것이 여기서 미분이 죽는다는 말의 실제 장면이다.
+
+### 이제 $S^2$의 form을 $T^2$로 옮긴다
+
+target의 유한 좌표를 $w=U+iV$라 쓰면 이 노트의 정규화는
+
+$$
+\omega_{\mathrm{FS}}
+=\frac{2}{(1+|w|^2)^2}\,dU\wedge dV,
+\qquad
+\int_{S^2}\omega_{\mathrm{FS}}=2\pi
+$$
+
+였다. $z=x+iy$에서 $w=\wp(z)=U(x,y)+iV(x,y)$이다. $\wp$가 holomorphic이므로
+Cauchy--Riemann 식을 한 줄씩 쓰면
+
+$$
+U_x=V_y,qquad U_y=-V_x,
+$$
+
+$$
+\begin{aligned}
+dU\wedge dV
+&=(U_xV_y-U_yV_x)\,dx\wedge dy\\
+&=(U_x^2+U_y^2)\,dx\wedge dy\\
+&=|\wp'(z)|^2\,dx\wedge dy.
+\end{aligned}
+$$
+
+그러므로 실제 pullback은
+
+$$
+\boxed{
+F^*\omega_{\mathrm{FS}}
+=\bar\lambda_{\wp}(z)\,dx\wedge dy,
+\qquad
+\bar\lambda_{\wp}(z)
+=\frac{2|\wp'(z)|^2}{(1+|\wp(z)|^2)^2}
+\ge0.}
+\tag{W10.5}
+$$
+
+여기서 $\bar\lambda_{\wp}\,dx\wedge dy$는 막연한 기호가 아니다. **구면의 작은 oriented
+area를 $F$로 당겨왔을 때 토러스의 좌표 사각형 $dx\wedge dy$ 앞에 붙는 signed
+배율**이다. holomorphic map이라서 음수가 나오지 않지만, branch point에서는 반드시 0이 된다.
+
+그 0을 실제 계수까지 보자. (W10.4)를 미분하면 $e=\pm1$에서
+$\wp'(a+\xi)=4\xi+O(\xi^3)$이고, $e=0$에서는
+$\wp'(a+\xi)=-2\xi+O(\xi^3)$이다. 따라서 세 경우 모두
+
+$$
+\bar\lambda_{\wp}(a+\xi)
+=8|\xi|^2+O(|\xi|^4).
+\tag{W10.6}
+$$
+
+$z=0$에서는 $w$ 좌표로 계산하면 $\infty/\infty$ 꼴이 되어 현상을 가린다.
+북극 좌표 $\zeta=1/w$를 쓰면
+
+$$
+F^*\omega_{\mathrm{FS}}
+=\frac{2|\zeta'(z)|^2}{(1+|\zeta(z)|^2)^2}\,dx\wedge dy
+=\left(8|z|^2+O(|z|^4)\right)dx\wedge dy.
+\tag{W10.7}
+$$
+
+따라서 $\bar\lambda_{\wp}$는 ``어디서나 양수''가 아니다. 정확한 관찰은
+
+$$
+\bar\lambda_{\wp}>0
+\quad\text{on }T^2\setminus\{0,\omega,i\omega,\omega+i\omega\},
+\qquad
+\bar\lambda_{\wp}=0
+\quad\text{at those four points}
+$$
+
+이다. 부호는 바뀌지 않고, 0만 찍는다.
+
+### 적분은 실제로 무엇을 세는가
+
+$\wp(-z)=\wp(z)$이므로 일반적인 target 점 $w_0$의 원상은
+
+$$
+F^{-1}(w_0)=\{[z],[-z]\}
+$$
+
+두 개이다. 두 점에서 orientation sign은 모두 $+1$이다. 그러므로
+
+$$
+\deg F=2,
+\qquad
+\frac1{2\pi}\int_{T^2}F^*\omega_{\mathrm{FS}}=2,
+\qquad
+\int_{T^2}F^*\omega_{\mathrm{FS}}=4\pi.
+\tag{W10.8}
+$$
+
+독립 검산은 대수곡선으로 한다. $x=\wp(z)$, $y=\wp'(z)$라 두면
+
+$$
+E:\quad y^2=4x(x-1)(x+1).
+$$
+
+$x:E\to\mathbb{CP}^1$은 일반적인 $x$에 대해 $y=\pm\sqrt{4x(x-1)(x+1)}$ 두 점을
+갖고, $x=-1,0,1,\infty$에서만 두 점이 붙는다. 따라서 ``degree 2, branch point 4개''가
+Taylor 전개와 독립적으로 다시 나온다. Riemann--Hurwitz도
+
+$$
+0=2(-2)+4
+$$
+
+로 정확히 맞는다.
+
+### W9의 Gauss--Bonnet 모순이 실제로 해소되는 자리
+
+regular한 곳에서는 $F$가 orientation-preserving local isometry가 되도록 pullback metric
+$g=F^*g_{S^2}$를 잡을 수 있고 $K_g=2$이다. 그러나 이 문장은 branch point를 포함하지
+않는다. branch point 가까이에서는 (W10.6)에 의해
+
+$$
+g\sim C|\xi|^2|d\xi|^2
+=C\left(r^2dr^2+r^4d\theta^2\right).
+$$
+
+$\rho=\sqrt C\,r^2/2$로 바꾸면
+
+$$
+g\sim d\rho^2+4\rho^2d\theta^2.
+$$
+
+즉 그 점은 평범한 smooth point가 아니라 cone angle $4\pi$인 branch point다. 한 점의
+angle defect는 $2\pi-4\pi=-2\pi$이고 네 점의 defect 합은 $-8\pi$이다. 반면 regular
+부분의 곡률 적분은
+
+$$
+\int K_g\,dA_g
+=2\int F^*\omega_{\mathrm{FS}}
+=2\cdot4\pi
+=8\pi.
+$$
+
+따라서
+
+$$
+\underbrace{8\pi}_{\text{regular curvature}}
++\underbrace{4(-2\pi)}_{\text{four branch defects}}
+=0
+=2\pi\chi(T^2).
+\tag{W10.9}
+$$
+
+W9에서 불가능했던 것은 $\bar\lambda\ne0$인 smooth pullback metric이 토러스 전체를 덮는
+상황이었다. $\wp$는 그 금지선을 피하지 않는다. 오히려 **네 점에서 정확히 metric을
+퇴화시켜서** Gauss--Bonnet의 장부를 맞춘다.
+
+마지막으로 두 예시를 섞지 않는다.
+
+| map | $\bar\lambda=0$의 모양 | 0을 건널 때 부호 | local 현상 |
+|---|---|---|---|
+| Weierstrass $\wp:T^2\to S^2$ | 고립된 네 점 | $+\to0\to+$ | 두 complex sheet가 $\xi^2$로 branch |
+| 이 노트의 two-band map | $T^2$ 안의 곡선 $N=0$ | $+\to0\to-$ | ordinary fold, cusp에서 root provenance 교환 |
+
+위상이 요구하는 것은 ``critical point가 반드시 있다''까지다. 그 critical set이 고립된
+branch point인지, 부호가 바뀌는 fold 곡선과 cusp인지까지는 실제 map의 미분을 계산해야
+알 수 있다.
+
+표준 $\wp$ 식의 출처:
+[DLMF §23.2](https://dlmf.nist.gov/23.2),
+[§23.3](https://dlmf.nist.gov/23.3),
+[§23.5](https://dlmf.nist.gov/23.5),
+[§23.9](https://dlmf.nist.gov/23.9).
+
 ---
 
 
@@ -906,6 +1175,7 @@ $$
 | W3–W4. 구면·무한대 | 40분 | $4\pi$는 두 winding, $2\pi$는 한 winding이라는 factor 표 |
 | W5–W7. pullback·toy fold | 55분 | 양의 밀도 $\times$ signed Jacobian, $F(p,q)=(p,q^2)$, 실제 $+\to0\to-$ |
 | W8–W9. 작은 원·필연성 | 40분 | 각 원상 주위 $\pm2\pi$와 마지막 Gauss–Bonnet 모순 |
+| W10. Weierstrass 실제 map | 45분 | 네 branch point, $\bar\lambda_{\wp}\sim8|\xi|^2$, degree $2$, cone defect 장부 |
 | 0. 규약 고정 | 20분 | 부호와 $2\pi/4\pi$를 적은 한 장 |
 | 1. signed density | 50분 | $\bar\lambda=N/[2(3-2N)^{3/2}]$ 직접 유도 |
 | 2. singular/critical curve | 70분 | $T^2$의 $\Sigma$와 $S^2$의 $\widetilde\Sigma$를 따로 그리기 |
