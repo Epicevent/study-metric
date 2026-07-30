@@ -8,6 +8,7 @@
 
 | 문서 | 무엇 |
 |---|---|
+| [Winding_Form에서_Degree까지_한노트.html](Winding_Form에서_Degree까지_한노트.html) | **원을 세던 적분이 구면의 degree가 되기까지 — two-band 논문의 선형 입구.** $\oint\vartheta$를 ellipse에 넣어 $\operatorname{sgn}\det dF$를 얻고, $d\alpha=\omega_{\mathrm{FS}}$와 Stokes로 local winding 합 = signed preimage 합 = $\int F^*\omega_{\mathrm{FS}}/2\pi$ = degree를 직접 증명한다. 논문의 실제 $q(20^\circ)$에서 $2\pi+2\pi-2\pi$, $q(35^\circ)$에서 $2\pi$를 계산하여 $1\leftrightarrow3$ fold가 degree 1을 보존함을 확인한다. 원문: [Winding_Form에서_Degree까지_한노트.md](Winding_Form에서_Degree까지_한노트.md), 검산: verify_winding_degree_note.py |
 | [다음트랙.html](다음트랙.html) | **공부 계획** (2026-07-10 발표 피드백 이후): A 피드백 소화 → B II·mixed → C 본진 → D 연구 씨앗. 원문: [다음트랙_2026-07-10.md](다음트랙_2026-07-10.md) |
 | [CP1_A와_Q_두벌계산.html](CP1_A와_Q_두벌계산.html) | **ℂP¹ 계산 대조표 — 두 벌을 끝까지 섞지 않는다.** 왼쪽은 $[e^{it}s]=[s]$부터 확인하고 임의의 속도를 $\dot s=c\,is+h$로 실제 분해한 뒤 $A\to dA$를 계산한다. 오른쪽은 $q$ 방향을 빼는 정사영 공식을 직접 전개한 뒤 $Q\to(\operatorname{Re}Q,\operatorname{Im}Q)$를 복소수 곱셈까지 편다. $z(t)=1+it$를 양쪽에 넣어 한 방향만으로는 왜 허수부가 안 보이는지도 확인하고, 마지막에만 $\tfrac12dA=\operatorname{Im}Q$, $g_{\mathrm{FS}}=\operatorname{Re}Q$를 대조한다. 원문: [CP1_A와_Q_두벌계산.md](CP1_A와_Q_두벌계산.md), 검산: `verify_cp1_A_vs_Q.py` (17/17) |
 | [Projector로_Gr24에_metric주기.html](Projector로_Gr24에_metric주기.html) | **Projector들의 모임에 metric 주기.** §0–§6에서 평면의 실제 움직임부터 $g_{\mathrm{FS}}=\tfrac12\operatorname{Tr}(dP^2)$까지 계산한다. §7.2는 Plücker·CP⁵가 필요한 별도의 이유와 걸음 6의 해당 계산만 연결한다. 원문: [Projector로_Gr24에_metric주기.md](Projector로_Gr24에_metric주기.md), 검산: `verify_projector_gr24_metric.py` (32/32) |

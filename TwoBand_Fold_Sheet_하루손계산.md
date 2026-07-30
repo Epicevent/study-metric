@@ -35,6 +35,12 @@
 
 논문: [arXiv 2510.15760](https://arxiv.org/abs/2510.15760) · [HTML 원문](https://arxiv.org/html/2510.15760v1)
 
+> **새 선형 입구.** 이 문서의 계산을 처음부터 한 줄로 따라가려면
+> [「원을 세던 적분이 구면의 degree가 되기까지」](Winding_Form에서_Degree까지_한노트.html)를
+> 먼저 읽는다. winding form의 원 적분이 local winding, degree, signed area,
+> Chern number가 되는 Stokes 계산과 논문의 실제 $1\leftrightarrow3$ root 계산을
+> 한 흐름으로 묶었다. 현재 문서는 그 뒤의 상세 root trace와 cusp 자료다.
+
 독립 검산:
 
 $$
