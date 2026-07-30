@@ -436,7 +436,7 @@ $$
 \begin{aligned}
 g_{\mu\nu}
 &=\operatorname{tr}(P_\mu P_\nu)\\
-&=\frac14\operatorname{tr}ig((n_\mu\cdot\sigma)(n_\nu\cdot\sigma)\big)\\
+&=\frac14\operatorname{tr}\big((n_\mu\cdot\sigma)(n_\nu\cdot\sigma)\big)\\
 &=\boxed{\frac12n_\mu\cdot n_\nu}.
 \end{aligned}
 \tag{5.4}
