@@ -45,6 +45,21 @@ def build_docs():
                         prev=prev, nxt=nxt, titlepage=False,
                         footer=f"본문 소스: {d['src']} — 재빌드: python _책빌드/site.py")
             print(f"  body → {d['out']}")
+        elif d["kind"] == "static":
+            src = os.path.join(ROOT, d["src"])
+            doc = open(src, encoding="utf-8").read()
+            back = (
+                '<style>.study-metric-back{position:fixed;left:16px;top:16px;z-index:9999;'
+                'padding:9px 13px;border:1px solid rgba(127,127,127,.35);border-radius:999px;'
+                'background:rgba(255,255,255,.94);color:#18221b;text-decoration:none;'
+                'font:700 13px/1.2 system-ui,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.12)}'
+                '.study-metric-back:hover{transform:translateY(-1px)}</style>'
+                '<a class="study-metric-back" href="index.html">← study metric 목록</a>'
+            )
+            doc = doc.replace("</body>", back + "\n</body>", 1) if "</body>" in doc else doc + back
+            out = os.path.join(ROOT, d["out"])
+            open(out, "w", encoding="utf-8").write(doc)
+            print(f"  html → {d['out']}")
         elif d["kind"] == "cmd":
             if FAST:
                 print(f"  skip → {d['out']}  (--fast)")

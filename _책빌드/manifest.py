@@ -4,6 +4,7 @@
 새 문서를 추가하려면 여기 항목 하나를 넣고  python _책빌드/site.py  를 돌린다.
 - kind="md":   src 마크다운 → common.build_md 로 빌드 (첫 h1 = 제목, 이전/다음 내비 자동)
 - kind="body": src 가 이미 HTML 본문 (titlepage 포함) — common.page 로 감싼다
+- kind="static": 완성된 자립형 HTML을 그대로 발행하고 study metric 복귀 링크만 붙인다
 - kind="cmd":  전용 빌더 스크립트를 실행 (책·걸음6처럼 조립이 특수한 것)
 card = (제목 HTML, 설명 HTML) — index 카드. None 이면 목록에 안 실린다(내비만).
 """
@@ -57,6 +58,11 @@ DOCS = [
                "갈라지는 것 10행: 가환→비가환 게이지 · 분모 하나→F≠G 둘 · 분해가능성 제약(ω∧ω, e₁₂+e₃₄ 반례) · Hessian 십자항 = |det Z|²의 소행 · <b>정칙 단면곡률이 상수 2에서 방향의존 [1,2]로</b>(H=2Σσ⁴/(Σσ²)², 둥긂은 k=1의 우연 — 아인슈타인이지만 둥글지 않다) · 한 사영자의 두 양자 읽기(wedge 순수 vs P/2 혼합). 유지되는 것 6행: 정칙 널·멱영 (∂P)²=0(걸음 2 §3의 승격), Q=g+iω, K⁻ⁿ… 갈라짐의 뿌리는 하나 — k=1엔 특이값이 하나뿐이었다. 검산 18/18")),
 
     # ---------------- 켈러 트랙 본편 ----------------
+    dict(track="kahler", kind="static",
+         src="_책빌드/pages/행렬한장에서시작하여_번들_자립완전판.html",
+         out="행렬한장에서시작하여_번들_자립완전판.html",
+         card=("행렬 한 장에서 시작하여 — Plücker · Mayer–Vietoris · Chern·Ricci 번들 (자립완전판)",
+               "한 파일로 자립하는 통합 번들. 관찰 두 개(한 평면 ≠ 한 행렬 · 열 둘씩 뽑으면 여섯)에서 Plücker 차트와 ℂP⁵ 매장을 만들고, 미적분학 언어(1-form·wedge·Cauchy·Laurent)를 스스로 깔아 line bundle을 두 원통 붙이기로 세운다. 원 위 jump를 한 차수 올리는 Mayer–Vietoris, torus의 closed 1-form 전수, Fubini–Study를 직교사영에서, Gaussian curvature=Ricci form, Veronese, Plücker 제곱합=평행사변형 넓이², det g에서 Ricci 계수 4를 두 번(metric·bundle) 얻고 Bloch state pullback까지. 본문 35장 + 부록(determinant 공식·계산 순서표). 검산: <code>verify_selfcontained_plucker_mayer_chern_ricci.py</code> (40/40)")),
     dict(track="kahler", kind="cmd", cmd=["python", "_책빌드/build_book.py"],
          out="Gr24_핵심계산_주제별완전판.html",
          card=("Gr(2,4) 핵심계산 — 주제별 완전판",
