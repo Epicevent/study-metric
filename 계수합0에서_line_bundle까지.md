@@ -1,0 +1,825 @@
+# $1+2-2-1=0$에서 line bundle까지
+
+> **이 글의 질문.** 왜
+> $\frac{z(z-1)^2}{(z-2)^2}\leadsto[0]+2[1]-2[2]-[\infty]$
+> 에서 계수를 더하면 반드시 $0$인가? 그리고 이 너무 단순한 사실이 왜 transition function, line bundle, Fubini--Study curvature로 넘어갈 틈을 만드는가?
+>
+> **먼저 볼 현상.** 같은 국소식 $z$도 무엇의 계수인지에 따라 전역 장부가 달라진다.
+> - 자명한 선다발의 유리함수 $z$: $[0]-[\infty]$.
+> - $\mathcal O(1)$의 정칙 단면 $Z_1$: $[0]$.
+>
+> 차이는 계산법이 아니라 **그 식의 전역 주인**이다.
+>
+> **검산.** verify_line_bundle_aha.py — 유리함수의 차수, residue, Fubini--Study 질량과 transition 식을 독립 계산한다.
+
+---
+
+## 0. 첫 장면 — 계수 네 개를 정말로 얻는다
+
+다음 유리함수 하나만 잡는다.
+
+$$
+f(z)=\frac{z(z-1)^2}{(z-2)^2}.
+\tag{0.1}
+$$
+
+점 $a$에서 $f=(z-a)^m u(z)$이고 $u(a)\neq0$이면
+
+$$
+\operatorname{ord}_a(f)=m
+$$
+
+이라 쓰자. $m>0$이면 영점, $m<0$이면 극이다.
+
+### $z=0$
+
+$$
+f(z)=z\,\frac{(z-1)^2}{(z-2)^2},
+\qquad
+\left.\frac{(z-1)^2}{(z-2)^2}\right|_{z=0}=\frac14\neq0.
+$$
+
+따라서
+
+$$
+\operatorname{ord}_0(f)=1.
+$$
+
+### $z=1$
+
+$$
+f(z)=(z-1)^2\,\frac{z}{(z-2)^2},
+\qquad
+\left.\frac{z}{(z-2)^2}\right|_{z=1}=1\neq0.
+$$
+
+따라서
+
+$$
+\operatorname{ord}_1(f)=2.
+$$
+
+### $z=2$
+
+$$
+f(z)=(z-2)^{-2}z(z-1)^2,
+\qquad
+\left.z(z-1)^2\right|_{z=2}=2\neq0.
+$$
+
+따라서
+
+$$
+\operatorname{ord}_2(f)=-2.
+$$
+
+### $z=\infty$ — 여기도 실제 좌표로 본다
+
+무한대 근처 좌표를 $w=1/z$로 잡으면
+
+$$
+\begin{aligned}
+f(1/w)
+&=
+\frac{\frac1w\left(\frac1w-1\right)^2}
+{\left(\frac1w-2\right)^2} \\[2mm]
+&=
+\frac1w\frac{(1-w)^2}{(1-2w)^2}.
+\end{aligned}
+\tag{0.2}
+$$
+
+$w=0$에서 마지막 분수는 $1$이고, 앞에 $w^{-1}$이 남는다. 그러므로
+
+$$
+\operatorname{ord}_\infty(f)=-1.
+$$
+
+이제 네 계산을 한 줄로 적은 것이 divisor다.
+
+$$
+\operatorname{div}(f)
+=[0]+2[1]-2[2]-[\infty].
+\tag{0.3}
+$$
+
+그리고 정말로
+
+$$
+\deg\operatorname{div}(f)=1+2-2-1=0.
+\tag{0.4}
+$$
+
+여기까지는 정의를 배운 것이 아니다. **구면 위의 한 유리함수는 유한한 곳에서 생긴 영점의 총량을 무한대를 포함한 극의 총량으로 정확히 갚는다**는 현상을 본 것이다.
+
+---
+
+## 1. 같은 장부를 winding form으로 다시 만든다
+
+$f$가 $0,\infty$를 만나지 않는 곡선 위에서는
+
+$$
+\frac{df}{f}=d\log f
+$$
+
+를 쓸 수 있다. (0.1)을 로그미분하면
+
+$$
+\boxed{
+\frac{df}{f}
+=
+\frac{dz}{z}
++2\frac{dz}{z-1}
+-2\frac{dz}{z-2}.
+}
+\tag{1.1}
+$$
+
+$a$를 양의 방향으로 한 번 도는 작은 원 $\gamma_a$에서
+
+$$
+\frac{1}{2\pi i}\oint_{\gamma_a}\frac{dz}{z-a}=1.
+\tag{1.2}
+$$
+
+따라서
+
+$$
+\frac{1}{2\pi i}\oint_{\gamma_0}\frac{df}{f}=1,
+\qquad
+\frac{1}{2\pi i}\oint_{\gamma_1}\frac{df}{f}=2,
+\qquad
+\frac{1}{2\pi i}\oint_{\gamma_2}\frac{df}{f}=-2.
+\tag{1.3}
+$$
+
+이 수들은 단순히 residue 표의 숫자가 아니다. 곡선을 한 바퀴 돌 때 $f(\gamma_a)$가 $0$을 몇 번, 어느 방향으로 도는지를 센다. 즉
+
+$$
+\operatorname{ord}_a(f)
+=
+\operatorname{wind}_0(f\circ\gamma_a)
+=
+\frac{1}{2\pi i}\oint_{\gamma_a}\frac{df}{f}.
+\tag{1.4}
+$$
+
+큰 원 $|z|=R$에서는 $f(z)\sim z$이므로 $f(|z|=R)$는 $0$을 양의 방향으로 한 번 돈다. 그런데 그 큰 원은 무한대 좌표 $w=1/z$에서는 $w=0$을 **음의 방향**으로 돈다. 그래서
+
+$$
+\operatorname{ord}_\infty(f)=-1.
+\tag{1.5}
+$$
+
+유한한 세 점의 winding 합은
+
+$$
+1+2-2=1,
+$$
+
+무한대의 기여는 $-1$이다. 구면 전체에는 경계가 없으므로 전부 더하면 $0$이다.
+
+$$
+\boxed{
+\sum_{p\in\mathbb{CP}^1}\operatorname{wind}_p(f)=0.
+}
+\tag{1.6}
+$$
+
+처음의 $1+2-2-1=0$은 이미 winding form 적분이었다.
+
+---
+
+## 2. 같은 장부를 라플라시안으로 세 번째 계산한다
+
+이번에는 복소좌표와 부호를 잠근다.
+
+$$
+z=x+iy,
+\qquad
+\Delta_{\mathrm{an}}
+=\partial_x^2+\partial_y^2
+=4\partial_z\partial_{\bar z},
+\qquad
+i\,dz\wedge d\bar z=2\,dx\wedge dy.
+\tag{2.1}
+$$
+
+평면에서 잘 알려진 분포 항등식
+
+$$
+\Delta_{\mathrm{an}}\log|z-a|=2\pi\delta_a
+\tag{2.2}
+$$
+
+을 $\log|z-a|^2=2\log|z-a|$에 적용하면
+
+$$
+\Delta_{\mathrm{an}}\log|z-a|^2=4\pi\delta_a.
+\tag{2.3}
+$$
+
+한편 매끄러운 함수 $u$에 대해
+
+$$
+i\partial\bar\partial u
+=\frac12\Delta_{\mathrm{an}}u\,dx\wedge dy.
+\tag{2.4}
+$$
+
+따라서
+
+$$
+\boxed{
+\frac{i}{2\pi}\partial\bar\partial\log|z-a|^2
+=\delta_a.
+}
+\tag{2.5}
+$$
+
+이제
+
+$$
+\log|f|^2
+=
+\log|z|^2
++2\log|z-1|^2
+-2\log|z-2|^2
+\tag{2.6}
+$$
+
+에 (2.5)를 항별로 적용한다. 유한 평면에서는
+
+$$
+\frac{i}{2\pi}\partial\bar\partial\log|f|^2
+=
+\delta_0+2\delta_1-2\delta_2.
+\tag{2.7}
+$$
+
+그러나 이것만 적으면 질량이 $1$이다. 우리가 평면 차트에서 잘라낸 $\infty$의 항을 넣어야 구면 위 식이 된다. (0.2)에서 $w^{-1}$이 있으므로
+
+$$
+\boxed{
+\frac{i}{2\pi}\partial\bar\partial\log|f|^2
+=
+\delta_0+2\delta_1-2\delta_2-\delta_\infty
+=[\operatorname{div}(f)].
+}
+\tag{2.8}
+$$
+
+양변을 경계 없는 $\mathbb{CP}^1$ 위에서 적분하면
+
+$$
+0
+=
+\int_{\mathbb{CP}^1}
+\frac{i}{2\pi}\partial\bar\partial\log|f|^2
+=1+2-2-1.
+\tag{2.9}
+$$
+
+이제 같은 현상을 세 언어로 보았다.
+
+$$
+\boxed{
+\text{영점·극의 차수}
+=
+\text{작은 원의 winding}
+=
+\text{로그 절댓값의 라플라시안 질량}.
+}
+\tag{2.10}
+$$
+
+---
+
+## 3. 그런데 이것만으로는 line bundle이 아직 필요 없다
+
+여기서 정직하게 멈춰야 한다. $f$는 $\mathbb{CP}^1$ 위의 **전역 유리함수**다. 따라서 $f$를 자명한 선다발
+
+$$
+\mathbb{CP}^1\times\mathbb C
+$$
+
+의 meromorphic section으로 볼 수 있다. 이 선다발의 첫 Chern class는 $0$이다.
+
+그래서 (2.9)는
+
+$$
+\deg\operatorname{div}(f)=0
+\tag{3.1}
+$$
+
+라고 닫힌다. 영점만 남기는 것은 불가능하다. 전역 함수 하나가 영점 $1$개를 만들었다면 어딘가에 같은 총차수의 극을 만들어야 한다.
+
+그렇다면 다음 질문이 생긴다.
+
+> 구면 위에서 극 없이 영점 하나만 갖는 정칙 대상을 만들고 싶다면, 무엇을 바꾸어야 하는가?
+
+함수를 고치는 것이 아니라 **함수가 값을 가지는 선다발**을 바꾼다.
+
+---
+
+## 4. 같은 $z$, 다른 주인 — 이 장면이 line bundle의 입구다
+
+$U_0=\{Z_0\neq0\}$에서 $z=Z_1/Z_0$,
+$U_\infty=\{Z_1\neq0\}$에서 $w=Z_0/Z_1=1/z$라 하자.
+
+### 장면 A: $z$를 유리함수로 볼 때
+
+$z$는 $\mathbb{CP}^1$의 전역 meromorphic function이다.
+
+- $z=0$에서 1차 영점,
+- $w=0$, 즉 $\infty$에서 $z=w^{-1}$이므로 1차 극.
+
+따라서
+
+$$
+\operatorname{div}(z)=[0]-[\infty],
+\qquad
+\deg\operatorname{div}(z)=0.
+\tag{4.1}
+$$
+
+### 장면 B: $Z_1$을 $\mathcal O(1)$의 단면으로 볼 때
+
+$\mathcal O(1)$의 국소 frame을 $e_0,e_\infty$라 하고 overlap에서
+
+$$
+e_\infty=z\,e_0
+\tag{4.2}
+$$
+
+라고 잡자. 같은 단면 $s=Z_1$을 두 frame으로 쓰면
+
+$$
+s=f_0e_0=f_\infty e_\infty.
+\tag{4.3}
+$$
+
+$U_0$에서는 $f_0=z$이고, (4.2)를 넣으면
+
+$$
+z\,e_0=f_\infty(z\,e_0),
+$$
+
+따라서
+
+$$
+f_\infty=1.
+\tag{4.4}
+$$
+
+즉 국소계수는
+
+$$
+f_0=z,\qquad f_\infty=1.
+\tag{4.5}
+$$
+
+$f_0=z$만 보면 $\infty$에 극이 있을 것 같지만, $\infty$ 차트로 갈 때 frame 자체가 $e_\infty=z e_0$만큼 바뀐다. 그 $z$가 계수의 극을 흡수하여 $f_\infty=1$이 된다.
+
+그러므로 이 단면에는
+
+$$
+\operatorname{div}(s)=[0],
+\qquad
+\deg\operatorname{div}(s)=1.
+\tag{4.6}
+$$
+
+같은 글자 $z$가 한쪽에서는 $[0]-[\infty]$, 다른 쪽에서는 $[0]$을 만든다. 모순이 아니다.
+
+$$
+\boxed{
+\text{국소식만 보지 말고, 그 식이 어느 frame의 계수인지 함께 보아야 한다.}
+}
+\tag{4.7}
+$$
+
+line bundle을 생각하는 가장 작은 이유는 바로 이것이다. 국소 함수들은 서로 같지 않아도, frame의 변환과 정확히 반대로 변하면 하나의 전역 단면이 된다.
+
+---
+
+## 5. transition function은 무엇을 옮기는가
+
+일반적으로 overlap $U_i\cap U_j$에서 frame이
+
+$$
+e_j=g_{ij}e_i
+\tag{5.1}
+$$
+
+로 바뀐다고 하자. 같은 단면을
+
+$$
+s=f_ie_i=f_je_j
+\tag{5.2}
+$$
+
+로 쓰면
+
+$$
+f_i=g_{ij}f_j,
+\qquad
+\boxed{f_j=g_{ij}^{-1}f_i.}
+\tag{5.3}
+$$
+
+계수는 frame과 반대로 변한다. 이 반대 변환 때문에 한 차트에서 보이는 극이 다른 차트의 frame에 들어갈 수 있다.
+
+Hermitian metric도 국소 양의 함수
+
+$$
+h_i=\|e_i\|^2
+\tag{5.4}
+$$
+
+로 적힌다. (5.1)에서
+
+$$
+\boxed{
+h_j=|g_{ij}|^2h_i.
+}
+\tag{5.5}
+$$
+
+따라서 단면의 norm은
+
+$$
+\|s\|^2=|f_i|^2h_i
+\tag{5.6}
+$$
+
+이고, 차트를 바꾸어도
+
+$$
+|f_j|^2h_j
+=|g_{ij}^{-1}f_i|^2|g_{ij}|^2h_i
+=|f_i|^2h_i
+\tag{5.7}
+$$
+
+로 그대로다. 이것이 이후 라플라시안을 취할 **전역적으로 의미 있는 스칼라 함수**다.
+
+---
+
+## 6. Fubini--Study metric에서 transition을 손으로 본다
+
+$\mathcal O(1)$에 다음 국소 metric weight를 둔다.
+
+$$
+h_0(z)=\frac{1}{1+|z|^2},
+\qquad
+h_\infty(w)=\frac{1}{1+|w|^2}.
+\tag{6.1}
+$$
+
+$w=1/z$를 넣으면
+
+$$
+\begin{aligned}
+h_\infty
+&=\frac{1}{1+|1/z|^2} \\
+&=\frac{|z|^2}{1+|z|^2} \\
+&=|z|^2h_0.
+\end{aligned}
+\tag{6.2}
+$$
+
+이는 $e_\infty=ze_0$와 정확히 맞는다.
+
+metric potential을
+
+$$
+K_i=-\log h_i
+\tag{6.3}
+$$
+
+라 쓰면
+
+$$
+K_0=\log(1+|z|^2),
+\qquad
+K_\infty=\log(1+|w|^2).
+\tag{6.4}
+$$
+
+overlap에서
+
+$$
+\begin{aligned}
+K_\infty
+&=\log\left(1+\frac1{|z|^2}\right) \\
+&=\log(1+|z|^2)-\log|z|^2,
+\end{aligned}
+\tag{6.5}
+$$
+
+즉
+
+$$
+\boxed{K_0=K_\infty+\log|z|^2.}
+\tag{6.6}
+$$
+
+overlap에는 $z=0$이 없으므로
+
+$$
+\partial\bar\partial\log|z|^2=0.
+\tag{6.7}
+$$
+
+따라서 두 차트에서 계산한
+
+$$
+\omega_{\mathrm{FS}}
+=i\partial\bar\partial K_i
+=-i\partial\bar\partial\log h_i
+\tag{6.8}
+$$
+
+는 정확히 붙는다. 실제 미분은
+
+$$
+\boxed{
+\omega_{\mathrm{FS}}
+=
+\frac{i\,dz\wedge d\bar z}{(1+|z|^2)^2}.
+}
+\tag{6.9}
+$$
+
+극좌표에서 $i\,dz\wedge d\bar z=2r\,dr\wedge d\theta$이므로
+
+$$
+\begin{aligned}
+\int_{\mathbb{CP}^1}\frac{\omega_{\mathrm{FS}}}{2\pi}
+&=
+\frac1{2\pi}
+\int_0^{2\pi}\int_0^\infty
+\frac{2r}{(1+r^2)^2}\,dr\,d\theta \\
+&=
+\int_0^\infty\frac{2r}{(1+r^2)^2}\,dr \\
+&=1.
+\end{aligned}
+\tag{6.10}
+$$
+
+국소 potential의 차이는 라플라시안을 취하면 사라지지만, 그 차이를 만든 transition $z$의 winding은 사라지지 않는다. 그 winding이 적분값 $1$로 남는다.
+
+---
+
+## 7. 영점 하나와 곡률 하나가 맞바뀌는 식
+
+이제 $\mathcal O(1)$의 단면 $s=Z_1$로 돌아간다. $U_0$에서
+
+$$
+s=z\,e_0.
+$$
+
+따라서 Fubini--Study metric으로 잰 norm은
+
+$$
+\|s\|_h^2
+=|z|^2h_0
+=\frac{|z|^2}{1+|z|^2}.
+\tag{7.1}
+$$
+
+로그를 취하고 두 항을 분리한다.
+
+$$
+\log\|s\|_h^2
+=
+\log|z|^2-\log(1+|z|^2).
+\tag{7.2}
+$$
+
+첫 항에는 $z=0$의 delta 질량이 있고, 둘째 항에는 Fubini--Study curvature가 있다.
+
+$$
+\frac{i}{2\pi}\partial\bar\partial\log|z|^2=\delta_0,
+\tag{7.3}
+$$
+
+$$
+\frac{i}{2\pi}\partial\bar\partial\log(1+|z|^2)
+=\frac{\omega_{\mathrm{FS}}}{2\pi}.
+\tag{7.4}
+$$
+
+빼면
+
+$$
+\boxed{
+\frac{i}{2\pi}\partial\bar\partial
+\log\frac{|z|^2}{1+|z|^2}
+=
+\delta_0-\frac{\omega_{\mathrm{FS}}}{2\pi}.
+}
+\tag{7.5}
+$$
+
+이 식이 이 노트의 중심이다.
+
+좌변은 전역 함수 $\log\|s\|_h^2$의 라플라시안이므로 구면 전체 적분이 $0$이다. 우변을 적분하면
+
+$$
+0
+=
+\int_{\mathbb{CP}^1}\delta_0
+-\int_{\mathbb{CP}^1}\frac{\omega_{\mathrm{FS}}}{2\pi}
+=1-1.
+\tag{7.6}
+$$
+
+자명한 선다발의 유리함수에서는
+
+$$
+\text{영점 총차수}-\text{극 총차수}=0
+\tag{7.7}
+$$
+
+이었고, $\mathcal O(1)$의 정칙 단면에서는 극 대신 선다발의 곡률이 장부를 갚는다.
+
+$$
+\boxed{
+\text{영점의 질량}
+-\text{선다발 곡률의 질량}
+=0.
+}
+\tag{7.8}
+$$
+
+일반형은 Poincaré--Lelong 공식이다.
+
+$$
+\boxed{
+\frac{i}{2\pi}\partial\bar\partial\log\|s\|_h^2
+=
+[\operatorname{div}(s)]-c_1(L,h).
+}
+\tag{7.9}
+$$
+
+적분하면
+
+$$
+\boxed{
+\deg\operatorname{div}(s)
+=
+\int_{\mathbb{CP}^1}c_1(L,h).
+}
+\tag{7.10}
+$$
+
+처음의 계수합 $0$은 이 식에서 $L$이 자명하여 $c_1(L)=0$인 특수한 경우였다.
+
+---
+
+## 8. $d\delta+\delta d$는 왜 갑자기 등장했는가
+
+미분형식의 Hodge Laplacian은
+
+$$
+\Delta_H=d\delta+\delta d
+\tag{8.1}
+$$
+
+이다. 함수 $u$는 $0$-form이므로 $\delta u=0$이고
+
+$$
+\Delta_Hu=\delta du.
+\tag{8.2}
+$$
+
+기하학에서 흔히 쓰는 부호 관례에서는 유클리드 평면 위에서
+
+$$
+\Delta_Hu=-\Delta_{\mathrm{an}}u.
+\tag{8.3}
+$$
+
+즉 함수에 한정하면 낯선 $d\delta+\delta d$도 우리가 이미 쓴
+
+$$
+\partial_x^2u+\partial_y^2u
+\tag{8.4}
+$$
+
+와 부호만 다른 같은 연산자다.
+
+그래서 다음 이동은 새 마술이 아니다.
+
+$$
+\begin{aligned}
+\text{국소계수의 영점·극}
+&\longrightarrow \log|f_i|^2 \\
+&\longrightarrow \Delta\log|f_i|^2 \\
+&\longrightarrow \text{점 질량} \\
+&\longrightarrow \text{차트 사이 경계 winding}.
+\end{aligned}
+\tag{8.5}
+$$
+
+line bundle에서는 국소계수 $f_i$만으로는 전역 함수가 아니므로 metric weight $h_i$를 붙여
+
+$$
+\log\|s\|_h^2=\log|f_i|^2+\log h_i
+\tag{8.6}
+$$
+
+를 만든다. 여기에 라플라시안을 취하면
+
+- $\log|f_i|^2$는 영점·극을,
+- $\log h_i$는 선다발의 곡률을
+
+내놓는다. (7.9)는 두 장부가 한 전역 라플라시안 안에서 맞물린 결과다.
+
+---
+
+## 9. 여기서 얻은 것과 아직 얻지 않은 것
+
+### 이제 실제로 보이는 것
+
+1. 유리함수의 divisor 계수합이 $0$인 이유는 구면 위 전역 함수의 winding 장부가 닫히기 때문이다.
+2. 그 winding은 $\frac{df}{f}$의 적분이면서 $\log|f|^2$의 라플라시안 질량이다.
+3. 국소식에 남는 극을 없애려면 그 식을 전역 함수로 우기지 않고, frame과 반대로 변하는 국소계수로 보아야 한다.
+4. transition function의 winding은 Hermitian metric의 곡률 적분으로 다시 나타난다.
+5. Fubini--Study 계산은 임의로 고른 metric 적분이 아니라 $\mathcal O(1)$의 transition이 가진 정수 $1$을 곡률로 읽는 계산이다.
+
+### 아직 증명하지 않은 것
+
+이 계산은 “왜 line bundle을 생각할 틈이 생기는가”를 보여주지만, line bundle의 분류정리 자체를 증명하지는 않는다.
+
+- 위상적 복소 line bundle은 적절한 공간에서
+  $$
+  c_1(L)\in H^2(X;\mathbb Z)
+  $$
+  로 분류된다.
+- holomorphic line bundle의 정밀한 분류 대상은
+  $$
+  \operatorname{Pic}(X)=H^1(X,\mathcal O^\times)
+  $$
+  이다.
+- 특별히 $\mathbb{CP}^1$에서는
+  $$
+  \operatorname{Pic}(\mathbb{CP}^1)\cong\mathbb Z,
+  \qquad
+  L\cong\mathcal O(d),
+  $$
+  이므로 차수 $d$가 전부를 분류한다.
+
+이 정리들은 다음 공격 대상이다. 이 노트가 확보한 것은 그 정리를 외우기 전의 계산적 필요성이다.
+
+---
+
+## 10. 다시 처음 예시를 보면
+
+처음에는
+
+$$
+[0]+2[1]-2[2]-[\infty]
+\tag{10.1}
+$$
+
+에서 숫자를 더했다. 이제는 그 한 줄을 다음처럼 읽을 수 있다.
+
+$$
+\begin{aligned}
+1+2-2-1=0
+&\iff
+\sum_p\operatorname{ord}_p(f)=0 \\[1mm]
+&\iff
+\sum_p\frac{1}{2\pi i}\oint_{\gamma_p}\frac{df}{f}=0 \\[1mm]
+&\iff
+\int_{\mathbb{CP}^1}
+\frac{i}{2\pi}\partial\bar\partial\log|f|^2=0 \\[1mm]
+&\iff
+\deg\operatorname{div}(f)=c_1(\text{자명한 선다발})=0.
+\end{aligned}
+\tag{10.2}
+$$
+
+그리고 $\mathcal O(1)$의 단면 $Z_1$로 주인을 바꾸면
+
+$$
+\begin{aligned}
+\operatorname{div}(Z_1)=[0],
+\qquad
+\frac{i}{2\pi}\partial\bar\partial\log\|Z_1\|^2
+=\delta_0-\frac{\omega_{\mathrm{FS}}}{2\pi},
+\qquad
+1-1=0.
+\end{aligned}
+\tag{10.3}
+$$
+
+따라서 그날의 “아!”는 정확히 이것이다.
+
+> **계수합이 $0$이라는 너무 단순한 현상을 라플라시안으로 다시 쓰자, 전역 함수에서는 영점과 극이 서로 갚고, 비자명한 line bundle에서는 영점과 곡률이 서로 갚는다. transition function은 그 장부가 바뀌는 장소다.**
+
+이제 Fubini--Study metric을 골라 적분했던 예전 계산은 고립된 계산이 아니다. 그 계산은 $\mathcal O(1)$의 transition이 가진 winding $1$을 곡률형식으로 읽고 있었던 것이다.
