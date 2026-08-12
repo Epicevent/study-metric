@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>구면의 closed $1$-form을 쌩좌표로 적분하기</title>
+<link rel="stylesheet" href="assets/katex.min.css">
+<link rel="stylesheet" href="assets/site.css">
+
+</head>
+<body>
+<nav class="sitenav"><a class="home" href="index.html">← 목록</a><span class="navtitle">구면의 closed $1$-form을 쌩좌표로 적분하기</span><span class="pn"><a href="계수합0에서_line_bundle까지.html" title="1+2−2−1=0에서 line bundle까지">‹ 이전</a> <a href="Winding_Form에서_Degree까지_한노트.html" title="원을 세던 적분이 구면의 degree가 되기까지">다음 ›</a></span></nav>
+<header class="titlepage"><p class="series">study metric — de Rham cohomology 쌩좌표 계산</p><h1>구면의 closed $1$-form을 쌩좌표로 적분하기</h1></header>
+<main>
+<h2>Mayer--Vietoris와 partition of unity 없이 $H^1(S^2)=0$을 끝까지 계산한다</h2>
+<blockquote>
+<p><strong>오늘 할 일은 한 문장이다.</strong> 구면 위의 임의의 smooth closed $1$-form
+$\alpha$를 받으면, 두 stereographic 좌표에서 평범한 적분으로 함수
+$F_0,F_\infty$를 실제로 만들고, 마지막에 상수 하나만 고쳐
+$\alpha=dF$인 전역 함수 $F$를 만든다.</p>
+<p><strong>쓰지 않는 것.</strong> Mayer--Vietoris exact sequence, partition of unity,
+단순연결 공간의 closed form은 exact라는 정리.</p>
+<p><strong>쓰는 것.</strong> 편미분, 한 변수 적분의 기본정리, 연쇄법칙,
+연결된 영역에서 두 편미분이 모두 $0$인 함수는 상수라는 사실.</p>
+<p><strong>검산.</strong> verify_h1_s2_coordinates.py — 좌표변환, height 예시,
+국소 원시함수, overlap 상수와 $d\theta$ 반례 후보를 독립 확인한다.</p>
+</blockquote>
+<hr />
+<h2>0. 결론부터 증명하지 말고, 원시함수 둘이 어긋나는 모습을 먼저 본다</h2>
+<p>단위구면을</p>
+<p>$$
+S^2=\{(X,Y,Z)\in\mathbb R^3:X^2+Y^2+Z^2=1\}
+$$</p>
+<p>이라 하자. 북극과 남극은</p>
+<p>$$
+N=(0,0,1),\qquad S=(0,0,-1)
+$$</p>
+<p>이다.</p>
+<p>북극을 뺀 차트 $U_0=S^2\setminus\{N\}$에는</p>
+<p>$$
+\sigma_0(x,y)
+=
+\left(
+\frac{2x}{1+r^2},
+\frac{2y}{1+r^2},
+\frac{r^2-1}{1+r^2}
+\right),
+\qquad r^2=x^2+y^2
+\tag{0.1}
+$$</p>
+<p>를 쓴다. $z=x+iy=0$은 남극이고, $|z|\to\infty$가 북극으로 간다.</p>
+<p>남극을 뺀 차트 $U_\infty=S^2\setminus\{S\}$에는</p>
+<p>$$
+\sigma_\infty(u,v)
+=
+\left(
+\frac{2u}{1+\rho^2},
+\frac{-2v}{1+\rho^2},
+\frac{1-\rho^2}{1+\rho^2}
+\right),
+\qquad \rho^2=u^2+v^2
+\tag{0.2}
+$$</p>
+<p>를 쓴다. $w=u+iv=0$은 북극이다.</p>
+<p>두 표현이 같은 구면점을 나타내도록 풀면</p>
+<p>$$
+\boxed{
+w=\frac1z,
+\qquad
+u=\frac{x}{x^2+y^2},
+\qquad
+v=\frac{-y}{x^2+y^2}.
+}
+\tag{0.3}
+$$</p>
+<p>overlap은</p>
+<p>$$
+U_0\cap U_\infty
+\cong\mathbb R^2\setminus\{0\}.
+\tag{0.4}
+$$</p>
+<p>구멍은 있지만 <strong>한 조각으로 연결되어 있다</strong>. 이 사실 하나가 마지막에 일을 한다.</p>
+<hr />
+<h2>1. 첫 실제 예시 — 높이의 미분을 두 차트에서 적분한다</h2>
+<p>구면의 높이함수를</p>
+<p>$$
+H(X,Y,Z)=Z
+\tag{1.1}
+$$</p>
+<p>라 하고</p>
+<p>$$
+\alpha=dH
+\tag{1.2}
+$$</p>
+<p>를 잡자. $\alpha$가 exact인 것은 이미 알지만, 잠시 그 전역 함수 $H$를 잊고 <strong>좌표에 적힌 $1$-form만 보고 다시 원시함수를 복구</strong>한다.</p>
+<h3>남극을 포함하는 $z$-차트</h3>
+<p>(0.1)의 세 번째 성분에서</p>
+<p>$$
+H_0(x,y)
+=H(\sigma_0(x,y))
+=\frac{x^2+y^2-1}{1+x^2+y^2}.
+\tag{1.3}
+$$</p>
+<p>$x$로 미분하면</p>
+<p>$$
+\begin{aligned}
+\frac{\partial H_0}{\partial x}
+&amp;=
+\frac{
+2x(1+x^2+y^2)
+-2x(x^2+y^2-1)
+}{
+(1+x^2+y^2)^2
+} \\[1mm]
+&amp;=
+\frac{4x}{(1+x^2+y^2)^2}.
+\end{aligned}
+\tag{1.4}
+$$</p>
+<p>마찬가지로</p>
+<p>$$
+\frac{\partial H_0}{\partial y}
+=
+\frac{4y}{(1+x^2+y^2)^2}.
+\tag{1.5}
+$$</p>
+<p>따라서 이 차트에서 보이는 $1$-form은</p>
+<p>$$
+\alpha_0
+=
+\frac{4x}{(1+r^2)^2}\,dx
++
+\frac{4y}{(1+r^2)^2}\,dy.
+\tag{1.6}
+$$</p>
+<p>이제 $H_0$을 모른다고 생각하고, $(0,0)$에서 $(x,y)$까지 먼저 가로로, 다음 세로로 가며 적분한다.</p>
+<p>$$
+\begin{aligned}
+F_0(x,y)
+&amp;=
+\int_0^x\frac{4t}{(1+t^2)^2}\,dt
++
+\int_0^y\frac{4s}{(1+x^2+s^2)^2}\,ds \\[1mm]
+&amp;=
+\frac{2x^2}{1+x^2}
++
+\left(
+\frac{2}{1+x^2}
+-\frac{2}{1+x^2+y^2}
+\right) \\[1mm]
+&amp;=
+2-\frac{2}{1+r^2} \\[1mm]
+&amp;=
+\frac{2r^2}{1+r^2}.
+\end{aligned}
+\tag{1.7}
+$$</p>
+<p>실제로</p>
+<p>$$
+F_0=H_0+1.
+\tag{1.8}
+$$</p>
+<p>기준점 $(0,0)$에서 $F_0(0,0)=0$으로 잡았기 때문에 원래 높이에 상수 $1$이 더해졌다.</p>
+<h3>북극을 포함하는 $w$-차트</h3>
+<p>(0.2)에서</p>
+<p>$$
+H_\infty(u,v)
+=
+\frac{1-u^2-v^2}{1+u^2+v^2}.
+\tag{1.9}
+$$</p>
+<p>따라서</p>
+<p>$$
+\alpha_\infty
+=
+\frac{-4u}{(1+\rho^2)^2}\,du
++
+\frac{-4v}{(1+\rho^2)^2}\,dv.
+\tag{1.10}
+$$</p>
+<p>이번에도 $(0,0)$을 기준으로 같은 꺾은 경로를 적분하면</p>
+<p>$$
+\boxed{
+F_\infty(u,v)
+=
+\frac{-2\rho^2}{1+\rho^2}
+=H_\infty-1.
+}
+\tag{1.11}
+$$</p>
+<h3>두 답을 overlap에서 맞댄다</h3>
+<p>$w=1/z$이므로</p>
+<p>$$
+\rho^2=\frac1{r^2}.
+\tag{1.12}
+$$</p>
+<p>따라서</p>
+<p>$$
+\begin{aligned}
+F_\infty\!\left(\frac{x}{r^2},\frac{-y}{r^2}\right)
+&amp;=
+\frac{-2/r^2}{1+1/r^2} \\[1mm]
+&amp;=
+\frac{-2}{1+r^2}.
+\end{aligned}
+\tag{1.13}
+$$</p>
+<p>그러므로 overlap의 모든 점에서</p>
+<p>$$
+\boxed{
+F_0-F_\infty
+=
+\frac{2r^2}{1+r^2}
+-\frac{-2}{1+r^2}
+=2.
+}
+\tag{1.14}
+$$</p>
+<p>두 국소 원시함수는 틀리지 않았다. 단지 서로 다른 기준점에서 적분을 시작했기 때문에 상수 $2$만큼 어긋났다.</p>
+<p>그래서 $U_\infty$ 쪽 원시함수를</p>
+<p>$$
+\widehat F_\infty=F_\infty+2
+\tag{1.15}
+$$</p>
+<p>로 바꾸면 overlap에서</p>
+<p>$$
+F_0=\widehat F_\infty.
+\tag{1.16}
+$$</p>
+<p>이제 두 함수는 전역 함수 하나로 붙고, 그 함수는 실제로</p>
+<p>$$
+F=H+1
+\tag{1.17}
+$$</p>
+<p>이다.</p>
+<p><strong>관찰.</strong> 전역 원시함수를 만드는 데 섞는 함수는 필요하지 않았다. 두 답의 차이가 상수인지 확인하고 그 상수를 한쪽에서 빼는 것으로 끝났다.</p>
+<hr />
+<h2>2. 임의의 closed $1$-form을 첫 차트에서 실제로 적분한다</h2>
+<p>이제 $\alpha$를 $S^2$ 위의 임의의 smooth $1$-form이라 하자. $z$-차트로 당기면</p>
+<p>$$
+\alpha_0=P(x,y)\,dx+Q(x,y)\,dy.
+\tag{2.1}
+$$</p>
+<p>여기서</p>
+<p>$$
+P,Q:\mathbb R^2\longrightarrow\mathbb R
+$$</p>
+<p>는 smooth 함수다.</p>
+<p>외미분을 한 줄씩 계산하면</p>
+<p>$$
+\begin{aligned}
+d\alpha_0
+&amp;=dP\wedge dx+dQ\wedge dy \\[1mm]
+&amp;=(P_xdx+P_ydy)\wedge dx
++(Q_xdx+Q_ydy)\wedge dy \\[1mm]
+&amp;=-P_y\,dx\wedge dy+Q_x\,dx\wedge dy \\[1mm]
+&amp;=(Q_x-P_y)\,dx\wedge dy.
+\end{aligned}
+\tag{2.2}
+$$</p>
+<p>따라서 closed 조건 $d\alpha=0$은 이 차트에서 정확히</p>
+<p>$$
+\boxed{Q_x=P_y}
+\tag{2.3}
+$$</p>
+<p>이다.</p>
+<p>이제 다음 함수를 <strong>정의로 찍지 말고 경로적분으로 만든다.</strong></p>
+<p>$$
+\boxed{
+F_0(x,y)
+=
+\int_0^xP(t,0)\,dt
++
+\int_0^yQ(x,s)\,ds.
+}
+\tag{2.4}
+$$</p>
+<p>첫 적분은 $(0,0)\to(x,0)$, 둘째 적분은 $(x,0)\to(x,y)$에 해당한다.</p>
+<p>$y$로 미분하면</p>
+<p>$$
+\frac{\partial F_0}{\partial y}
+=Q(x,y)
+\tag{2.5}
+$$</p>
+<p>이다. $x$로 미분할 때는 둘째 적분의 integrand도 $x$에 의존하므로</p>
+<p>$$
+\begin{aligned}
+\frac{\partial F_0}{\partial x}
+&amp;=
+P(x,0)
++
+\int_0^yQ_x(x,s)\,ds \\[1mm]
+&amp;=
+P(x,0)
++
+\int_0^yP_y(x,s)\,ds
+\qquad\text{by }Q_x=P_y \\[1mm]
+&amp;=
+P(x,0)+P(x,y)-P(x,0) \\[1mm]
+&amp;=
+P(x,y).
+\end{aligned}
+\tag{2.6}
+$$</p>
+<p>따라서</p>
+<p>$$
+\boxed{dF_0=\alpha_0.}
+\tag{2.7}
+$$</p>
+<p>여기서 closed 조건이 쓰인 정확한 곳은 (2.6)의 두 번째 줄 하나다.</p>
+<hr />
+<h2>3. 둘째 차트에서도 똑같이 적분한다</h2>
+<p>$w$-차트에서는</p>
+<p>$$
+\alpha_\infty
+=A(u,v)\,du+B(u,v)\,dv.
+\tag{3.1}
+$$</p>
+<p>closed 조건은</p>
+<p>$$
+B_u=A_v.
+\tag{3.2}
+$$</p>
+<p>이고, 똑같은 꺾은 경로 적분으로</p>
+<p>$$
+\boxed{
+F_\infty(u,v)
+=
+\int_0^uA(t,0)\,dt
++
+\int_0^vB(u,s)\,ds
+}
+\tag{3.3}
+$$</p>
+<p>를 만든다. 앞 절의 계산을 글자만 바꾸어 실행하면</p>
+<p>$$
+\boxed{dF_\infty=\alpha_\infty.}
+\tag{3.4}
+$$</p>
+<p>여기까지 얻은 것은 전역 함수가 아니라 국소 함수 두 개다.</p>
+<p>$$
+F_0:U_0\to\mathbb R,
+\qquad
+F_\infty:U_\infty\to\mathbb R.
+\tag{3.5}
+$$</p>
+<p>이 둘이 overlap에서 어떻게 어긋나는지를 이제 미분으로 잰다.</p>
+<hr />
+<h2>4. overlap 계산 — 차이는 왜 상수인가</h2>
+<p>$r^2=x^2+y^2$라 쓰면 transition은</p>
+<p>$$
+u=\frac{x}{r^2},
+\qquad
+v=\frac{-y}{r^2}.
+\tag{4.1}
+$$</p>
+<p>네 편미분을 직접 계산한다.</p>
+<p>$$
+u_x=\frac{y^2-x^2}{r^4},
+\qquad
+u_y=\frac{-2xy}{r^4},
+\tag{4.2}
+$$</p>
+<p>$$
+v_x=\frac{2xy}{r^4},
+\qquad
+v_y=\frac{y^2-x^2}{r^4}.
+\tag{4.3}
+$$</p>
+<p>$F_\infty$를 $x,y$의 함수로 보려면</p>
+<p>$$
+\widetilde F_\infty(x,y)
+=
+F_\infty\!\left(
+\frac{x}{r^2},
+\frac{-y}{r^2}
+\right)
+\tag{4.4}
+$$</p>
+<p>라 둔다.</p>
+<p>연쇄법칙으로</p>
+<p>$$
+\frac{\partial\widetilde F_\infty}{\partial x}
+=
+A\,u_x+B\,v_x,
+\tag{4.5}
+$$</p>
+<p>$$
+\frac{\partial\widetilde F_\infty}{\partial y}
+=
+A\,u_y+B\,v_y.
+\tag{4.6}
+$$</p>
+<p>그런데 $\alpha_0$와 $\alpha_\infty$는 같은 전역 $1$-form $\alpha$를 좌표만 바꾸어 적은 것이다. 따라서</p>
+<p>$$
+P\,dx+Q\,dy=A\,du+B\,dv.
+\tag{4.7}
+$$</p>
+<p>여기에</p>
+<p>$$
+du=u_xdx+u_ydy,
+\qquad
+dv=v_xdx+v_ydy
+\tag{4.8}
+$$</p>
+<p>를 넣고 $dx,dy$의 계수를 비교하면</p>
+<p>$$
+P=A\,u_x+B\,v_x,
+\qquad
+Q=A\,u_y+B\,v_y.
+\tag{4.9}
+$$</p>
+<p>이제 두 국소 원시함수의 차이를</p>
+<p>$$
+D(x,y)=F_0(x,y)-\widetilde F_\infty(x,y)
+\tag{4.10}
+$$</p>
+<p>라 두자. (2.7), (4.5), (4.6), (4.9)를 쓰면</p>
+<p>$$
+\begin{aligned}
+D_x
+&amp;=P-(A\,u_x+B\,v_x)=0,\\
+D_y
+&amp;=Q-(A\,u_y+B\,v_y)=0.
+\end{aligned}
+\tag{4.11}
+$$</p>
+<p>그러므로</p>
+<p>$$
+dD=0.
+\tag{4.12}
+$$</p>
+<p>overlap $\mathbb R^2\setminus\{0\}$은 연결되어 있으므로</p>
+<p>$$
+\boxed{D\equiv C}
+\tag{4.13}
+$$</p>
+<p>인 상수 $C$가 하나 존재한다.</p>
+<p><strong>여기가 전부다.</strong> overlap에 구멍이 있다는 사실은 문제가 되지 않는다. 우리가 붙이는 대상 $D$는 $1$-form이 아니라 함수이고, 그 미분이 $0$이다. 연결되어 있기만 하면 $D$는 상수다.</p>
+<hr />
+<h2>5. 상수 하나를 고쳐 전역 원시함수를 만든다</h2>
+<p>$S^2$ 위 함수 $F$를</p>
+<p>$$
+F(p)=
+\begin{cases}
+F_0(p),&amp;p\in U_0,\\
+F_\infty(p)+C,&amp;p\in U_\infty
+\end{cases}
+\tag{5.1}
+$$</p>
+<p>로 정의한다.</p>
+<p>overlap에서 (4.13)은</p>
+<p>$$
+F_0=F_\infty+C
+\tag{5.2}
+$$</p>
+<p>라고 말하므로 두 정의는 정확히 같다. 따라서 $F$는 전역 smooth 함수다.</p>
+<p>각 차트에서 미분하면</p>
+<p>$$
+dF=
+\begin{cases}
+dF_0=\alpha,&amp;U_0,\\
+d(F_\infty+C)=dF_\infty=\alpha,&amp;U_\infty.
+\end{cases}
+\tag{5.3}
+$$</p>
+<p>결국</p>
+<p>$$
+\boxed{\alpha=dF.}
+\tag{5.4}
+$$</p>
+<p>$\alpha$는 임의의 closed $1$-form이었으므로 모든 closed $1$-form이 exact다.</p>
+<p>$$
+\boxed{
+H^1_{\mathrm{dR}}(S^2)
+=
+\frac{\{\text{closed }1\text{-forms}\}}
+{\{\text{exact }1\text{-forms}\}}
+=0.
+}
+\tag{5.5}
+$$</p>
+<hr />
+<h2>6. 그럴듯한 실패 후보 — $d\theta$는 왜 구면의 반례가 아닌가</h2>
+<p>punctured plane $\mathbb R^2\setminus\{0\}$에는</p>
+<p>$$
+\eta
+=
+\frac{-y\,dx+x\,dy}{x^2+y^2}
+\tag{6.1}
+$$</p>
+<p>가 있다. 극좌표 $x=r\cos\theta$, $y=r\sin\theta$에서</p>
+<p>$$
+\eta=d\theta.
+\tag{6.2}
+$$</p>
+<p>직접 외미분하면</p>
+<p>$$
+d\eta=0
+\qquad(r&gt;0).
+\tag{6.3}
+$$</p>
+<p>그런데 단위원</p>
+<p>$$
+\gamma(t)=(\cos t,\sin t),
+\qquad0\le t\le2\pi
+\tag{6.4}
+$$</p>
+<p>에서는</p>
+<p>$$
+dx=-\sin t\,dt,
+\qquad
+dy=\cos t\,dt
+\tag{6.5}
+$$</p>
+<p>이므로</p>
+<p>$$
+\begin{aligned}
+\gamma^*\eta
+&amp;=
+-\sin t(-\sin t\,dt)
++\cos t(\cos t\,dt)\\
+&amp;=dt.
+\end{aligned}
+\tag{6.6}
+$$</p>
+<p>따라서</p>
+<p>$$
+\oint_\gamma\eta=2\pi.
+\tag{6.7}
+$$</p>
+<p>$\eta=dG$인 single-valued 함수 $G$가 있었다면 닫힌 곡선 적분은 $0$이어야 하므로, $\eta$는 punctured plane에서 exact가 아니다.</p>
+<p>그러나 이것은 $H^1(S^2)\neq0$의 반례가 아니다. (6.1)의 계수는 $r=0$에서 폭발하므로 남극까지 smooth하게 연장되지 않는다. $w=1/z$로 바꾸면</p>
+<p>$$
+\eta
+=
+\frac{v\,du-u\,dv}{u^2+v^2},
+\tag{6.8}
+$$</p>
+<p>가 되어 $w=0$, 즉 북극에서도 폭발한다.</p>
+<p>$$
+\boxed{
+d\theta\text{는 두 극을 뺀 원통 위의 closed form이지, }
+S^2\text{ 위의 smooth closed form이 아니다.}
+}
+\tag{6.9}
+$$</p>
+<p>구면 위에서 winding을 남기려던 후보는 정확히 두 극에서 탈락한다.</p>
+<hr />
+<h2>7. 왜 $S^1$에서는 같은 접착이 실패하는가</h2>
+<p>구면 계산의 핵심이 정말 overlap의 연결성인지 확인하려면 원과 비교하면 된다.</p>
+<p>$S^1$을 두 열린 호 $V_0,V_1$로 덮으면 각 호는 구간과 같아서 closed $1$-form의 국소 원시함수를 만들 수 있다. 그러나 overlap</p>
+<p>$$
+V_0\cap V_1
+\tag{7.1}
+$$</p>
+<p>은 위쪽 조각과 아래쪽 조각, <strong>두 연결성분</strong>으로 갈라진다.</p>
+<p>따라서 국소 원시함수의 차이는</p>
+<p>$$
+F_0-F_1=
+\begin{cases}
+C_+, &amp;\text{위 overlap},\\
+C_-, &amp;\text{아래 overlap}.
+\end{cases}
+\tag{7.2}
+$$</p>
+<p>일 수 있다.</p>
+<p>$F_1$에 상수 $C$ 하나를 더하면 두 값을 동시에 없앨 수 있는 조건은</p>
+<p>$$
+C_+=C_-.
+\tag{7.3}
+$$</p>
+<p>이다. 둘의 차이</p>
+<p>$$
+C_+-C_-
+\tag{7.4}
+$$</p>
+<p>가 남으면 전역 원시함수가 붙지 않는다. $d\theta$에서는 이 차이가 한 바퀴 적분</p>
+<p>$$
+\int_{S^1}d\theta=2\pi
+\tag{7.5}
+$$</p>
+<p>와 같다.</p>
+<p>반면 $S^2$의 두 stereographic chart overlap은 한 조각이므로 애초에 $C_+,C_-$ 두 개가 생기지 않는다. 상수 $C$ 하나만 있고, 한 번의 보정으로 반드시 없어진다.</p>
+<hr />
+<h2>8. 그러면 Mayer--Vietoris와 PoU는 무엇을 하고 있었나</h2>
+<p>위 증명에서 실제로 일어난 일만 다시 적는다.</p>
+<ol>
+<li>각 차트에서 closed $1$-form을 적분해 국소 원시함수 $F_0,F_\infty$를 만들었다.</li>
+<li>overlap에서 뺐다.
+   $$
+   D=F_0-F_\infty.
+   $$</li>
+<li>미분했다.
+   $$
+   dD=dF_0-dF_\infty=\alpha-\alpha=0.
+   $$</li>
+<li>overlap이 연결되어 있어 $D=C$였다.</li>
+<li>상수 하나를 한쪽 원시함수에 흡수해 전역 함수로 붙였다.</li>
+</ol>
+<p>Mayer--Vietoris는 이 <strong>국소해를 만들고, overlap에서 빼고, 그 차이가 남는지 검사하는 장부</strong>를 모든 차수에 대해 exact sequence로 적은 것이다.</p>
+<p>partition of unity는 반대 방향의 작업에서 필요해진다. overlap에 주어진 차이를 출발점으로 삼아 그것을 각 열린집합 쪽으로 나누고, 한 차수 높은 전역 differential form을 실제로 만들 때 쓰는 장치다.</p>
+<p>하지만 이번 목표</p>
+<p>$$
+\text{global closed }1\text{-form}
+\longrightarrow
+\text{global primitive}
+\tag{8.1}
+$$</p>
+<p>에는 그 장치가 필요하지 않았다. 두 평면 차트에서 직접 적분하고, 상수 하나를 맞추는 것으로 끝났다.</p>
+<hr />
+<h2>9. 손으로 다시 할 세 문제</h2>
+<h3>문제 1 — 첫 차트의 원시함수</h3>
+<p>$$
+\alpha
+=(2xy+1)\,dx+x^2\,dy
+\tag{9.1}
+$$</p>
+<p>에 대해 $d\alpha=0$을 확인하고, (2.4)의 꺾은 경로 공식으로 $F(x,y)$를 구하라.</p>
+<details>
+<summary>검산</summary>
+
+$$
+P=2xy+1,\qquad Q=x^2,
+$$
+
+$$
+P_y=2x=Q_x.
+$$
+
+따라서
+
+$$
+\begin{aligned}
+F(x,y)
+&amp;=\int_0^x1\,dt+\int_0^yx^2\,ds\\
+&amp;=x+x^2y.
+\end{aligned}
+$$
+
+실제로 $dF=(2xy+1)dx+x^2dy$다.
+
+</details>
+
+<h3>문제 2 — height 예시의 상수</h3>
+<p>(1.7)과 (1.11)을 보지 않고 각각 다시 적분한 뒤, $w=1/z$를 넣어</p>
+<p>$$
+F_0-F_\infty=2
+\tag{9.2}
+$$</p>
+<p>를 복구하라. 여기서 $2$가 기하학적 불변량인지, 기준점 선택으로 생긴 값인지 판정하라.</p>
+<details>
+<summary>검산</summary>
+
+$2$는 기준점 선택으로 생긴 값이다. $F_0,H_0$와 $F_\infty,H_\infty$의 차이는 각각 상수이며, 원시함수에 상수를 더해도 미분은 바뀌지 않는다.
+
+</details>
+
+<h3>문제 3 — 실패 후보를 끝까지 죽인다</h3>
+<p>$$
+\eta=\frac{-y\,dx+x\,dy}{x^2+y^2}
+\tag{9.3}
+$$</p>
+<p>를 $w=1/z$ 좌표로 직접 변환하고, 북극과 남극 중 어디에서 smooth하지 않은지 확인하라.</p>
+<details>
+<summary>검산</summary>
+
+$$
+\eta=\frac{v\,du-u\,dv}{u^2+v^2}.
+$$
+
+$z$-표현은 $z=0$인 남극에서, $w$-표현은 $w=0$인 북극에서 singular하다. 따라서 두 극을 포함하는 구면 전체의 smooth $1$-form이 아니다.
+
+</details>
+
+<hr />
+<h2>10. 계산의 한 문장</h2>
+<p>$$
+\boxed{
+\begin{gathered}
+d\alpha=0
+\Longrightarrow
+\alpha=dF_0\text{ on }U_0,\quad
+\alpha=dF_\infty\text{ on }U_\infty,\\
+d(F_0-F_\infty)=0,\quad
+U_0\cap U_\infty\text{ connected}\\
+\Longrightarrow
+F_0-F_\infty=C
+\Longrightarrow
+\alpha=dF\text{ on }S^2.
+\end{gathered}
+}
+\tag{10.1}
+$$</p>
+<p>따라서</p>
+<p>$$
+\boxed{H^1_{\mathrm{dR}}(S^2)=0.}
+\tag{10.2}
+$$</p>
+<p>정리의 이름을 걷어내고 남은 계산은 이렇다.</p>
+<blockquote>
+<p><strong>두 평면에서 각각 적분한다. 겹친 곳에서 두 답을 뺀다. 미분이 $0$이므로 차이는 상수다. 겹친 곳이 한 조각이라 상수도 하나뿐이다. 그 하나를 빼면 전역 원시함수가 된다.</strong></p>
+</blockquote>
+<footer>원문 마크다운: H1_S2_쌩좌표계산.md — 재빌드: python _책빌드/site.py</footer>
+</main>
+<div class="sitenav-bottom"><a href="계수합0에서_line_bundle까지.html">‹ 1+2−2−1=0에서 line bundle까지</a><a href="index.html">← 목록으로 돌아가기</a><a href="Winding_Form에서_Degree까지_한노트.html">원을 세던 적분이 구면의 degree가 되기까지 ›</a></div>
+<script defer src="assets/katex.min.js"></script>
+<script defer src="assets/auto-render.min.js"></script>
+<script defer src="assets/render.js"></script>
+</body>
+</html>
