@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>사영공간의 두 계산선 — 단항식 카운팅과 Hirzebruch–Riemann–Roch</title>
+<link rel="stylesheet" href="assets/katex.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+:root{
+  --left:#2d6077;--right:#7b4439;
+  --leftbg:rgba(45,96,119,.055);--rightbg:rgba(123,68,57,.055);
+  --bridge:#6d6254;--deep:#202124
+}
+@media(prefers-color-scheme:dark){
+  :root{--left:#91c5dc;--right:#e1a094;--leftbg:rgba(86,151,179,.08);
+  --rightbg:rgba(191,109,93,.08);--bridge:#c0b29d;--deep:#ece9e2}
+}
+*{box-sizing:border-box}
+body{font-size:16.25px}
+header.titlepage,main{max-width:92rem}
+header.titlepage .subtitle{max-width:67rem;margin:.75rem auto 0;color:var(--muted)}
+.deck{max-width:70rem;margin:0 auto}
+.parallel{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:1.15rem;align-items:start;margin:1.15rem 0 2rem
+}
+.rail{
+  min-width:0;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:1rem 1.16rem;box-shadow:0 1px 5px rgba(0,0,0,.045)
+}
+.rail.left{border-top:5px solid var(--left);background:linear-gradient(var(--leftbg),var(--leftbg)),var(--card)}
+.rail.right{border-top:5px solid var(--right);background:linear-gradient(var(--rightbg),var(--rightbg)),var(--card)}
+.lane{font-weight:850;letter-spacing:.11em;font-size:.79rem;text-transform:uppercase;margin:0 0 .42rem}
+.left .lane,.left h3{color:var(--left)}.right .lane,.right h3{color:var(--right)}
+.rail h3{font-size:1.13rem;margin:.25rem 0 .8rem}
+.rail h4{font-size:1rem;color:var(--fg);margin:1.45rem 0 .45rem}
+.rail p{margin:.64rem 0}.rail ol,.rail ul{margin:.6rem 0}
+.assertion{
+  border-left:5px solid var(--penbd);background:var(--pen);
+  padding:.72rem .92rem;border-radius:7px;margin:1rem 0
+}
+.calc{
+  background:var(--box);border:1px solid var(--line);border-radius:8px;
+  padding:.72rem .88rem;margin:.85rem 0
+}
+.output{
+  border:2px solid var(--line);border-radius:10px;padding:.82rem 1rem;
+  margin:1rem 0;font-weight:650
+}
+.left .output{border-color:var(--left)}.right .output{border-color:var(--right)}
+.audit{
+  max-width:72rem;margin:1.25rem auto;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem
+}
+.audit h3{margin:.2rem 0 .75rem;color:var(--accent)}
+.audit h4{margin:1.25rem 0 .4rem}
+.sectionlead{max-width:72rem;margin:.7rem auto 1.15rem;color:var(--muted)}
+.monomials{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.91em;
+  line-height:1.75;overflow-x:auto;white-space:nowrap;background:var(--box);
+  border:1px solid var(--line);border-radius:7px;padding:.66rem .78rem
+}
+.result-board{max-width:76rem;margin:1.4rem auto;border-collapse:collapse}
+.result-board th:nth-child(2){color:var(--left)}
+.result-board th:nth-child(3){color:var(--right)}
+.labelchip{
+  display:inline-block;padding:.08rem .48rem;border-radius:999px;
+  border:1px solid var(--line);background:var(--box);font-size:.82rem;font-weight:700
+}
+.flow{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;
+  margin:1rem 0
+}
+.flow>div{background:var(--box);border:1px solid var(--line);border-radius:9px;padding:.72rem;text-align:center}
+.flow .arrow{display:none}
+.warning{border:1.5px solid var(--accent);border-radius:9px;padding:.85rem 1rem;margin:1rem 0}
+.small{font-size:.91em;color:var(--muted)}
+.katex-display{overflow-x:auto;overflow-y:hidden}
+@media(max-width:980px){
+  header.titlepage,main{max-width:54rem}
+  .parallel{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){
+  .flow{grid-template-columns:1fr}
+  .rail{padding:.9rem}
+}
+@media print{
+  .study-metric-back{display:none!important}
+  .parallel{grid-template-columns:1fr 1fr;gap:.65rem}
+  .rail,.audit{break-inside:avoid;box-shadow:none}
+  header.titlepage,main{max-width:none}
+}
+</style>
+</head>
+<body>
+<header class="titlepage">
+<p class="series">study metric — 두 계산선을 한 페이지에</p>
+<h1>사영공간의 두 계산선</h1>
+<p class="subtitle">단항식으로 세는
+$h^0\!\left(\mathbf P^n,\mathcal O(k)\right)$와 특성류를 적분하는
+$\chi\!\left(\mathbf P^n,\mathcal O(k)\right)$를 섞지 않고, 각각 자기 언어로 끝까지 계산한다.</p>
+</header>
+
+<main>
+<div class="deck">
+<blockquote>
+<p><strong>출발점.</strong> 오른쪽의 Hirzebruch–Riemann–Roch 계산은 익숙해도,
+왼쪽의 “전역단면을 실제로 세는 계산”을 모르면
+$\binom{n+k}{n}$이 어디서 생겼는지 손에 잡히지 않는다.
+그러므로 이 글은 같은 답을 설명하는 글이 아니라,
+<strong>서로 다른 입력에서 출발하는 두 장의 계산서</strong>다.</p>
+
+<p><strong>페이지 사용법.</strong> 왼쪽 열은 차트 함수·Taylor 급수·homogeneous monomial만 쓴다.
+오른쪽 열은 Euler sequence·Chern character·Todd class·top-degree 적분만 쓴다.
+독자는 두 열 사이의 연결을 스스로 상상한다. 본문은 그 연결을 대신 말하지 않는다.</p>
+
+<p><strong>기호를 먼저 분리한다.</strong>
+왼쪽 출력은
+$h^0=\dim H^0$이고,
+오른쪽 출력은
+$\chi=\sum_q(-1)^q h^q$다.
+$k\ge0$에서는 두 숫자가 나란히 같아진다.
+그러나 그 일치를 계산 전에 가정하지 않는다.
+§6에서 $k=-2$를 넣어 둘이 실제로 갈라지는 장면까지 본다.</p>
+
+<p><strong>오른쪽 계산의 정직한 입력.</strong>
+$H=c_1(\mathcal O(1))$,
+$H^{n+1}=0$,
+$\int_{\mathbf P^n}H^n=1$,
+Euler sequence,
+Todd class의 곱셈성,
+Hirzebruch–Riemann–Roch 공식은 입력으로 둔다.
+여기서 splitting principle은 특성류 공식을 정당화하는 계산 장치이지,
+$T\mathbf P^n$이 실제로 line bundle들의 합으로 쪼개진다는 주장이 아니다.</p>
+
+<p><strong>검산.</strong>
+<code>verify_projective_counting_hrr.py</code> — 36/36.</p>
+</blockquote>
+
+<div class="flow">
+<div><span class="labelchip">왼쪽 입력</span><br>차트의 접합식</div>
+<div><span class="labelchip">왼쪽 출력</span><br>단항식의 개수 $h^0$</div>
+<div><span class="labelchip">오른쪽 입력</span><br>$e^{kH}Q(H)^{n+1}$</div>
+<div><span class="labelchip">오른쪽 출력</span><br>$H^n$의 계수 $\chi$</div>
+</div>
+</div>
+
+<hr>
+<h2>0. 계산 전에 잠그는 대상과 규칙</h2>
+<p class="sectionlead">
+왼쪽은 $\mathcal O(k)$의 국소 coefficient를 붙이고,
+오른쪽은 $H^*(\mathbf P^n)$에서 형식급수를 자른다.
+같은 기호 $k$만 공유할 뿐 출발 데이터는 다르다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 전역단면 카운팅</p>
+<h3>0L. 사영좌표와 표준 차트</h3>
+
+<p>복소 사영공간을</p>
+<p>$$
+\mathbf P^n=\mathbb{CP}^n
+=\bigl(\mathbb C^{n+1}\setminus\{0\}\bigr)/\mathbb C^*
+$$</p>
+<p>로 둔다. 즉</p>
+<p>$$
+[x_0:\cdots:x_n]=[\lambda x_0:\cdots:\lambda x_n]
+\qquad(\lambda\ne0).
+$$</p>
+
+<p>표준 차트는</p>
+<p>$$
+U_i=\{[x_0:\cdots:x_n]:x_i\ne0\}.
+$$</p>
+
+<p>$U_i$에서는 $x_i$로 나누어</p>
+<p>$$
+z_j^{(i)}=\frac{x_j}{x_i}\qquad(j\ne i)
+$$</p>
+<p>를 좌표로 쓴다. 따라서 $U_i\simeq\mathbb C^n$이다.</p>
+
+<div class="assertion">
+<strong>차트 assertion.</strong>
+$U_i$에서 좌표를 쓸 때에는 먼저 $x_i=1$인 대표를 택한다.
+사영좌표 $x_j$ 자체와 affine 좌표 $x_j/x_i$를 한 줄에서 섞지 않는다.
+</div>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — HRR 적분</p>
+<h3>0R. 코호몰로지 환과 적분 규칙</h3>
+
+<p>오른쪽 열에서는</p>
+<p>$$
+H=c_1\!\left(\mathcal O(1)\right),\qquad
+H^*(\mathbf P^n;\mathbb Z)
+=\mathbb Z[H]/(H^{n+1}),
+$$</p>
+<p>그리고 정규화</p>
+<p>$$
+\int_{\mathbf P^n}H^n=1
+$$</p>
+<p>을 입력으로 둔다.</p>
+
+<p>따라서 $A(H)$가 다항식 또는 형식급수이면</p>
+<p>$$
+\boxed{\;
+\int_{\mathbf P^n}A(H)=[H^n]A(H).
+\;}
+\tag{0R.1}
+$$</p>
+
+<p>$[H^n]$은 $H^n$의 coefficient를 뽑는 연산이다.</p>
+
+<div class="assertion">
+<strong>차수 assertion.</strong>
+복소차원이 $n$이므로 $H^{n+1}=0$이다.
+모든 exponential과 Todd 급수는 $H^n$까지만 전개한다.
+그 위 항은 “작아서” 버리는 것이 아니라 코호몰로지 환에서 정확히 0이다.
+</div>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — $\mathcal O(k)$의 접합식</p>
+<h3>1L. 전역단면을 차트 함수들의 묶음으로 정의한다</h3>
+
+<p>$\mathcal O(k)$의 전역단면 하나를
+각 $U_i$ 위의 holomorphic 함수 $f_i$로 적자.
+이 글의 frame convention에서는 겹침 $U_i\cap U_j$에서</p>
+
+<p>$$
+\boxed{\;
+f_j
+=\left(\frac{x_i}{x_j}\right)^k f_i.
+\;}
+\tag{1L.1}
+$$</p>
+
+<p>이 식이 “서로 다른 차트에서 쓴 두 함수가 같은 단면을 나타낸다”는 조건이다.</p>
+
+<h4>homogeneous polynomial은 왜 단면을 주는가</h4>
+
+<p>$F(x_0,\ldots,x_n)$가 homogeneous degree $k$라 하자:</p>
+<p>$$
+F(\lambda x_0,\ldots,\lambda x_n)
+=\lambda^kF(x_0,\ldots,x_n).
+$$</p>
+
+<p>$U_i$에서</p>
+<p>$$
+f_i=\frac{F}{x_i^k}
+$$</p>
+<p>로 두면</p>
+<p>$$
+f_j=\frac{F}{x_j^k}
+=\left(\frac{x_i}{x_j}\right)^k\frac{F}{x_i^k}
+=\left(\frac{x_i}{x_j}\right)^k f_i.
+$$</p>
+
+<p>따라서 homogeneous degree-$k$ polynomial 하나는
+$\mathcal O(k)$의 전역단면 하나를 만든다.</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — universal Todd factor</p>
+<h3>1R. Euler sequence를 characteristic class 식으로 바꾼다</h3>
+
+<p>사영공간의 Euler sequence는</p>
+<p>$$
+0\longrightarrow\mathcal O
+\longrightarrow\mathcal O(1)^{\oplus(n+1)}
+\longrightarrow T\mathbf P^n
+\longrightarrow0.
+\tag{1R.1}
+$$</p>
+
+<p>line bundle의 Todd factor를</p>
+<p>$$
+Q(x)=\frac{x}{1-e^{-x}}
+=1+\frac{x}{2}+\frac{x^2}{12}
+-\frac{x^4}{720}+\cdots
+\tag{1R.2}
+$$</p>
+<p>로 둔다.</p>
+
+<p>Todd class는 exact sequence에 대해 곱해지므로</p>
+<p>$$
+\operatorname{Td}(T\mathbf P^n)
+=
+\frac{\operatorname{Td}(\mathcal O(1)^{\oplus(n+1)})}
+{\operatorname{Td}(\mathcal O)}
+=
+Q(H)^{n+1}.
+\tag{1R.3}
+$$</p>
+
+<p>또</p>
+<p>$$
+\operatorname{ch}(\mathcal O(k))=e^{kH}.
+\tag{1R.4}
+$$</p>
+
+<p>HRR를 넣으면 오른쪽 열 전체가 한 coefficient로 압축된다:</p>
+<p>$$
+\boxed{\;
+\chi\!\left(\mathbf P^n,\mathcal O(k)\right)
+=[H^n]\,
+e^{kH}
+\left(\frac{H}{1-e^{-H}}\right)^{n+1}.
+\;}
+\tag{1R.5}
+$$</p>
+</section>
+</div>
+
+<hr>
+<h2>1. $\mathbf P^1$ — 두 차트와 $H$ 한 번</h2>
+<p class="sectionlead">
+왼쪽에서는 무한대 차트가 Taylor 급수를 degree $k$에서 자른다.
+오른쪽에서는 $H^2=0$이 형식급수를 일차에서 자른다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — $h^0$</p>
+<h3>2L. 두 차트의 접합식을 실제 변수로 쓴다</h3>
+
+<p>두 표준 차트를</p>
+<p>$$
+U_0:\ z=\frac{x_1}{x_0},
+\qquad
+U_1:\ w=\frac{x_0}{x_1}=\frac1z
+$$</p>
+<p>로 둔다.</p>
+
+<p>(1L.1)은</p>
+<p>$$
+\boxed{\;
+f_1(w)=w^k f_0(1/w).
+\;}
+\tag{2L.1}
+$$</p>
+
+<p>$U_0\simeq\mathbb C$이므로 $f_0$는 entire 함수다.
+원점에서 Taylor 전개하면</p>
+<p>$$
+f_0(z)=\sum_{m=0}^{\infty}a_mz^m.
+$$</p>
+
+<p>이를 (2L.1)에 넣으면</p>
+<p>$$
+f_1(w)
+=w^k\sum_{m=0}^{\infty}a_mw^{-m}
+=\sum_{m=0}^{\infty}a_mw^{k-m}.
+\tag{2L.2}
+$$</p>
+
+<p>$f_1$이 $w=0$에서 holomorphic이려면
+음의 지수가 없어야 한다.
+따라서 $m>k$인 모든 $a_m$이 0이다:</p>
+
+<p>$$
+f_0(z)=a_0+a_1z+\cdots+a_kz^k.
+$$</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0\!\left(\mathbf P^1,\mathcal O(k)\right)=k+1
+\qquad(k\ge0).
+\;}
+\tag{2L.3}
+$$
+</div>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — $\chi$</p>
+<h3>2R. $H^2=0$에서 두 급수를 곱한다</h3>
+
+<p>$\mathbf P^1$에서는 $H^2=0$이다.
+따라서</p>
+<p>$$
+Q(H)=1+\frac H2,
+\qquad
+Q(H)^2=\left(1+\frac H2\right)^2=1+H.
+$$</p>
+
+<p>또</p>
+<p>$$
+e^{kH}=1+kH.
+$$</p>
+
+<p>두 식을 곱으면</p>
+<p>$$
+e^{kH}Q(H)^2
+=(1+kH)(1+H)
+=1+(k+1)H.
+$$</p>
+
+<p>$H$의 coefficient를 읽어</p>
+
+<div class="output">
+$$
+\boxed{\;
+\chi\!\left(\mathbf P^1,\mathcal O(k)\right)=k+1.
+\;}
+\tag{2R.1}
+$$
+</div>
+
+<h4>Euler sequence를 $c_1$만으로 다시 읽기</h4>
+
+<p>$$
+0\to\mathcal O\to\mathcal O(1)^{\oplus2}
+\to T\mathbf P^1\to0
+$$</p>
+<p>에서</p>
+<p>$$
+c_1(T\mathbf P^1)=2H.
+$$</p>
+
+<p>복소차원 1에서는</p>
+<p>$$
+\operatorname{Td}(T\mathbf P^1)
+=1+\frac12c_1(T\mathbf P^1)
+=1+H,
+$$</p>
+<p>즉 위의 $Q(H)^2$와 같은 식이 나온다.</p>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — homogeneous basis 복원</p>
+<h3>3L. affine monomial을 $x_0,x_1$로 되돌린다</h3>
+
+<p>$$
+\begin{aligned}
+F(x_0,x_1)
+&=x_0^k f_0(x_1/x_0)\\
+&=\sum_{m=0}^k a_mx_0^{k-m}x_1^m.
+\end{aligned}
+$$</p>
+
+<p>따라서 basis는</p>
+<p>$$
+x_0^k,\ x_0^{k-1}x_1,\ \ldots,\ x_0x_1^{k-1},\ x_1^k.
+$$</p>
+
+<table>
+<thead><tr><th>$k$</th><th>homogeneous basis</th><th>$h^0$</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>$1$</td><td>1</td></tr>
+<tr><td>1</td><td>$x_0,\ x_1$</td><td>2</td></tr>
+<tr><td>2</td><td>$x_0^2,\ x_0x_1,\ x_1^2$</td><td>3</td></tr>
+<tr><td>3</td><td>$x_0^3,\ x_0^2x_1,\ x_0x_1^2,\ x_1^3$</td><td>4</td></tr>
+<tr><td>4</td><td>$x_0^4,\ x_0^3x_1,\ x_0^2x_1^2,\ x_0x_1^3,\ x_1^4$</td><td>5</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — 숫자 대입표</p>
+<h3>3R. 같은 polynomial에 $k$를 넣는다</h3>
+
+<table>
+<thead><tr><th>$k$</th><th>$e^{kH}(1+H)$의 $H$ coefficient</th><th>$\chi$</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>$1$</td><td>1</td></tr>
+<tr><td>1</td><td>$2$</td><td>2</td></tr>
+<tr><td>2</td><td>$3$</td><td>3</td></tr>
+<tr><td>3</td><td>$4$</td><td>4</td></tr>
+<tr><td>4</td><td>$5$</td><td>5</td></tr>
+</tbody>
+</table>
+
+<p class="small">
+이 표는 오른쪽 계산의 출력표일 뿐이다.
+여기서 $H$ coefficient를 단항식의 개수라고 해석하지 않는다.
+</p>
+</section>
+</div>
+
+<hr>
+<h2>2. $\mathbf P^2$ — 삼각형 카운팅과 $H^2$ coefficient</h2>
+<p class="sectionlead">
+왼쪽의 핵심은 “모든 사영직선에 제한하면 degree가 $k$ 이하”라는 검문이다.
+오른쪽의 핵심은 $Q(H)^3$의 $H^2$ coefficient를 빠짐없이 만드는 것이다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 전역단면을 polynomial로 강제</p>
+<h3>4L. $\mathbb C^2$의 entire 함수를 homogeneous degree별로 자른다</h3>
+
+<p>$U_0\simeq\mathbb C^2$에서</p>
+<p>$$
+z_1=\frac{x_1}{x_0},\qquad
+z_2=\frac{x_2}{x_0}
+$$</p>
+<p>로 두고 단면을 entire 함수 $f_0(z_1,z_2)$로 쓴다.</p>
+
+<p>임의의 $v=(v_1,v_2)\in\mathbb C^2$를 고정하고
+사영직선</p>
+<p>$$
+\ell_v:\mathbf P^1\longrightarrow\mathbf P^2,
+\qquad
+[u_0:u_1]\longmapsto
+[u_0:u_1v_1:u_1v_2]
+$$</p>
+<p>을 잡는다.</p>
+
+<p>$u_0\ne0$에서 $t=u_1/u_0$로 두면
+pullback 단면의 affine 함수는</p>
+<p>$$
+t\longmapsto f_0(tv_1,tv_2).
+$$</p>
+
+<p>이 함수는 $\mathbf P^1$ 위 $\mathcal O(k)$의 단면이므로
+§2L의 계산에 의해 $t$에 관한 degree가 $k$ 이하이다.</p>
+
+<p>한편 $f_0$의 Taylor 급수를 total degree별로 묶으면</p>
+<p>$$
+f_0(z_1,z_2)
+=\sum_{m=0}^{\infty}P_m(z_1,z_2),
+$$</p>
+<p>여기서</p>
+<p>$$
+P_m(z_1,z_2)=\sum_{a+b=m}c_{ab}z_1^az_2^b
+$$</p>
+<p>는 homogeneous degree $m$이다.</p>
+
+<p>직선에 대입하면</p>
+<p>$$
+f_0(tv_1,tv_2)
+=\sum_{m=0}^{\infty}t^mP_m(v_1,v_2).
+$$</p>
+
+<p>모든 $v$에 대해 $t$-degree가 $k$ 이하이므로
+$m>k$일 때 $P_m(v)=0$ for all $v$다.
+따라서 $P_m=0$이다.</p>
+
+<div class="output">
+$$
+\boxed{\;
+f_0(z_1,z_2)
+=\sum_{a+b\le k}c_{ab}z_1^az_2^b.
+\;}
+\tag{4L.1}
+$$
+</div>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — Todd class를 $H^2$까지</p>
+<h3>4R. $Q(H)^3$의 일차항과 이차항을 따로 센다</h3>
+
+<p>$H^3=0$이므로</p>
+<p>$$
+Q(H)=1+\frac H2+\frac{H^2}{12}.
+$$</p>
+
+<p>세 제곱의 $H$ coefficient는
+세 factor 중 하나에서 $H/2$를 고르는 경우뿐이다:</p>
+<p>$$
+3\cdot\frac H2=\frac32H.
+$$</p>
+
+<p>$H^2$ coefficient는 두 종류다.</p>
+
+<ol>
+<li>한 factor에서 $H^2/12$를 고른다:
+$$3\cdot\frac{H^2}{12}=\frac14H^2.$$</li>
+<li>서로 다른 두 factor에서 $H/2$를 고른다:
+$$\binom32\left(\frac H2\right)^2=\frac34H^2.$$</li>
+</ol>
+
+<p>합하면</p>
+
+<div class="output">
+$$
+\boxed{\;
+\operatorname{Td}(T\mathbf P^2)
+=Q(H)^3
+=1+\frac32H+H^2.
+\;}
+\tag{4R.1}
+$$
+</div>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 삼각형의 격자점</p>
+<h3>5L. $a+b\le k$를 줄별로 센다</h3>
+
+<p>(4L.1)을 homogeneous coordinates로 되돌리면</p>
+<p>$$
+F(x_0,x_1,x_2)
+=\sum_{a+b\le k}
+c_{ab}\,
+x_0^{k-a-b}x_1^ax_2^b.
+$$</p>
+
+<p>고정된 $a$에 대해 $b$는</p>
+<p>$$
+0,1,\ldots,k-a
+$$</p>
+<p>이므로 $k-a+1$개다.
+따라서</p>
+
+<p>$$
+\begin{aligned}
+h^0\!\left(\mathbf P^2,\mathcal O(k)\right)
+&=\sum_{a=0}^{k}(k-a+1)\\
+&=(k+1)+k+\cdots+1\\
+&=\frac{(k+1)(k+2)}2.
+\end{aligned}
+$$</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0\!\left(\mathbf P^2,\mathcal O(k)\right)
+=\binom{k+2}{2}
+\qquad(k\ge0).
+\;}
+\tag{5L.1}
+$$
+</div>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — $H^2$ coefficient</p>
+<h3>5R. exponential과 Todd polynomial을 곱한다</h3>
+
+<p>$$
+e^{kH}=1+kH+\frac{k^2}{2}H^2.
+$$</p>
+
+<p>이제</p>
+<p>$$
+e^{kH}\operatorname{Td}(T\mathbf P^2)
+=
+\left(1+kH+\frac{k^2}{2}H^2\right)
+\left(1+\frac32H+H^2\right).
+$$</p>
+
+<p>$H^2$가 생기는 선택은 정확히 세 개다:</p>
+
+<table>
+<thead><tr><th>왼쪽 factor</th><th>오른쪽 factor</th><th>기여</th></tr></thead>
+<tbody>
+<tr><td>$\frac{k^2}{2}H^2$</td><td>$1$</td><td>$\frac{k^2}{2}$</td></tr>
+<tr><td>$kH$</td><td>$\frac32H$</td><td>$\frac{3k}{2}$</td></tr>
+<tr><td>$1$</td><td>$H^2$</td><td>$1$</td></tr>
+</tbody>
+</table>
+
+<p>따라서</p>
+
+<div class="output">
+$$
+\boxed{\;
+\chi\!\left(\mathbf P^2,\mathcal O(k)\right)
+=\frac{k^2}{2}+\frac{3k}{2}+1
+=\frac{(k+1)(k+2)}2.
+\;}
+\tag{5R.1}
+$$
+</div>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — basis를 눈으로 확인</p>
+<h3>6L. $k=2$와 $k=3$의 실제 목록</h3>
+
+<p>$k=2$:</p>
+<div class="monomials">x₀², x₀x₁, x₀x₂, x₁², x₁x₂, x₂²</div>
+<p>총 $6=\binom42$개다.</p>
+
+<p>$k=3$:</p>
+<div class="monomials">x₀³, x₀²x₁, x₀²x₂, x₀x₁², x₀x₁x₂, x₀x₂², x₁³, x₁²x₂, x₁x₂², x₂³</div>
+<p>총 $10=\binom52$개다.</p>
+
+<h4>별과 막대 검산</h4>
+
+<p>monomial $x_0^{a_0}x_1^{a_1}x_2^{a_2}$의 조건은</p>
+<p>$$
+a_0+a_1+a_2=k,\qquad a_i\ge0.
+$$</p>
+
+<p>$k$개의 별과 막대 두 개를 한 줄에 놓으면
+총 $k+2$자리에서 막대 두 자리를 고른다:</p>
+<p>$$
+\#\{(a_0,a_1,a_2)\}=\binom{k+2}{2}.
+$$</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — Chern class 독립 검문</p>
+<h3>6R. $c_1,c_2$로 Todd polynomial을 다시 만든다</h3>
+
+<p>Euler sequence의 total Chern class는</p>
+<p>$$
+c(T\mathbf P^2)
+=(1+H)^3
+=1+3H+3H^2.
+$$</p>
+
+<p>따라서</p>
+<p>$$
+c_1=3H,\qquad c_2=3H^2.
+$$</p>
+
+<p>복소 rank 2에서</p>
+<p>$$
+\operatorname{Td}(E)
+=
+1+\frac12c_1(E)
++\frac1{12}\bigl(c_1(E)^2+c_2(E)\bigr).
+$$</p>
+
+<p>대입하면</p>
+<p>$$
+\begin{aligned}
+\operatorname{Td}(T\mathbf P^2)
+&=1+\frac32H
++\frac1{12}(9H^2+3H^2)\\
+&=1+\frac32H+H^2.
+\end{aligned}
+$$</p>
+
+<p>$Q(H)^3$의 직접 전개와 정확히 같은 polynomial이 나온다.</p>
+</section>
+</div>
+
+<hr>
+<h2>3. $\mathbf P^3$ — 사면체 카운팅과 $H^3$ coefficient</h2>
+<p class="sectionlead">
+차원이 하나 올라가면 왼쪽에는 지수 네 개가,
+오른쪽에는 Todd polynomial의 세 번째 coefficient가 생긴다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 네 지수의 합</p>
+<h3>7L. $a_0+a_1+a_2+a_3=k$를 센다</h3>
+
+<p>전역단면의 homogeneous basis는</p>
+<p>$$
+x_0^{a_0}x_1^{a_1}x_2^{a_2}x_3^{a_3},
+\qquad
+a_0+a_1+a_2+a_3=k,\quad a_i\ge0.
+$$</p>
+
+<p>$k$개의 별과 막대 세 개를 놓으므로</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0\!\left(\mathbf P^3,\mathcal O(k)\right)
+=\binom{k+3}{3}
+\qquad(k\ge0).
+\;}
+\tag{7L.1}
+$$
+</div>
+
+<h4>$k=2$의 열 개를 전부 적는다</h4>
+
+<div class="monomials">x₀², x₁², x₂², x₃², x₀x₁, x₀x₂, x₀x₃, x₁x₂, x₁x₃, x₂x₃</div>
+
+<p>제곱항 4개와 서로 다른 두 변수를 고른 항 $\binom42=6$개,
+합계 10개다.</p>
+
+<h4>한 좌표의 지수를 먼저 고르는 줄별 계산</h4>
+
+<p>$a_3=r$로 고정하면 나머지 셋의 합은 $k-r$이고
+그 개수는 $\binom{k-r+2}{2}$다.
+따라서</p>
+<p>$$
+\sum_{r=0}^k\binom{k-r+2}{2}
+=\binom{k+3}{3}.
+$$</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — Todd를 $H^3$까지</p>
+<h3>7R. $Q(H)^4$의 세 coefficient</h3>
+
+<p>$H^4=0$이므로</p>
+<p>$$
+Q(H)=1+\frac H2+\frac{H^2}{12}.
+$$</p>
+
+<p>네 제곱을 $H^3$까지만 전개한다.</p>
+
+<p>일차항:</p>
+<p>$$
+4\cdot\frac H2=2H.
+$$</p>
+
+<p>이차항:</p>
+<p>$$
+4\cdot\frac{H^2}{12}
++\binom42\left(\frac H2\right)^2
+=\frac13H^2+\frac32H^2
+=\frac{11}{6}H^2.
+$$</p>
+
+<p>삼차항은 두 종류다.</p>
+
+<ol>
+<li>세 factor에서 $H/2$:
+$$\binom43\left(\frac H2\right)^3=\frac12H^3.$$</li>
+<li>한 factor에서 $H^2/12$, 다른 factor에서 $H/2$:
+$$4\cdot3\cdot\frac{H^2}{12}\frac H2=\frac12H^3.$$</li>
+</ol>
+
+<div class="output">
+$$
+\boxed{\;
+\operatorname{Td}(T\mathbf P^3)
+=1+2H+\frac{11}{6}H^2+H^3.
+\;}
+\tag{7R.1}
+$$
+</div>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 숫자표</p>
+<h3>8L. $k=0,1,2,3$</h3>
+
+<table>
+<thead><tr><th>$k$</th><th>$\binom{k+3}{3}$</th><th>basis의 형태</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>1</td><td>상수</td></tr>
+<tr><td>1</td><td>4</td><td>$x_0,x_1,x_2,x_3$</td></tr>
+<tr><td>2</td><td>10</td><td>제곱 4개 + 교차항 6개</td></tr>
+<tr><td>3</td><td>20</td><td>지수합 3인 네 tuple</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — $H^3$ coefficient</p>
+<h3>8R. 네 항을 모은다</h3>
+
+<p>$$
+e^{kH}
+=1+kH+\frac{k^2}{2}H^2+\frac{k^3}{6}H^3.
+$$</p>
+
+<p>$H^3$ coefficient는</p>
+<p>$$
+\frac{k^3}{6}
++k^2
++\frac{11k}{6}
++1.
+$$</p>
+
+<p>분자를 인수분해하면</p>
+<p>$$
+\frac{k^3+6k^2+11k+6}{6}
+=\frac{(k+1)(k+2)(k+3)}6.
+$$</p>
+
+<div class="output">
+$$
+\boxed{\;
+\chi\!\left(\mathbf P^3,\mathcal O(k)\right)
+=\binom{k+3}{3}.
+\;}
+\tag{8R.1}
+$$
+</div>
+</section>
+</div>
+
+<hr>
+<h2>4. $\mathbf P^n$ — 왼쪽은 약한 합성, 오른쪽은 residue</h2>
+<p class="sectionlead">
+여기서 두 계산을 일반 차원으로 압축한다.
+왼쪽은 $n+1$개의 음이 아닌 지수,
+오른쪽은 하나의 formal residue다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 모든 전역단면</p>
+<h3>9L. 임의 차원에서도 직선 제한이 degree를 자른다</h3>
+
+<p>$U_0\simeq\mathbb C^n$에서
+단면을 entire 함수</p>
+<p>$$
+f_0(z_1,\ldots,z_n)
+$$</p>
+<p>로 적는다.</p>
+
+<p>임의의 $v\in\mathbb C^n$에 대해
+사영직선</p>
+<p>$$
+[u_0:u_1]
+\longmapsto
+[u_0:u_1v_1:\cdots:u_1v_n]
+$$</p>
+<p>으로 제한하면</p>
+<p>$$
+t\longmapsto f_0(tv)
+$$</p>
+<p>는 $\mathbf P^1$ 위 $\mathcal O(k)$의 단면이다.
+따라서 $t$-degree가 $k$ 이하이다.</p>
+
+<p>Taylor 급수를 homogeneous degree별로</p>
+<p>$$
+f_0(z)=\sum_{m\ge0}P_m(z),
+\qquad P_m(\lambda z)=\lambda^mP_m(z)
+$$</p>
+<p>로 묶으면</p>
+<p>$$
+f_0(tv)=\sum_{m\ge0}t^mP_m(v).
+$$</p>
+
+<p>모든 $v$에 대해 degree가 $k$ 이하이므로
+$P_m=0$ for $m>k$.
+따라서 모든 전역단면은</p>
+<p>$$
+F(x_0,\ldots,x_n)
+=x_0^k
+f_0\!\left(\frac{x_1}{x_0},\ldots,\frac{x_n}{x_0}\right)
+$$</p>
+<p>꼴의 homogeneous degree-$k$ polynomial이다.</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — coefficient를 residue로</p>
+<h3>9R. $[H^n]$을 복소변수의 한 계수로 옮긴다</h3>
+
+<p>(1R.5)의 오른쪽을</p>
+<p>$$
+I_n(k)
+=[H^n]\,
+e^{kH}
+\left(\frac{H}{1-e^{-H}}\right)^{n+1}
+$$</p>
+<p>라 두자.</p>
+
+<p>형식적인 coefficient-residue 규칙</p>
+<p>$$
+[H^n]A(H)
+=
+\operatorname*{Res}_{H=0}
+\frac{A(H)}{H^{n+1}}\,dH
+$$</p>
+<p>을 쓰면 $H^{n+1}$이 정확히 약분되어</p>
+<p>$$
+I_n(k)
+=
+\operatorname*{Res}_{H=0}
+\frac{e^{kH}}{(1-e^{-H})^{n+1}}\,dH.
+\tag{9R.1}
+$$</p>
+
+<p>이제</p>
+<p>$$
+z=1-e^{-H}
+$$</p>
+<p>로 바꾼다. 그러면</p>
+<p>$$
+e^{-H}=1-z,\qquad
+e^{kH}=(1-z)^{-k},\qquad
+dH=\frac{dz}{1-z}.
+$$</p>
+
+<p>(9R.1)은</p>
+<p>$$
+\begin{aligned}
+I_n(k)
+&=
+\operatorname*{Res}_{z=0}
+\frac{(1-z)^{-k-1}}{z^{n+1}}\,dz\\
+&=[z^n](1-z)^{-k-1}.
+\end{aligned}
+\tag{9R.2}
+$$</p>
+</section>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — stars and bars</p>
+<h3>10L. 지수합 $k$인 $(n+1)$-tuple의 개수</h3>
+
+<p>basis monomial은</p>
+<p>$$
+x_0^{a_0}\cdots x_n^{a_n},
+\qquad
+a_0+\cdots+a_n=k,\qquad a_i\ge0.
+$$</p>
+
+<p>$k$개의 별</p>
+<p>$$
+\underbrace{\star\ \star\ \cdots\ \star}_{k\text{개}}
+$$</p>
+<p>사이에 막대 $n$개를 넣으면
+각 칸의 별 개수가 $a_0,\ldots,a_n$을 기록한다.</p>
+
+<p>총 기호는 $k+n$개이고,
+그중 막대 위치 $n$개를 고르므로</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0\!\left(\mathbf P^n,\mathcal O(k)\right)
+=\binom{k+n}{n}
+\qquad(k\ge0).
+\;}
+\tag{10L.1}
+$$
+</div>
+
+<h4>생성함수 검문</h4>
+
+<p>각 지수 $a_i$는 $0,1,2,\ldots$ 중 하나이므로</p>
+<p>$$
+\begin{aligned}
+\sum_{k\ge0}
+h^0\!\left(\mathbf P^n,\mathcal O(k)\right)t^k
+&=(1+t+t^2+\cdots)^{n+1}\\
+&=\frac1{(1-t)^{n+1}}.
+\end{aligned}
+$$</p>
+
+<p>오른쪽을 전개하면</p>
+<p>$$
+\frac1{(1-t)^{n+1}}
+=\sum_{k\ge0}\binom{k+n}{n}t^k.
+$$</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — binomial series</p>
+<h3>10R. $(1-z)^{-k-1}$의 $z^n$ coefficient</h3>
+
+<p>$k\ge0$에서</p>
+<p>$$
+\frac1{(1-z)^{k+1}}
+=
+\frac1{k!}
+\frac{d^k}{dz^k}\frac1{1-z}.
+$$</p>
+
+<p>기하급수</p>
+<p>$$
+\frac1{1-z}=\sum_{r\ge0}z^r
+$$</p>
+<p>를 $k$번 미분하면</p>
+<p>$$
+\begin{aligned}
+(1-z)^{-k-1}
+&=\sum_{r\ge k}
+\frac{r(r-1)\cdots(r-k+1)}{k!}\,z^{r-k}\\
+&=\sum_{m\ge0}
+\binom{k+m}{k}z^m.
+\end{aligned}
+$$</p>
+
+<p>따라서 (9R.2)에서 $z^n$의 coefficient는</p>
+
+<div class="output">
+$$
+\boxed{\;
+\chi\!\left(\mathbf P^n,\mathcal O(k)\right)
+=\binom{k+n}{n}.
+\;}
+\tag{10R.1}
+$$
+</div>
+</section>
+</div>
+
+<hr>
+<h2>5. 카운팅 쪽을 더 낮은 해상도로 다시 세 번 센다</h2>
+<p class="sectionlead">
+이 절은 왼쪽 계산만의 교차검산이다.
+같은 monomial set을 줄별 합, 재귀, 생성함수로 따로 센다.
+</p>
+
+<div class="audit">
+<h3>11. 세 카운팅 방식</h3>
+
+<h4>방식 A — 마지막 지수 $a_n$을 먼저 고른다</h4>
+
+<p>$a_n=r$이면 나머지 $n$개 지수의 합은 $k-r$이다.
+따라서 $N_n(k)=h^0(\mathbf P^n,\mathcal O(k))$라 놓으면</p>
+<p>$$
+N_n(k)=\sum_{r=0}^k N_{n-1}(k-r).
+\tag{11.1}
+$$</p>
+
+<p>$N_0(k)=1$에서 시작하면</p>
+<p>$$
+N_1(k)=k+1,\qquad
+N_2(k)=1+2+\cdots+(k+1),
+$$</p>
+<p>그리고 계속 한 차원씩 누적합이 된다.</p>
+
+<h4>방식 B — 막대의 위치를 고른다</h4>
+
+<p>별 $k$개와 막대 $n$개:
+총 $k+n$자리에서 막대 $n$개를 고른다.</p>
+<p>$$
+N_n(k)=\binom{k+n}{n}.
+$$</p>
+
+<h4>방식 C — 각 변수의 geometric series를 곱한다</h4>
+
+<p>$$
+(1+t+t^2+\cdots)^{n+1}
+$$</p>
+<p>에서 $t^k$를 만드는 선택은
+$a_0+\cdots+a_n=k$인 선택과 정확히 같다.
+따라서</p>
+<p>$$
+N_n(k)=[t^k](1-t)^{-n-1}.
+$$</p>
+
+<div class="warning">
+<strong>이 세 방식이 세는 집합은 완전히 동일하다.</strong>
+homogeneous degree-$k$ monomial들의 집합이다.
+여기에는 higher cohomology, Todd class, Euler characteristic가 들어오지 않는다.
+</div>
+</div>
+
+<hr>
+<h2>6. 음수 $k$ 검문 — $h^0$와 $\chi$는 같은 물건이 아니다</h2>
+<p class="sectionlead">
+양의 $k$만 보면 두 열의 출력이 계속 같아서 기호를 섞기 쉽다.
+$k=-2$를 넣으면 그 오독이 바로 드러난다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — $\mathbf P^1$의 $H^0$</p>
+<h3>12L. $k<0$이면 전역단면은 0이다</h3>
+
+<p>§2L의 식</p>
+<p>$$
+f_1(w)=\sum_{m=0}^{\infty}a_mw^{k-m}
+$$</p>
+<p>을 그대로 본다.</p>
+
+<p>$k<0$이면 모든 $k-m$이 음수다.
+$f_1$이 $w=0$에서 holomorphic이려면
+모든 $a_m$이 0이어야 한다.</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0\!\left(\mathbf P^1,\mathcal O(k)\right)=0
+\qquad(k<0).
+\;}
+\tag{12L.1}
+$$
+</div>
+
+<p>특히</p>
+<p>$$
+h^0(\mathcal O(-2))=0.
+$$</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — $\mathbf P^1$의 지표</p>
+<h3>12R. HRR polynomial에는 그대로 $k=-2$를 넣는다</h3>
+
+<p>오른쪽 계산은 모든 정수 $k$에서</p>
+<p>$$
+\chi(\mathcal O(k))=k+1
+$$</p>
+<p>을 준다.</p>
+
+<p>따라서</p>
+<p>$$
+\chi(\mathcal O(-2))=-1.
+$$</p>
+
+<div class="output">
+$$
+\boxed{\;
+h^0(\mathcal O(-2))=0,
+\qquad
+\chi(\mathcal O(-2))=-1.
+\;}
+\tag{12R.1}
+$$
+</div>
+
+<p>$0$과 $-1$은 같지 않다.
+그러므로 양의 $k$에서 보았던 숫자의 일치만으로
+$h^0=\chi$를 정의처럼 써서는 안 된다.</p>
+</section>
+</div>
+
+<div class="audit">
+<h3>13. $\mathbf P^1$의 Laurent quotient — 빠진 $H^1$을 실제로 센다</h3>
+
+<p>표준 두 차트의 겹침은 $\mathbb C^*$다.
+$U_0$ frame으로 쓴 Laurent 함수</p>
+<p>$$
+g(z)=\sum_{r\in\mathbb Z}c_rz^r
+$$</p>
+<p>를 잡는다.</p>
+
+<p>$U_0$에서 오는 holomorphic 함수는
+$r\ge0$인 항들을 없앤다.</p>
+
+<p>$U_1$의 holomorphic 함수</p>
+<p>$$
+b(w)=\sum_{m\ge0}b_mw^m
+$$</p>
+<p>를 $U_0$ frame으로 바꾸면</p>
+<p>$$
+z^k b(1/z)
+=\sum_{m\ge0}b_mz^{k-m}.
+$$</p>
+
+<p>따라서 $U_1$에서 오는 항은 $r\le k$를 없앤다.
+두 종류로도 없어지지 않는 지수는</p>
+<p>$$
+k<r<0.
+$$</p>
+
+<p>즉 basis는</p>
+<p>$$
+z^{k+1},z^{k+2},\ldots,z^{-1}.
+$$</p>
+
+<p>따라서</p>
+<p>$$
+h^1\!\left(\mathbf P^1,\mathcal O(k)\right)
+=
+\begin{cases}
+0,&k\ge-1,\\
+-k-1,&k\le-2.
+\end{cases}
+\tag{13.1}
+$$</p>
+
+<p>$k=-2$에서는 $z^{-1}$ 하나가 남아</p>
+<p>$$
+\chi=h^0-h^1=0-1=-1.
+$$</p>
+</div>
+
+<hr>
+<h2>7. 표준 Čech 복합체를 monomial별로 분해한다</h2>
+<p class="sectionlead">
+이 절은 음수 twist까지 전수조사하기 위한 대수적 계산이다.
+분석적 정칙함수와 대수적 정칙함수의 동치는 여기서 새로 증명하지 않는다.
+</p>
+
+<div class="audit">
+<h3>14. degree-$k$ Čech complex</h3>
+
+<p>$S=\mathbb C[x_0,\ldots,x_n]$라 쓰자.
+표준 affine cover $U_i=D_+(x_i)$에 대한 degree-$k$ Čech complex는</p>
+<p>$$
+C^q
+=
+\bigoplus_{i_0<\cdots<i_q}
+\left(S_{x_{i_0}\cdots x_{i_q}}\right)_k.
+\tag{14.1}
+$$</p>
+
+<p>Laurent monomial</p>
+<p>$$
+x^\alpha=x_0^{\alpha_0}\cdots x_n^{\alpha_n},
+\qquad
+\alpha_0+\cdots+\alpha_n=k
+$$</p>
+<p>를 하나 고정한다.
+음의 지수 위치를</p>
+<p>$$
+N(\alpha)=\{i:\alpha_i<0\}
+$$</p>
+<p>라 두자.</p>
+
+<p>$x^\alpha$는 index 집합 $I$에 해당하는 localization에
+정확히</p>
+<p>$$
+N(\alpha)\subseteq I
+$$</p>
+<p>일 때 나타난다.
+따라서 전체 Čech complex는 monomial별 작은 complex들의 직합으로 분해된다.</p>
+
+<table>
+<thead>
+<tr><th>음의 지수 위치</th><th>작은 complex의 모양</th><th>남는 cohomology</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>$N(\alpha)=\varnothing$</td>
+<td>모든 차트와 모든 겹침에 나타남</td>
+<td>$H^0$에 한 copy</td>
+</tr>
+<tr>
+<td>$0<|N(\alpha)|<n+1$</td>
+<td>$N(\alpha)$ 밖의 한 index를 넣고 빼는 contraction이 존재</td>
+<td>전부 0</td>
+</tr>
+<tr>
+<td>$N(\alpha)=\{0,\ldots,n\}$</td>
+<td>마지막 $(n+1)$중첩에만 나타남</td>
+<td>$H^n$에 한 copy</td>
+</tr>
+</tbody>
+</table>
+
+<p>따라서</p>
+<p>$$
+H^q(\mathbf P^n,\mathcal O(k))=0
+\qquad(0<q<n).
+\tag{14.2}
+$$</p>
+
+<p>$H^0$에는 모든 $\alpha_i\ge0$인 monomial이 남는다.
+그런 monomial은 $k\ge0$일 때만 존재하며 개수는 $\binom{k+n}{n}$이다.</p>
+
+<p>$H^n$에는 모든 $\alpha_i<0$인 Laurent monomial이 남는다.
+$\alpha_i=-b_i-1$로 쓰면 $b_i\ge0$이고</p>
+<p>$$
+b_0+\cdots+b_n=-k-n-1.
+$$</p>
+
+<p>따라서 $k\le-n-1$일 때</p>
+<p>$$
+\boxed{\;
+h^n\!\left(\mathbf P^n,\mathcal O(k)\right)
+=\binom{-k-1}{n}.
+\;}
+\tag{14.3}
+$$</p>
+</div>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — $\mathbf P^2$의 음수 Laurent monomial</p>
+<h3>15L. 마지막 삼중겹침에 남는 목록</h3>
+
+<table>
+<thead><tr><th>$k$</th><th>$H^2$에 남는 monomial</th><th>$h^2$</th></tr></thead>
+<tbody>
+<tr><td>$-1$</td><td>없음</td><td>0</td></tr>
+<tr><td>$-2$</td><td>없음</td><td>0</td></tr>
+<tr><td>$-3$</td><td>$x_0^{-1}x_1^{-1}x_2^{-1}$</td><td>1</td></tr>
+<tr><td>$-4$</td><td>$x_0^{-2}x_1^{-1}x_2^{-1}$ 및 순열</td><td>3</td></tr>
+<tr><td>$-5$</td><td>$x_0^{-b_0-1}x_1^{-b_1-1}x_2^{-b_2-1}$, $b_0+b_1+b_2=2$</td><td>6</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — HRR polynomial의 음수값</p>
+<h3>15R. $(k+1)(k+2)/2$에 같은 정수를 넣는다</h3>
+
+<table>
+<thead><tr><th>$k$</th><th>$\chi(\mathcal O(k))$</th><th>Čech 장부</th></tr></thead>
+<tbody>
+<tr><td>$-1$</td><td>0</td><td>모든 $H^q=0$</td></tr>
+<tr><td>$-2$</td><td>0</td><td>모든 $H^q=0$</td></tr>
+<tr><td>$-3$</td><td>1</td><td>$h^2=1$</td></tr>
+<tr><td>$-4$</td><td>3</td><td>$h^2=3$</td></tr>
+<tr><td>$-5$</td><td>6</td><td>$h^2=6$</td></tr>
+</tbody>
+</table>
+</section>
+</div>
+
+<div class="audit">
+<h3>16. 모든 정수 $k$에서 Euler polynomial의 세 구간</h3>
+
+<p>오른쪽에서 나온 polynomial을</p>
+<p>$$
+P_n(k)=\binom{k+n}{n}
+=\frac{(k+1)(k+2)\cdots(k+n)}{n!}
+$$</p>
+<p>로 쓴다.</p>
+
+<table>
+<thead><tr><th>$k$의 구간</th><th>Čech 계산</th><th>$P_n(k)$</th></tr></thead>
+<tbody>
+<tr>
+<td>$k\ge0$</td>
+<td>$H^0$만 남고 차원 $\binom{k+n}{n}$</td>
+<td>$+\binom{k+n}{n}$</td>
+</tr>
+<tr>
+<td>$-n\le k\le-1$</td>
+<td>모든 cohomology가 0</td>
+<td>분자 중 하나가 0</td>
+</tr>
+<tr>
+<td>$k\le-n-1$</td>
+<td>$H^n$만 남고 차원 $\binom{-k-1}{n}$</td>
+<td>$(-1)^n\binom{-k-1}{n}$</td>
+</tr>
+</tbody>
+</table>
+
+<p>마지막 구간의 부호는 Euler characteristic에서
+$H^n$이 $(-1)^n$의 부호로 들어가기 때문에 생긴다.</p>
+</div>
+
+<hr>
+<h2>8. 오른쪽 계산의 입력을 다시 분해해 검문한다</h2>
+<p class="sectionlead">
+이 절은 HRR 쪽의 bookkeeping만 확인한다.
+특히 Euler sequence를 실제 splitting으로 오독하지 않도록 한다.
+</p>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 — 이 열에는 필요 없는 입력</p>
+<h3>17L. 카운팅 계산에 등장하지 않은 것</h3>
+
+<ul>
+<li>$c_1(T\mathbf P^n)$을 계산하지 않았다.</li>
+<li>Todd power series를 쓰지 않았다.</li>
+<li>$H^n$을 적분하지 않았다.</li>
+<li>Euler characteristic를 정의하지 않았다.</li>
+<li>higher cohomology vanishing을 가정하지 않았다.</li>
+</ul>
+
+<p>카운팅에 사용한 것은 차트 접합식,
+entire 함수의 Taylor 급수,
+homogeneous degree,
+음이 아닌 정수해의 개수뿐이다.</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 — exact sequence의 의미</p>
+<h3>17R. Euler sequence가 주는 것은 $K$-theory/특성류 식이다</h3>
+
+<p>$$
+0\to\mathcal O
+\to\mathcal O(1)^{\oplus(n+1)}
+\to T\mathbf P^n
+\to0
+$$</p>
+<p>에서 characteristic class의 곱셈성은</p>
+<p>$$
+\operatorname{Td}(\mathcal O)\,
+\operatorname{Td}(T\mathbf P^n)
+=
+\operatorname{Td}(\mathcal O(1))^{n+1}
+$$</p>
+<p>을 준다.</p>
+
+<p>그러나 이 식은 일반적으로</p>
+<p>$$
+T\mathbf P^n
+\simeq
+\mathcal O(1)^{\oplus(n+1)}\ominus\mathcal O
+$$</p>
+<p>라는 실제 vector bundle 동형을 뜻하지 않는다.
+오른쪽의 빼기는 $K$-theory의 formal difference다.</p>
+
+<div class="assertion">
+<strong>splitting assertion.</strong>
+Chern roots를 써서 $Q(x_1)\cdots Q(x_n)$를 계산할 수 있다는 것과,
+원래 공간 위에서 bundle이 line bundle direct sum으로 실제 분해된다는 것은 다른 명제다.
+</div>
+</section>
+</div>
+
+<hr>
+<h2>9. 최종 출력판</h2>
+
+<table class="result-board">
+<thead>
+<tr>
+<th>공간</th>
+<th>왼쪽: 전역단면 카운팅 $h^0$ ($k\ge0$)</th>
+<th>오른쪽: HRR 적분 $\chi$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\mathbf P^1$</td>
+<td>$1,z,\ldots,z^k$를 세어 $k+1$</td>
+<td>$[H](1+kH)(1+H)=k+1$</td>
+</tr>
+<tr>
+<td>$\mathbf P^2$</td>
+<td>$a_0+a_1+a_2=k$를 세어 $\binom{k+2}{2}$</td>
+<td>$[H^2]e^{kH}(1+\frac32H+H^2)=\binom{k+2}{2}$</td>
+</tr>
+<tr>
+<td>$\mathbf P^3$</td>
+<td>$a_0+\cdots+a_3=k$를 세어 $\binom{k+3}{3}$</td>
+<td>$[H^3]e^{kH}(1+2H+\frac{11}{6}H^2+H^3)=\binom{k+3}{3}$</td>
+</tr>
+<tr>
+<td>$\mathbf P^n$</td>
+<td>$a_0+\cdots+a_n=k$를 세어 $\binom{k+n}{n}$</td>
+<td>$[H^n]e^{kH}Q(H)^{n+1}=\binom{k+n}{n}$</td>
+</tr>
+</tbody>
+</table>
+
+<div class="audit">
+<h3>18. 금지하는 지름길</h3>
+
+<ol>
+<li><strong>$h^0$를 곧바로 $\chi$라고 쓰지 않는다.</strong>
+그 등식에는 higher cohomology가 사라진다는 별도 사실이 필요하다.</li>
+<li><strong>$k<0$에서 $\binom{k+n}{n}$을 단항식 개수라고 부르지 않는다.</strong>
+음이 아닌 지수합 $k$는 존재하지 않는다.</li>
+<li><strong>$T\mathbf P^n$이 $\mathcal O(1)$들의 합으로 실제 split된다고 쓰지 않는다.</strong>
+Euler sequence와 Todd class의 곱셈성만 사용했다.</li>
+<li><strong>$Q(H)$의 무한급수를 수치 근사처럼 자르지 않는다.</strong>
+$H^{n+1}=0$ 때문에 정확히 자른다.</li>
+<li><strong>affine degree $\le k$와 homogeneous degree $k$를 혼동하지 않는다.</strong>
+$x_0^{k-\sum a_i}$가 빠진 degree를 채운다.</li>
+</ol>
+</div>
+
+<div class="audit">
+<h3>19. 빈 종이 재현 순서</h3>
+
+<table>
+<thead><tr><th>왼쪽 계산</th><th>오른쪽 계산</th></tr></thead>
+<tbody>
+<tr>
+<td>1. $f_j=(x_i/x_j)^kf_i$를 쓴다.</td>
+<td>1. $H^{n+1}=0$, $\int H^n=1$을 쓴다.</td>
+</tr>
+<tr>
+<td>2. $\mathbf P^1$에서 $f_1(w)=w^kf_0(1/w)$를 쓴다.</td>
+<td>2. Euler sequence에서 $\operatorname{Td}(T\mathbf P^n)=Q(H)^{n+1}$를 쓴다.</td>
+</tr>
+<tr>
+<td>3. Taylor 급수의 $m>k$ 항을 무한대 차트에서 죽인다.</td>
+<td>3. $\operatorname{ch}(\mathcal O(k))=e^{kH}$를 쓴다.</td>
+</tr>
+<tr>
+<td>4. $\mathbf P^n$에서 모든 사영직선으로 제한해 total degree를 자른다.</td>
+<td>4. $[H^n]e^{kH}Q(H)^{n+1}$를 만든다.</td>
+</tr>
+<tr>
+<td>5. $a_0+\cdots+a_n=k$를 별과 막대로 센다.</td>
+<td>5. $z=1-e^{-H}$로 바꾸어 $[z^n](1-z)^{-k-1}$를 얻는다.</td>
+</tr>
+<tr>
+<td>6. $k=-2$에서 $h^0=0$을 확인한다.</td>
+<td>6. $k=-2$를 Euler polynomial에 넣어 $\chi$를 확인한다.</td>
+</tr>
+<tr>
+<td>7. Laurent monomial로 남은 $H^1$ 또는 $H^n$을 센다.</td>
+<td>7. Euler 부호 $(-1)^q$를 적용한다.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="audit">
+<h3>20. 봉인 — 두 계산서를 끝까지 따로 보관한다</h3>
+
+<div class="parallel">
+<section class="rail left">
+<p class="lane">왼쪽 봉인</p>
+<p>$$
+\boxed{
+\begin{gathered}
+\text{전역단면}
+\longleftrightarrow
+\text{homogeneous degree-}k\text{ polynomial},\\[2mm]
+h^0(\mathbf P^n,\mathcal O(k))
+=
+\#\{(a_0,\ldots,a_n)\in\mathbb Z_{\ge0}^{n+1}:
+\sum a_i=k\}\\[1mm]
+=
+\binom{k+n}{n}
+\qquad(k\ge0).
+\end{gathered}}
+$$</p>
+</section>
+
+<section class="rail right">
+<p class="lane">오른쪽 봉인</p>
+<p>$$
+\boxed{
+\begin{aligned}
+\chi(\mathbf P^n,\mathcal O(k))
+&=[H^n]\,
+e^{kH}
+\left(\frac{H}{1-e^{-H}}\right)^{n+1}\\
+&=[z^n](1-z)^{-k-1}\\
+&=\binom{k+n}{n}.
+\end{aligned}}
+$$</p>
+</section>
+</div>
+
+<p>두 상자는 이 페이지 안에 함께 놓였지만,
+한 상자의 계산을 다른 상자의 이유로 사용하지 않았다.</p>
+</div>
+
+<footer>
+자립형 계산서 · 검산:
+<code>python verify_projective_counting_hrr.py</code>
+</footer>
+</main>
+
+<script defer src="assets/katex.min.js"></script>
+<script defer src="assets/auto-render.min.js"></script>
+<script defer src="assets/render.js"></script>
+</body>
+</html>
