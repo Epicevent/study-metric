@@ -11,15 +11,19 @@
 :root{
   --obs:#365f67;
   --obsbg:rgba(54,95,103,.055);
+  --boot:#315f78;
+  --bootbg:rgba(49,95,120,.055);
   --prob:#7a403b;
   --probbg:rgba(122,64,59,.05);
   --record:#5d633b;
   --recordbg:rgba(93,99,59,.055);
+  --seal:#6c4a72;
+  --sealbg:rgba(108,74,114,.055);
 }
 body{font-size:16.25px}
 main,header.titlepage{max-width:70rem}
-header.titlepage .subtitle{max-width:57rem;margin:.8rem auto 0;color:var(--muted)}
-.lead,.toc,.sheet,.problem,.ledger{max-width:62rem;margin:1.25rem auto}
+header.titlepage .subtitle{max-width:59rem;margin:.8rem auto 0;color:var(--muted)}
+.lead,.toc,.stage,.sheet,.bootstrap,.problem,.ledger,.seal{max-width:62rem;margin:1.25rem auto}
 .lead blockquote{margin:0}
 .toc{
   background:var(--card);border:1px solid var(--line);border-radius:12px;
@@ -29,12 +33,25 @@ header.titlepage .subtitle{max-width:57rem;margin:.8rem auto 0;color:var(--muted
 .toc ol{columns:2;column-gap:2rem;margin:.4rem 0;padding-left:1.35rem}
 .toc li{break-inside:avoid;margin:.28rem 0}
 .toc a{text-decoration:none}
+.stage{
+  border-top:2px solid var(--line);border-bottom:2px solid var(--line);
+  padding:.7rem 1rem;text-align:center;font-weight:800;letter-spacing:.08em;
+  color:var(--muted);margin-top:2.8rem
+}
 .sheet{
   background:linear-gradient(var(--obsbg),var(--obsbg)),var(--card);
   border:1px solid var(--line);border-top:5px solid var(--obs);
   border-radius:12px;padding:1rem 1.25rem
 }
 .sheet h3{color:var(--obs);margin-top:.25rem}
+.bootstrap{
+  background:linear-gradient(var(--bootbg),var(--bootbg)),var(--card);
+  border:1px solid var(--line);border-left:5px solid var(--boot);
+  border-radius:10px;padding:.9rem 1.1rem
+}
+.bootstrap h3{color:var(--boot);margin:.1rem 0 .5rem}
+.bootstrap ol{margin:.45rem 0}
+.bootstrap li{margin:.58rem 0}
 .problem{
   background:linear-gradient(var(--probbg),var(--probbg)),var(--card);
   border:1px solid var(--line);border-top:5px solid var(--prob);
@@ -42,12 +59,11 @@ header.titlepage .subtitle{max-width:57rem;margin:.8rem auto 0;color:var(--muted
 }
 .problem h3{color:var(--prob);margin-top:.2rem}
 .problem>ol{counter-reset:alpha;list-style:none;padding-left:0}
-.problem>ol>li{counter-increment:alpha;margin:1.05rem 0}
+.problem>ol>li{counter-increment:alpha;margin:1.08rem 0}
 .problem>ol>li::before{
   content:"(" counter(alpha, lower-alpha) ") ";
   font-weight:800;color:var(--prob)
 }
-.problem ol ol{margin-top:.45rem}
 .rule,.checkpoint{
   background:var(--box);border:1px solid var(--line);
   border-radius:8px;padding:.75rem .9rem;margin:.9rem 0
@@ -57,27 +73,35 @@ header.titlepage .subtitle{max-width:57rem;margin:.8rem auto 0;color:var(--muted
   border-left:5px solid var(--penbd);background:var(--pen);
   padding:.75rem .95rem;border-radius:7px;margin:1rem 0
 }
+.seal{
+  background:linear-gradient(var(--sealbg),var(--sealbg)),var(--card);
+  border:2px solid var(--seal);border-radius:12px;padding:1rem 1.2rem
+}
+.seal h2,.seal h3{color:var(--seal)}
 .ledger{
   background:linear-gradient(var(--recordbg),var(--recordbg)),var(--card);
   border:1px solid var(--line);border-top:5px solid var(--record);
   border-radius:12px;padding:1rem 1.2rem
 }
 .ledger h2{margin-top:.2rem;color:var(--record)}
-.blank{display:inline-block;min-width:10rem;border-bottom:1px solid var(--fg);height:1.15em}
+.blank{display:inline-block;min-width:8rem;border-bottom:1px solid var(--fg);height:1.15em}
 .stepno{
   display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;
   border-radius:50%;background:var(--box);border:1px solid var(--line);
   font-weight:800;margin-right:.4rem
 }
+.orderline{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center;margin:.7rem 0}
+.orderline span{background:var(--box);border:1px solid var(--line);border-radius:999px;padding:.25rem .65rem;font-size:.88em}
+.orderline b{color:var(--muted)}
 .small{font-size:.91em;color:var(--muted)}
 .mathsmall .katex{font-size:.92em}
 @media(max-width:800px){
   .toc ol{columns:1}
-  .lead,.toc,.sheet,.problem,.ledger{max-width:none}
+  .lead,.toc,.stage,.sheet,.bootstrap,.problem,.ledger,.seal{max-width:none}
 }
 @media print{
   .sitenav,.sitenav-bottom{display:none}
-  .problem,.sheet{break-inside:auto;box-shadow:none}
+  .problem,.sheet,.bootstrap{break-inside:auto;box-shadow:none}
   main,header.titlepage{max-width:none}
 }
 </style>
@@ -92,42 +116,46 @@ header.titlepage .subtitle{max-width:57rem;margin:.8rem auto 0;color:var(--muted
 <header class="titlepage">
 <p class="series">study metric — line bundle desk notes</p>
 <h1>두 차트에서 라인번들을 붙여 보기</h1>
-<p class="subtitle">$\mathbf{CP}^1$의 두 차트, 두 복사본 $U_0\times\mathbf C$와 $U_\infty\times\mathbf C$, 그리고 겹침의 한 함수에서 시작한다. 이 페이지에는 풀이와 분류 해설을 싣지 않는다. 정의를 고정하고 열 개의 계산을 순서대로 수행한다.</p>
+<p class="subtitle">$\mathbf{CP}^1$의 두 차트에서 line bundle을 실제로 조립한 뒤, 전역단면·영점·접다발·Veronese·곡률·Čech 계산을 서로 독립적으로 수행한다. 문제 1–9의 출력표를 채운 뒤에만 문제 10의 일반 transition을 연다.</p>
 </header>
 
 <main>
 <div class="lead">
 <blockquote>
-<p><strong>사용법.</strong> 각 절의 회색 상자는 그 문제를 풀기 위해 허용되는 정의와 계산규칙이다. 문제의 결론을 먼저 읽지 말고, 대표자·좌표·frame·coefficient를 매 줄 구분하여 적는다.</p>
-<p><strong>가정.</strong> 복소수의 사칙연산, 한 변수 미적분, Taylor/Laurent 급수, Cauchy 적분정리와 residue 정리, Stokes 정리를 사용한다. Čech complex와 Hirzebruch–Riemann–Roch는 문제 10의 지정된 소항목에서만 외부 입력으로 사용한다.</p>
+<p><strong>이 페이지의 순서.</strong> 정의의 논리순서가 아니라 사람이 현상을 발견하는 순서로 배치한다.</p>
+<div class="orderline">
+<span>대상 조립</span><b>→</b><span>실제 표본</span><b>→</b><span>단면·영점</span><b>→</b><span>자연한 구성</span><b>→</b><span>곡률 두 계산</span><b>→</b><span>Čech</span><b>→</b><span>일반 분류</span>
+</div>
+<p><strong>부트스트랩.</strong> 파란 상자는 본문 문제에 필요한 손계산을 미리 한 번 작동시키는 짧은 문제다. 숫자 예시나 낮은 차수에서 계산한 뒤, 붉은 상자의 일반 증명으로 올라간다. 부트스트랩은 열 문제의 개수에 포함하지 않는다.</p>
+<p><strong>가정.</strong> 복소수 사칙연산, 한 변수 미적분, Taylor/Laurent 급수, Cauchy 적분정리·residue 정리, Stokes 정리를 사용한다. Euler sequence의 determinant 규칙과 HRR은 표시된 한 소항목에서만 외부 입력으로 사용한다.</p>
 <p><strong>표기 고정.</strong> 이 페이지에서 frame transition은
 $$e_\infty=z^k e_0$$
 로 쓴다. 같은 실제 벡터의 coefficient는 반드시
 $$\xi_\infty=z^{-k}\xi_0=w^k\xi_0$$
 로 움직인다. 이 역수 규칙은 모든 문제에서 바꾸지 않는다.</p>
-<p><strong>풀이 상태.</strong> 없음. 마지막 표에는 계산한 값만 기록한다.</p>
+<p><strong>풀이 상태.</strong> 해설과 정답 없음. 마지막 두 표에는 계산한 값만 기록한다.</p>
 </blockquote>
 </div>
 
 <nav class="toc" aria-label="계산 순서">
 <h2>계산 순서</h2>
 <ol>
-<li><a href="#raw">base·fiber·total space</a></li>
+<li><a href="#setup">공통 설정과 준비 계산</a></li>
 <li><a href="#p1">quotient에 벡터연산 내리기</a></li>
 <li><a href="#p2">tautological bundle의 두 frame</a></li>
-<li><a href="#p3">임의의 transition과 frame 변경</a></li>
-<li><a href="#p4">전역 holomorphic section</a></li>
-<li><a href="#p5">영점과 극점의 차수</a></li>
-<li><a href="#p6">Hermitian metric과 curvature</a></li>
-<li><a href="#p7">두 원판과 경계적분</a></li>
-<li><a href="#p8">접다발의 좌표벡터</a></li>
-<li><a href="#p9">Veronese의 pullback</a></li>
-<li><a href="#p10">Čech 계산과 HRR 대조</a></li>
+<li><a href="#p3">전역 holomorphic section</a></li>
+<li><a href="#p4">영점과 극점의 order</a></li>
+<li><a href="#p5">접다발과 vector field</a></li>
+<li><a href="#p6">Veronese pullback</a></li>
+<li><a href="#p7">metric에서 curvature 적분</a></li>
+<li><a href="#p8">경계 transition에서 같은 적분</a></li>
+<li><a href="#p9">Čech와 HRR 대조</a></li>
 <li><a href="#ledger">관찰 기록표</a></li>
+<li><a href="#p10">봉인: 일반 transition의 표준형</a></li>
 </ol>
 </nav>
 
-<h2 id="raw">0. 책상 위의 대상과 연산</h2>
+<h2 id="setup">0. 공통 설정과 준비 계산</h2>
 <section class="sheet">
 <h3><span class="stepno">0</span>$\mathbf{CP}^1$의 두 차트</h3>
 <p>
@@ -143,7 +171,7 @@ $$U_\infty=\{x_1\neq0\},\qquad w=\frac{x_0}{x_1}.$$
 $$w=\frac1z,\qquad z\in\mathbf C^*.$$
 </p>
 
-<h3>Projection, fiber, local trivialization</h3>
+<h3>Projection, fiber, local expression</h3>
 <p>복소 line bundle의 자료는 projection</p>
 <p>
 $$\pi:E\longrightarrow X$$
@@ -152,11 +180,11 @@ $$\pi:E\longrightarrow X$$
 <p>
 $$E_p=\pi^{-1}(p)$$
 </p>
-<p>이다. 각 $E_p$는 복소 1차원 벡터공간이다. 차트 $U_i$ 위에서는 fiber들을 한꺼번에 좌표화하는 map</p>
+<p>이다. 각 $E_p$는 복소 1차원 벡터공간이다. $U_i$ 위의 local trivialization은</p>
 <p>
 $$\tau_i:\pi^{-1}(U_i)\longrightarrow U_i\times\mathbf C$$
 </p>
-<p>를 잡으며, 고정된 $p$에서 $\tau_i|_{E_p}:E_p\to\{p\}\times\mathbf C$는 복소선형 동형이어야 한다.</p>
+<p>이며, 고정된 $p$에서 $\tau_i|_{E_p}$는 복소선형 동형이어야 한다.</p>
 
 <div class="assertion">
 <p><strong>연산 고정.</strong> $(p,\xi)_i\in U_i\times\mathbf C$에서 $p$는 어느 fiber인지를, $\xi$는 그 차트에서의 coefficient를 기록한다.</p>
@@ -168,10 +196,22 @@ $$(p,\xi)_i+(p,\eta)_i=(p,\xi+\eta)_i,\qquad
 </div>
 </section>
 
+<section class="bootstrap">
+<h3>부트스트랩 0 — 기호를 실제 점에 붙인다</h3>
+<ol>
+<li>$p=[1:2]=[\frac12:1]$에서 $z,w$를 각각 계산하라.</li>
+<li>$\{p\}\times\mathbf C$에서 $(p,2)+(p,-3i)$와 $(1+i)(p,2)$를 계산하라.</li>
+<li>$q=[1:3]$일 때 $(p,0)$과 $(q,0)$이 같은 ordered pair인지 판정하라.</li>
+<li>$k=1$, $z=2$라고 하자. $(p,6)_0$와 같은 실제 벡터를 나타내도록 $U_\infty$ coefficient를 계산하라. 같은 계산을 $k=-1$에 반복하라.</li>
+</ol>
+</section>
+
+<div class="stage">I. 실험 대상을 조립하고 실제 표본 하나를 얻는다</div>
+
 <h2 id="p1">1. 두 product를 붙인 quotient에 벡터연산을 내린다</h2>
 <section class="sheet">
 <h3>붙이기 자료</h3>
-<p>정수 $k$를 하나 고정하고 먼저 집합</p>
+<p>정수 $k$를 고정하고 먼저 집합</p>
 <p>
 $$E_k^{\mathrm{set}}
 =
@@ -184,45 +224,47 @@ $$(z,\xi)_0
 \sim
 \left(\frac1z,z^{-k}\xi\right)_\infty$$
 </p>
-<p>로 놓고, 양쪽 product의 같은 chart 안에서는 같은 점만 동일시한다. 아래 문제를 통과한 뒤에 이 quotient를 $E_k$라 쓴다.</p>
+<p>로 놓고, 같은 chart 안에서는 같은 ordered pair만 동일시한다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 1 — 대표자를 바꾸고도 연산이 같은지 숫자로 검사한다</h3>
+<ol>
+<li>$k=1$, $z=2$, $\xi=3$, $\eta=5$로 둔다. 두 벡터를 $U_0$와 $U_\infty$에서 각각 적고, 두 차트에서 따로 더하라.</li>
+<li>같은 자료에서 $\lambda=i$를 잡아 두 차트에서 스칼라곱을 계산하라.</li>
+<li>붙이기 후보 $\phi(\xi)=\xi+1$, $\phi(\xi)=\bar\xi$, $\phi(\xi)=\xi^2$에 대해 다음 세 식을 차례로 검사하라.
+$$\phi(0)=0,$$
+$$\phi(\xi+\eta)=\phi(\xi)+\phi(\eta),$$
+$$\phi(i\xi)=i\phi(\xi).$$
+각 후보에서 처음 실패하는 식을 기록하라.</li>
+<li>$c\neq0$일 때 $\phi(\xi)=c\xi$가 위 세 식을 모두 만족하고 역함수를 가짐을 확인하라.</li>
+</ol>
 </section>
 
 <section class="problem">
 <h3>문제 1 — quotient가 실제 복소 line bundle인지 검사하라</h3>
 <ol>
-<li>
-관계 $\sim$를 identity, symmetry, transitivity까지 포함한 equivalence relation으로 완성하여 적어라. 그 뒤
+<li>관계 $\sim$를 identity, symmetry, transitivity까지 포함한 equivalence relation으로 완성하여 적어라. 그 뒤
 $$\pi:E_k^{\mathrm{set}}\to X,\qquad
 \pi([(p,\xi)_i])=p$$
-가 well-defined임을 증명하라.
-</li>
-<li>
-고정된 $p\in X$에 대해 $\pi^{-1}(p)$를 equivalence class로 직접 적어라. $p\in U_0\cap U_\infty$일 때
+가 well-defined임을 증명하라.</li>
+<li>고정된 $p\in X$에 대해 $\pi^{-1}(p)$를 equivalence class로 직접 적어라. $p\in U_0\cap U_\infty$일 때
 $$[(p,\xi)_0]=[(p,z^{-k}\xi)_\infty]$$
-가 무엇의 두 표현인지 한 문장으로 적어라.
-</li>
-<li>
-같은 fiber에서
+가 무엇의 두 표현인지 정확한 문장으로 적어라.</li>
+<li>같은 fiber에서
 $$[(p,\xi)_i]+[(p,\eta)_i]:=[(p,\xi+\eta)_i],$$
 $$\lambda[(p,\xi)_i]:=[(p,\lambda\xi)_i]$$
-로 정의하라. $i=0$ 표현으로 계산한 값과 $i=\infty$ 표현으로 계산한 값이 같은 equivalence class임을 각각 증명하라.
-</li>
-<li>
-영벡터와 additive inverse도 대표자의 선택과 무관함을 확인하고, 각 $\pi^{-1}(p)$가 복소벡터공간 공리를 만족함을 적어라.
-</li>
-<li>
-두 local trivialization
+로 정의하라. $i=0$ 표현으로 계산한 값과 $i=\infty$ 표현으로 계산한 값이 같은 equivalence class임을 각각 증명하라.</li>
+<li>영벡터와 additive inverse도 대표자의 선택과 무관함을 확인하고, 각 $\pi^{-1}(p)$가 복소벡터공간 공리를 만족함을 적어라.</li>
+<li>두 local trivialization
 $$\tau_0:\pi^{-1}(U_0)\to U_0\times\mathbf C,\qquad
 \tau_\infty:\pi^{-1}(U_\infty)\to U_\infty\times\mathbf C$$
-를 직접 정의하고, fiberwise complex-linear bijection임을 증명하라.
-</li>
-<li>
-겹침에서
+를 직접 정의하고, fiberwise complex-linear bijection임을 증명하라.</li>
+<li>겹침에서
 $$\tau_\infty\circ\tau_0^{-1}(z,\xi)
 =
 \left(\frac1z,z^{-k}\xi\right)$$
-를 계산하라. 이 map의 역함수도 적고 두 합성을 확인하라.
-</li>
+를 계산하라. 역함수도 적고 두 합성을 확인하라.</li>
 </ol>
 </section>
 
@@ -240,327 +282,174 @@ v\in\mathbf C(x_0,x_1)
 <p>
 $$S_p=\mathbf C(x_0,x_1)\subset\mathbf C^2.$$
 </p>
-<p>$p=[1:z]=[w:1]$일 때 두 local frame 후보를</p>
+<p>$p=[1:z]=[w:1]$일 때</p>
 <p>
 $$s_0(p)=(1,z),\qquad s_\infty(p)=(w,1)$$
 </p>
-<p>로 둔다.</p>
+<p>를 local frame 후보로 둔다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 2 — 한 fiber 안의 같은 벡터를 두 basis로 써 본다</h3>
+<ol>
+<li>$p=[1:2]=[\frac12:1]$에서 $S_p$를 $\{a(1,2):a\in\mathbf C\}$와 $\{b(\frac12,1):b\in\mathbf C\}$ 두 방식으로 적어라.</li>
+<li>$v=(3,6)$을 두 frame의 coefficient로 각각 나타내라.</li>
+<li>$s_\infty=c\,s_0$가 되도록 $c$를 계산하고, 앞에서 얻은 두 coefficient의 비와 비교하라.</li>
+<li>1차원 공간의 basis $s$와 dual basis $e$가 $e(s)=1$을 만족한다고 하자. $s'=cs$일 때 $e'=de$가 $e'(s')=1$을 만족하도록 $d$를 구하라.</li>
+</ol>
 </section>
 
 <section class="problem">
 <h3>문제 2 — $S$와 $S^*$의 frame 및 coefficient를 끝까지 대조하라</h3>
 <ol>
-<li>
-$s_\infty=z^{-1}s_0$를 직접 계산하고, 문제 1의 convention과 비교하여 $S$에 대응하는 $k$를 기록하라.
-</li>
-<li>
-Local trivialization을
+<li>$s_\infty=z^{-1}s_0$를 직접 계산하고, 문제 1의 convention과 비교하여 $S$에 대응하는 $k$를 기록하라.</li>
+<li>Local trivialization을
 $$\Phi_0(z,a)=([1:z],a(1,z)),$$
 $$\Phi_\infty(w,b)=([w:1],b(w,1))$$
-로 둔다. 같은 실제 벡터를 나타내는 $a,b$의 관계를 구하라.
-</li>
-<li>
-$p=[1:2]=[\frac12:1]$와 $v=(3,6)$을 고정하라. $v=a\,s_0(p)=b\,s_\infty(p)$를 만족하는 $a,b$를 구하고, quotient의 두 표현을 적어라.
-</li>
-<li>
-Dual frame $e_0,e_\infty$를
+로 둔다. 같은 실제 벡터를 나타내는 $a,b$의 관계를 구하라.</li>
+<li>일반 $p=[1:z]=[w:1]$와 $v\in S_p$에 대해 두 local expression이 문제 1의 quotient relation과 정확히 일치함을 보여라.</li>
+<li>Dual frame $e_0,e_\infty$를
 $$e_0(s_0)=1,\qquad e_\infty(s_\infty)=1$$
-로 정의하라. $e_\infty$를 $e_0$로 나타내라.
-</li>
-<li>
-일반적으로 frame이 $e_\infty=g e_0$로 움직일 때 dual frame의 transition과 coefficient transition을 각각 계산하라.
-</li>
-<li>
-어떤 문헌이 coefficient transition $a_\infty=z^m a_0$를 먼저 적고 그 지수로 bundle을 부른다고 하자. 이 페이지의 frame 지수 $k$와 그 문헌의 $m$ 사이의 관계를 적어라.
-</li>
+로 정의하라. $e_\infty$를 $e_0$로 나타내라.</li>
+<li>일반적으로 frame이 $e_\infty=g e_0$로 움직일 때 dual frame의 transition과 같은 벡터의 coefficient transition을 각각 계산하라.</li>
+<li>어떤 문헌이 coefficient transition $a_\infty=z^m a_0$를 먼저 적고 그 지수로 bundle을 부른다고 하자. 이 페이지의 frame 지수 $k$와 그 문헌의 $m$ 사이의 관계를 적어라.</li>
 </ol>
 </section>
 
-<h2 id="p3">3. 임의의 transition에서 frame 변경으로 지울 수 있는 항을 찾는다</h2>
-<section class="sheet">
-<h3>일반 붙이기 함수</h3>
-<p>이제</p>
-<p>
-$$g:\mathbf C^*\longrightarrow\mathbf C^*$$
-</p>
-<p>를 nowhere-zero holomorphic function이라 하고</p>
-<p>
-$$e_\infty=g(z)e_0$$
-</p>
-<p>로 붙인다. 양쪽 frame을</p>
-<p>
-$$e_0'=a(z)e_0,\qquad e_\infty'=b(w)e_\infty$$
-</p>
-<p>로 바꾼다. 여기서 $a\in\mathcal O^*(\mathbf C)$, $b\in\mathcal O^*(\mathbf C)$이다.</p>
+<div class="stage">II. 전역단면을 만들어 보고, 살아남은 단면의 order를 센다</div>
 
-<div class="rule">
-<strong>원의 적분.</strong>
-$$N(g):=\frac1{2\pi i}\oint_{|z|=1}\frac{dg}{g}.$$
-Argument를 연속적으로 골라 $g(e^{i\theta})=\rho(\theta)e^{i\phi(\theta)}$라 쓰는 계산과 residue 계산을 모두 허용한다.
-</div>
-</section>
-
-<section class="problem">
-<h3>문제 3 — $g$의 Laurent 자료와 두 frame 변경을 계산하라</h3>
-<ol>
-<li>
-새 frame 사이의 transition이
-$$g_{\mathrm{new}}(z)=b(1/z)\,g(z)\,a(z)^{-1}$$
-임을 유도하라.
-</li>
-<li>
-다음 함수 각각에 대해 $N(g)$를 직접 계산하라.
-$$1,\qquad z,\qquad z^{-2},\qquad e^z,\qquad
-z^3e^{z+1/z}.$$
-</li>
-<li>
-$g(e^{i\theta})=\rho(\theta)e^{i\phi(\theta)}$에서
-$$\phi(2\pi)-\phi(0)=2\pi N(g)$$
-를 얻고 $N(g)\in\mathbf Z$임을 증명하라.
-</li>
-<li>
-$k=N(g)$, $h(z)=z^{-k}g(z)$라 놓아라. $\oint dh/h=0$을 확인하고
-$$q(z)=\log h(z_0)+\int_{z_0}^{z}\frac{h'(\zeta)}{h(\zeta)}\,d\zeta$$
-가 경로와 무관하도록 정의됨을 residue 계산으로 증명하라. 이어 $h=e^q$를 확인하라.
-</li>
-<li>
-$q$의 Laurent 전개를
-$$q(z)=q_+(z)+c+q_-(1/z)$$
-로 나누어라. $q_+$와 $q_-$가 각각 전체 복소평면에서 holomorphic임을 수렴반경으로 확인하라. 적절한 $a(z),b(w)$를 써서 $g_{\mathrm{new}}(z)$를 계산하라.
-</li>
-<li>
-$N(g_1)=N(g_2)$인 두 transition을 잡아라. 앞의 계산을 각각 적용하여
-$$g_2(z)=b(1/z)\,g_1(z)\,a(z)^{-1}$$
-꼴의 $a,b$를 구성하라. 이 frame 변경이 두 quotient 사이에 주는 fiberwise linear map을 local coordinate로 적고 well-defined임을 검사하라.
-</li>
-</ol>
-</section>
-
-<h2 id="p4">4. 두 local coefficient가 하나의 전역 section으로 붙는 조건을 계산한다</h2>
+<h2 id="p3">3. 두 local coefficient가 하나의 전역 holomorphic section으로 붙는 조건을 계산한다</h2>
 <section class="sheet">
 <h3>Section의 local 식</h3>
 <p>$e_\infty=z^k e_0$라 하고</p>
 <p>
 $$\sigma=f_0(z)e_0=f_\infty(w)e_\infty$$
 </p>
-<p>로 쓴다. 겹침에서 필요한 식은</p>
+<p>로 쓴다. 겹침에서</p>
 <p>
 $$f_\infty(w)=w^k f_0(1/w)$$
 </p>
-<p>이다.</p>
+<p>를 만족해야 한다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 3 — monomial 하나씩 무한대 차트로 옮긴다</h3>
+<ol>
+<li>$f_0(z)=z^n$일 때 $f_\infty(w)$를 $k,n$으로 나타내라.</li>
+<li>$k=2$로 고정하고 $n=0,1,2,3,4$에 대해 $w$-지수를 표로 만들라. $w=0$에서 holomorphic인 행만 표시하라.</li>
+<li>$k=-1$로 같은 표를 만들고, $n\ge0$인 monomial 중 살아남는 것이 있는지 확인하라.</li>
+<li>$k=2$에서
+$$a_0+a_1z+a_2z^2$$
+를 $x_0,x_1$의 homogeneous 식으로 바꾸고, 다시 $U_\infty$ coefficient로 바꾸어라.</li>
+</ol>
 </section>
 
 <section class="problem">
-<h3>문제 4 — 모든 전역 holomorphic section을 Taylor 계수로 구하라</h3>
+<h3>문제 3 — 모든 전역 holomorphic section을 Taylor 계수로 구하라</h3>
 <ol>
 <li>
 $$f_0(z)=\sum_{n=0}^{\infty}a_nz^n$$
 를 대입하여
 $$f_\infty(w)=\sum_{n=0}^{\infty}a_nw^{k-n}$$
-를 얻어라.
-</li>
-<li>
-$f_\infty$가 $w=0$에서 holomorphic이라는 조건을 모든 정수 $k$에 대해 분석하라.
-</li>
-<li>
-$k=-2,-1,0,1,2,3$ 각각에 대해 가능한 $f_0$를 전부 적고 복소차원을 기록하라.
-</li>
-<li>
-$k\ge0$일 때
+를 얻어라.</li>
+<li>$f_\infty$가 $w=0$에서 holomorphic이라는 조건을 모든 정수 $k$에 대해 분석하라.</li>
+<li>$k=-3,-2,-1,0,1,2,3$ 각각에 대해 가능한 $f_0$를 전부 적고 복소차원을 기록하라.</li>
+<li>$k\ge0$일 때
 $$F(x_0,x_1)=x_0^k f_0\!\left(\frac{x_1}{x_0}\right)$$
-를 정의하라. 이 식이 degree $k$ homogeneous polynomial임을 전개로 증명하라.
-</li>
-<li>
-반대로 degree $k$ homogeneous polynomial $F$에서
+를 정의하라. 이 식이 degree $k$ homogeneous polynomial임을 전개로 증명하라.</li>
+<li>반대로 degree $k$ homogeneous polynomial $F$에서
 $$f_0=\frac{F}{x_0^k},\qquad
 f_\infty=\frac{F}{x_1^k}$$
-를 만들고 transition 조건을 확인하라.
-</li>
-<li>
-$k=2$에서 basis 하나를 고르고, 각 basis section의 $U_0$ coefficient와 $U_\infty$ coefficient를 모두 적어라.
-</li>
+를 만들고 transition 조건을 확인하라.</li>
+<li>$k=2$와 $k=3$에서 basis 하나씩을 고르고, 각 basis section의 $U_0$ coefficient와 $U_\infty$ coefficient를 모두 적어라.</li>
 </ol>
 </section>
 
-<h2 id="p5">5. 한 section의 유한한 점과 무한대에서의 차수를 센다</h2>
+<h2 id="p4">4. 한 section의 유한한 점과 무한대에서의 order를 센다</h2>
 <section class="sheet">
 <h3>Order 표기</h3>
-<p>Holomorphic function $f$가 $p$ 근처에서</p>
+<p>Holomorphic function $f$가 한 점 근처에서</p>
 <p>
 $$f(\zeta)=\zeta^m u(\zeta),\qquad u(0)\neq0$$
 </p>
-<p>로 쓰이면 $\operatorname{ord}_p(f)=m$이라 한다. Meromorphic function의 pole은 음의 order로 기록한다.</p>
+<p>로 쓰이면 $\operatorname{ord}(f)=m$이라 한다. Meromorphic function의 pole은 음의 order로 기록한다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 4 — 유한한 근과 무한대의 order를 같은 표에 넣는다</h3>
+<ol>
+<li>$k=3$에서 $f_0=1,z,z^2,z^3$을 각각 $f_\infty(w)=w^3f_0(1/w)$로 옮기고 $w=0$의 order를 적어라.</li>
+<li>$k=3$, $f_0=(z-1)^2(z+2)$에 대해 유한한 점의 order와 무한대의 order를 모두 적어라.</li>
+<li>
+$$R(z)=\frac{(z-1)^2}{z(z+1)}$$
+의 유한한 영점·극점 order를 적고, $R(1/w)$를 전개하여 $\infty$에서의 order를 구하라.</li>
+<li>같은 $R$을 $k=2$인 bundle의 coefficient로 사용할 때 $f_\infty(w)=w^2R(1/w)$의 order를 계산하라.</li>
+</ol>
 </section>
 
 <section class="problem">
-<h3>문제 5 — 영점과 극점의 order를 두 차트에서 합산하라</h3>
+<h3>문제 4 — 영점과 극점의 order를 두 차트에서 합산하라</h3>
 <ol>
+<li>$k\ge0$이고 $0\neq\sigma=f_0e_0$가 전역 holomorphic section이라 하자. $f_0$의 degree가 $d\le k$일 때 유한한 근들의 multiplicity 합을 구하라.</li>
 <li>
-$k\ge0$이고 $0\neq\sigma=f_0e_0$가 전역 holomorphic section이라 하자. $f_0$의 degree가 $d\le k$일 때 유한한 근들의 multiplicity 합을 구하라.
-</li>
-<li>
-$$f_\infty(w)=w^k f_0(1/w)$$
-를 $w=0$ 근처에서 전개하여 $\operatorname{ord}_\infty(\sigma)$를 $k,d$로 나타내라.
-</li>
-<li>
-다음 세 section에 대해 모든 영점과 multiplicity를 두 차트에서 직접 기록하라.
+$$f_\infty(w)=w^kf_0(1/w)$$
+를 $w=0$ 근처에서 전개하여 $\operatorname{ord}_\infty(\sigma)$를 $k,d$로 나타내라.</li>
+<li>다음 세 section에 대해 모든 영점과 multiplicity를 두 차트에서 직접 기록하라.
 $$\sigma_1=(z-1)e_0\quad(k=1),$$
 $$\sigma_2=(z^2+1)e_0\quad(k=2),$$
-$$\sigma_3=e_0\quad(k=3).$$
-</li>
-<li>
-전역 nowhere-zero holomorphic section $\sigma$가 주어졌을 때
+$$\sigma_3=e_0\quad(k=3).$$</li>
+<li>전역 nowhere-zero holomorphic section $\sigma$가 주어졌을 때
 $$X\times\mathbf C\longrightarrow L,\qquad(p,\lambda)\longmapsto\lambda\sigma(p)$$
-가 bundle isomorphism임을 증명하라. 역방향도 적어라.
-</li>
-<li>
-Meromorphic section $\sigma=R(z)e_0$를 잡아라. $R=P/Q$인 rational function에 대해 유한한 점에서의 order 합과 무한대에서의 order를 따로 계산하라.
-</li>
-<li>
-문제 4에서 얻은 각 $k$의 section 존재 여부와 이 문제의 order 계산을 한 표에 함께 적어라.
-</li>
+가 bundle isomorphism임을 증명하라. 역방향도 적어라.</li>
+<li>Meromorphic section $\sigma=R(z)e_0$, $R=P/Q$를 잡고 $P,Q$가 서로소라고 하자. 유한한 점에서의 order 합과 무한대에서의 order를 $\deg P,\deg Q,k$로 계산하라.</li>
+<li>문제 3에서 얻은 section 존재 여부와 이 문제의 order 계산을 $k=-3,-2,-1,0,1,2,3$에 대해 한 표에 함께 적어라.</li>
 </ol>
 </section>
 
-<h2 id="p6">6. Hermitian metric의 local coefficient와 curvature를 계산한다</h2>
-<section class="sheet">
-<h3>복소미분 규칙</h3>
-<p>$z=x+iy$에서</p>
-<p>
-$$\partial f=f_z\,dz,\qquad
-\bar\partial f=f_{\bar z}\,d\bar z,$$
-$$f_z=\frac12(f_x-if_y),\qquad
-f_{\bar z}=\frac12(f_x+if_y).$$
-</p>
-<p>Holomorphic frame $e_i$의 metric coefficient를</p>
-<p>
-$$h_i=\|e_i\|^2$$
-</p>
-<p>라 한다. $e_\infty=z^k e_0$이면</p>
-<p>
-$$h_\infty=|z|^{2k}h_0.$$
-</p>
-<p>이번 절에서는</p>
-<p>
-$$h_0(z)=(1+|z|^2)^{-k},\qquad
-h_\infty(w)=(1+|w|^2)^{-k}$$
-</p>
-<p>를 사용한다. Curvature convention은</p>
-<p>
-$$F_i=-\partial\bar\partial\log h_i,\qquad
-c_1(L,h)=\frac{i}{2\pi}F$$
-</p>
-<p>로 고정한다.</p>
-</section>
+<div class="stage">III. 미리 만든 bundle이 아니라 자연한 기하가 생산하는 transition을 계산한다</div>
 
-<section class="problem">
-<h3>문제 6 — metric compatibility, curvature, 적분을 한 번에 계산하라</h3>
-<ol>
-<li>
-$w=1/z$를 사용하여
-$$h_\infty(w)=|z|^{2k}h_0(z)$$
-를 직접 확인하라.
-</li>
-<li>
-$$\partial_z\partial_{\bar z}\log(1+|z|^2)
-=\frac1{(1+|z|^2)^2}$$
-를 편미분 한 줄씩 계산하라.
-</li>
-<li>
-$U_0$에서
-$$F_0=k\frac{dz\wedge d\bar z}{(1+|z|^2)^2}$$
-를 얻어라.
-</li>
-<li>
-$U_\infty$에서도 같은 계산을 수행하고 $dw=-z^{-2}dz$를 사용하여 두 local $2$-form이 겹침에서 같음을 확인하라.
-</li>
-<li>
-$dz\wedge d\bar z=-2i\,dx\wedge dy$와 극좌표를 사용하여
-$$\int_{\mathbf{CP}^1}\frac{i}{2\pi}F$$
-를 계산하라.
-</li>
-<li>
-다른 Hermitian metric $h'$를 잡고
-$$r_i=\frac{h_i'}{h_i}$$
-가 하나의 전역 양의 함수 $r$로 붙음을 증명하라. $r=e^{-\varphi}$로 쓴 뒤
-$$F_{h'}-F_h=\partial\bar\partial\varphi$$
-를 계산하고 전체 적분의 차이를 Stokes 정리로 구하라.
-</li>
-</ol>
-</section>
-
-<h2 id="p7">7. 두 원판의 Stokes 계산으로 transition의 경계적분을 얻는다</h2>
-<section class="sheet">
-<h3>원판과 orientation</h3>
-<p>$D_0=\{|z|\le1\}\subset U_0$와 $D_\infty=\{|w|\le1\}\subset U_\infty$를 사용한다. $C=\{|z|=1\}$는 $D_0$의 경계 orientation, 즉 $z$-평면의 반시계방향으로 돈다. 따라서 $\partial D_\infty=-C$이다.</p>
-<p>일반 transition $e_\infty=g(z)e_0$와 compatible metric을 잡고</p>
-<p>
-$$\theta_i=\partial\log h_i$$
-</p>
-<p>로 둔다.</p>
-</section>
-
-<section class="problem">
-<h3>문제 7 — 내부 curvature 적분을 적도의 $g$ 계산으로 바꾸어라</h3>
-<ol>
-<li>
-$\partial\theta_i=0$을 확인하여
-$$d\theta_i=\bar\partial\theta_i
-=-\partial\bar\partial\log h_i=F$$
-를 얻어라.
-</li>
-<li>
-$h_\infty=|g|^2h_0$에서
-$$\theta_\infty-\theta_0
-=\partial\log|g|^2$$
-를 얻어라. $g$가 holomorphic이라는 사실을 사용하여 우변을 $g^{-1}dg$로 바꾸어라.
-</li>
-<li>
-두 원판에 Stokes 정리를 각각 적용하여
-$$\int_{\mathbf{CP}^1}F
-=
-\oint_C\theta_0-\oint_C\theta_\infty$$
-를 유도하라.
-</li>
-<li>
-앞의 식에 transition 계산을 대입하여
-$$\int_{\mathbf{CP}^1}\frac{i}{2\pi}F
-=
-\frac1{2\pi i}\oint_C\frac{dg}{g}$$
-를 부호까지 확인하라.
-</li>
-<li>
-$g=1,z,z^{-2},z^3e^{z+1/z}$를 각각 대입하고, 문제 3과 문제 6에서 얻은 값을 같은 행에 기록하라.
-</li>
-<li>
-Metric을 바꾸었을 때 $\theta_i$ 각각은 어떻게 바뀌는지 적고, $\theta_\infty-\theta_0$ 및 전체 적분은 어떻게 되는지 계산하라.
-</li>
-</ol>
-</section>
-
-<h2 id="p8">8. 좌표벡터를 겹침에서 옮기고 전역 vector field를 센다</h2>
+<h2 id="p5">5. 좌표벡터를 겹침에서 옮기고 전역 vector field를 센다</h2>
 <section class="sheet">
 <h3>접벡터의 좌표변환</h3>
-<p>겹침에서 $w=1/z$이다. $U_0$에서는 $e_0=\partial/\partial z$를, $U_\infty$에서는 우선 $\partial/\partial w$를 사용한다.</p>
+<p>겹침에서 $w=1/z$이다. $U_0$에서는 $e_0=\partial/\partial z$를 사용한다.</p>
+<div class="rule">
+<strong>허용 입력 — determinant line.</strong> 짧은 exact sequence
+$$0\to A\to B\to C\to0$$
+에 대해
+$$\det B\cong\det A\otimes\det C$$
+를 문제 5(d)에서 사용해도 된다.
+</div>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 5 — chain rule과 coefficient 역변환을 먼저 작동시킨다</h3>
+<ol>
+<li>$z=1/w$를 미분하여 $dz/dw$를 $z$와 $w$ 두 방식으로 적어라.</li>
+<li>
+$$V=f_0(z)\frac{\partial}{\partial z}
+=f_\infty(w)\left(-\frac{\partial}{\partial w}\right)$$
+라 두고 $f_\infty$를 $f_0$로 나타내라.</li>
+<li>$f_0=1,z,z^2,z^3$을 각각 $w$-차트로 옮기고 $w=0$에서 holomorphic인지 검사하라.</li>
+<li>$\ell=\mathbf C(1,z)\subset\mathbf C^2$에서
+$$\operatorname{Hom}(\ell,\ell),\quad
+\operatorname{Hom}(\ell,\mathbf C^2),\quad
+\operatorname{Hom}(\ell,\mathbf C^2/\ell)$$
+의 복소차원을 각각 구하라.</li>
+</ol>
 </section>
 
 <section class="problem">
-<h3>문제 8 — $T\mathbf{CP}^1$의 frame transition 두 가지와 vector field를 계산하라</h3>
+<h3>문제 5 — $T\mathbf{CP}^1$의 transition을 두 방식으로 계산하라</h3>
 <ol>
-<li>
-Chain rule로
+<li>Chain rule로
 $$\frac{\partial}{\partial w}
 =
 -z^2\frac{\partial}{\partial z}$$
-를 유도하라.
-</li>
-<li>
-$e_\infty=-\partial/\partial w$로 frame을 다시 잡아
+를 유도하라.</li>
+<li>$e_\infty=-\partial/\partial w$로 frame을 잡아
 $$e_\infty=z^2e_0$$
-를 얻어라.
-</li>
-<li>
-다음 exact sequence의 각 fiber를 실제 선형공간으로 적어라.
+를 얻어라.</li>
+<li>다음 exact sequence의 각 fiber를 실제 선형공간으로 적어라.
 $$0\longrightarrow\mathcal O
 \longrightarrow\mathcal O(1)^{\oplus2}
 \longrightarrow T\mathbf{CP}^1
@@ -569,26 +458,20 @@ $$0\longrightarrow\mathcal O
 $$0\to\operatorname{Hom}(\ell,\ell)
 \to\operatorname{Hom}(\ell,\mathbf C^2)
 \to\operatorname{Hom}(\ell,\mathbf C^2/\ell)\to0$$
-와 항별로 대응시켜라.
-</li>
-<li>
-Determinant line을 취하여 마지막 항의 frame 지수를 계산하고, 좌표벡터 계산의 지수와 대조하라.
-</li>
-<li>
-모든 전역 holomorphic vector field가
+와 항별로 대응시켜라.</li>
+<li>Determinant line을 취하여 마지막 항의 frame 지수를 계산하고, 좌표벡터 계산의 지수와 대조하라.</li>
+<li>모든 전역 holomorphic vector field가
 $$V=(a+bz+cz^2)\frac{\partial}{\partial z}$$
-꼴임을 문제 4의 계산만으로 증명하라. 이를 $w$-좌표로 바꾸어 $w=0$에서 holomorphic임을 확인하라.
-</li>
+꼴임을 문제 3의 계산만으로 증명하라. 이를 $w$-좌표로 바꾸어 $w=0$에서 holomorphic임을 확인하라.</li>
 <li>
 $$E=\frac{\partial}{\partial z},\qquad
 H=-2z\frac{\partial}{\partial z},\qquad
 F=-z^2\frac{\partial}{\partial z}$$
-에 대해 $[H,E]$, $[H,F]$, $[E,F]$를 계산하라. 각 vector field의 영점을 multiplicity까지 기록하라.
-</li>
+에 대해 $[H,E]$, $[H,F]$, $[E,F]$를 계산하라. 각 vector field의 영점을 multiplicity까지 기록하라.</li>
 </ol>
 </section>
 
-<h2 id="p9">9. Veronese map의 좌표차수, pullback frame, 2차항을 따로 계산한다</h2>
+<h2 id="p6">6. Veronese map의 좌표차수, pullback frame, 2차항을 따로 계산한다</h2>
 <section class="sheet">
 <h3>Normalized Veronese map</h3>
 <p>$d\ge1$에 대해</p>
@@ -602,50 +485,181 @@ $$\nu_d([x_0:x_1])
 \sqrt{\binom dd}x_1^d
 \right].$$
 </p>
-<p>Target의 affine FS potential은 같은 normalization을 사용하여</p>
+<p>Target의 affine FS potential을</p>
 <p>
 $$K_{\mathrm{FS}}(u)=\log(1+\|u\|^2)$$
 </p>
-<p>로 둔다.</p>
+<p>로 둔다. 이에 대응하는 metric 성분은</p>
+<p class="mathsmall">
+$$g_{\alpha\bar\beta}(u)
+=
+\frac{(1+\|u\|^2)\delta_{\alpha\beta}-\bar u_\alpha u_\beta}
+{(1+\|u\|^2)^2}.$$
+</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 6 — $d=2$ 한 경우를 전부 계산한다</h3>
+<ol>
+<li>
+$$\nu_2([x_0:x_1])=[x_0^2:\sqrt2x_0x_1:x_1^2]$$
+에서 대표를 $\lambda$배 했을 때 세 좌표가 어떻게 변하는지 적어라.</li>
+<li>$Y_0=x_0^2$, $Y_2=x_1^2$를 사용하여 $Y_2/Y_0$를 $z=x_1/x_0$로 적어라.</li>
+<li>$U_0$의 affine lift $F(z)=(\sqrt2z,z^2)$에 대해
+$$1+\|F(z)\|^2$$
+를 전개하고 $(1+|z|^2)^2$와 비교하라.</li>
+<li>$F'(0)$, $F''(0)$을 구하라. 위 metric 식에서 $g_{\alpha\bar\beta}(0)$과 모든 일차미분 $\partial_\gamma g_{\alpha\bar\beta}(0)$을 계산하라.</li>
+<li>$F'(0)$이 생성하는 복소직선에 $F''(0)$을 직교분해하라.</li>
+</ol>
 </section>
 
 <section class="problem">
-<h3>문제 9 — Veronese에서 같은 $d$가 나타나는 계산들을 분리하여 수행하라</h3>
+<h3>문제 6 — Veronese에서 나타나는 각 $d$를 독립적으로 계산하라</h3>
 <ol>
-<li>
-대표를 $(x_0,x_1)\mapsto(\lambda x_0,\lambda x_1)$로 바꾸어도 $\nu_d$가 같은 projective point를 냄을 확인하라.
-</li>
-<li>
-Target의 $Y_0\neq0$ 차트와 $Y_d\neq0$ 차트에서 $\mathcal O_{\mathbf{CP}^d}(1)$의 frame을 잡아라. Source overlap에서 pullback frame transition을
+<li>대표를 $(x_0,x_1)\mapsto(\lambda x_0,\lambda x_1)$로 바꾸어도 $\nu_d$가 같은 projective point를 냄을 확인하라.</li>
+<li>Target의 $Y_0\neq0$ 차트와 $Y_d\neq0$ 차트에서 $\mathcal O_{\mathbf{CP}^d}(1)$의 frame을 잡아라. Source overlap에서 pullback frame transition을
 $$\frac{Y_d}{Y_0}=z^d$$
-로 계산하라.
-</li>
-<li>
-$U_0$에서 affine lift를 적고
+로 계산하라.</li>
+<li>$U_0$에서 affine lift를 적고
 $$1+\sum_{j=1}^{d}\binom dj|z|^{2j}
 =(1+|z|^2)^d$$
 를 사용하여
 $$\nu_d^*K_{\mathrm{FS}}
 =d\log(1+|z|^2)$$
-를 얻어라.
-</li>
-<li>
-$\omega_{\mathrm{FS}}=i\partial\bar\partial K_{\mathrm{FS}}$로 놓고 pullback $2$-form을 계산하라.
-</li>
-<li>
-$d=2$에서 affine map
-$$F(z)=(\sqrt2\,z,z^2)$$
-를 사용하여 $F'(0)$과 $F''(0)$을 계산하라. Target FS metric의 $0$에서의 행렬과 그 일차미분을 계산하고, $F''(0)$의 tangent component와 normal component를 각각 구하라.
-</li>
-<li>
-다음 두 식이 서로를 바로 함의하는지, 실제 계산항만 나란히 적어 판정하라.
+를 얻어라.</li>
+<li>$\omega_{\mathrm{FS}}=i\partial\bar\partial K_{\mathrm{FS}}$로 놓고 pullback $2$-form을 계산하라.</li>
+<li>$d=2$에서 source와 target의 Christoffel symbol이 원점에서 0임을 metric의 일차미분으로 확인하라. 그 뒤 $F''(0)$의 tangent component와 normal component를 계산하라.</li>
+<li>다음 두 식이 서로를 바로 함의하는지, 양쪽에서 실제로 계산되는 항만 나란히 적어 판정하라.
 $$\nu_2^*\omega_{\mathrm{FS}}=2\omega_{\mathrm{FS}},$$
-$$\bigl(F''(0)\bigr)^\perp=0.$$
-</li>
+$$\bigl(F''(0)\bigr)^\perp=0.$$</li>
 </ol>
 </section>
 
-<h2 id="p10">10. 같은 transition에서 $H^0$, $H^1$, curvature 적분, 지표를 각각 계산한다</h2>
+<div class="stage">IV. 같은 bundle에 metric을 얹어 내부 적분과 경계 적분을 따로 수행한다</div>
+
+<h2 id="p7">7. Hermitian metric의 local coefficient와 curvature를 계산한다</h2>
+<section class="sheet">
+<h3>복소미분과 metric</h3>
+<p>$z=x+iy$에서</p>
+<p>
+$$\partial f=f_z\,dz,\qquad
+\bar\partial f=f_{\bar z}\,d\bar z,$$
+$$f_z=\frac12(f_x-if_y),\qquad
+f_{\bar z}=\frac12(f_x+if_y).$$
+</p>
+<p>$e_\infty=z^ke_0$이면 metric coefficient는</p>
+<p>
+$$h_\infty=|z|^{2k}h_0$$
+</p>
+<p>를 만족한다. 이번 절에서는</p>
+<p>
+$$h_0(z)=(1+|z|^2)^{-k},\qquad
+h_\infty(w)=(1+|w|^2)^{-k}$$
+</p>
+<p>를 사용한다. Convention은</p>
+<p>
+$$F_i=-\partial\bar\partial\log h_i,\qquad
+c_1(L,h)=\frac{i}{2\pi}F$$
+</p>
+<p>로 고정한다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 7 — 복소미분과 반지름 적분을 따로 연습한다</h3>
+<ol>
+<li>$z\bar z=x^2+y^2$에 대해 $\partial_z(z\bar z)$와 $\partial_{\bar z}(z\bar z)$를 계산하라.</li>
+<li>
+$$u(z,\bar z)=\log(1+z\bar z)$$
+에 대해 $u_{\bar z}$를 먼저 구하고 다시 $z$로 미분하라.</li>
+<li>$dz=dx+i\,dy$, $d\bar z=dx-i\,dy$를 wedge하여 $dz\wedge d\bar z$를 구하라.</li>
+<li>
+$$\int_0^\infty\frac{2r}{(1+r^2)^2}\,dr$$
+를 $t=1+r^2$ 치환으로 계산하라.</li>
+<li>$k=1$과 $k=2$에 대해 아래 문제의 적분식을 수치까지 먼저 계산하라.</li>
+</ol>
+</section>
+
+<section class="problem">
+<h3>문제 7 — metric compatibility, curvature, 전체 적분을 계산하라</h3>
+<ol>
+<li>$w=1/z$를 사용하여
+$$h_\infty(w)=|z|^{2k}h_0(z)$$
+를 직접 확인하라.</li>
+<li>
+$$\partial_z\partial_{\bar z}\log(1+|z|^2)
+=\frac1{(1+|z|^2)^2}$$
+를 편미분 한 줄씩 계산하라.</li>
+<li>$U_0$에서
+$$F_0=k\frac{dz\wedge d\bar z}{(1+|z|^2)^2}$$
+를 얻어라.</li>
+<li>$U_\infty$에서도 같은 계산을 수행하고 $dw=-z^{-2}dz$를 사용하여 두 local $2$-form이 겹침에서 같음을 확인하라.</li>
+<li>$dz\wedge d\bar z=-2i\,dx\wedge dy$와 극좌표를 사용하여
+$$\int_{\mathbf{CP}^1}\frac{i}{2\pi}F$$
+를 계산하라.</li>
+<li>다른 Hermitian metric $h'$를 잡고
+$$r_i=\frac{h_i'}{h_i}$$
+가 하나의 전역 양의 함수 $r$로 붙음을 증명하라. $r=e^{-\varphi}$로 쓴 뒤
+$$F_{h'}-F_h=\partial\bar\partial\varphi$$
+를 계산하고 전체 적분의 차이를 Stokes 정리로 구하라.</li>
+</ol>
+</section>
+
+<h2 id="p8">8. 두 원판의 Stokes 계산으로 transition의 경계적분을 얻는다</h2>
+<section class="sheet">
+<h3>원판과 orientation</h3>
+<p>$D_0=\{|z|\le1\}\subset U_0$와 $D_\infty=\{|w|\le1\}\subset U_\infty$를 사용한다. $C=\{|z|=1\}$는 $D_0$의 경계 orientation, 즉 $z$-평면의 반시계방향으로 돈다. 따라서 $\partial D_\infty=-C$이다.</p>
+<p>일반 transition $e_\infty=g(z)e_0$와 compatible metric을 잡고</p>
+<p>
+$$\theta_i=\partial\log h_i$$
+</p>
+<p>로 둔다.</p>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 8 — Stokes의 부호와 logarithmic derivative를 분리한다</h3>
+<ol>
+<li>임의의 $1$-form $\alpha_0,\alpha_\infty$에 대해
+$$\int_{D_0}d\alpha_0+\int_{D_\infty}d\alpha_\infty$$
+를 두 경계적분으로 바꾸고 $C$ 하나로 모아라.</li>
+<li>$g$가 holomorphic이고 0이 아닐 때
+$$\partial\log|g|^2=\frac{dg}{g}$$
+를 $|g|^2=g\bar g$에서 직접 계산하라.</li>
+<li>$g=z^k$에 대해 $dg/g$와
+$$\frac1{2\pi i}\oint_C\frac{dg}{g}$$
+를 계산하라.</li>
+<li>$g=z^3e^{z+1/z}$에 대해 $dg/g$를 세 항으로 나누고 각 항의 원 적분을 계산하라.</li>
+</ol>
+</section>
+
+<section class="problem">
+<h3>문제 8 — 내부 curvature 적분을 적도의 $g$ 계산으로 바꾸어라</h3>
+<ol>
+<li>$\partial\theta_i=0$을 확인하여
+$$d\theta_i=\bar\partial\theta_i
+=-\partial\bar\partial\log h_i=F$$
+를 얻어라.</li>
+<li>$h_\infty=|g|^2h_0$에서
+$$\theta_\infty-\theta_0
+=\partial\log|g|^2$$
+를 얻고 이를 $g^{-1}dg$로 바꾸어라.</li>
+<li>두 원판에 Stokes 정리를 각각 적용하여
+$$\int_{\mathbf{CP}^1}F
+=
+\oint_C\theta_0-\oint_C\theta_\infty$$
+를 유도하라.</li>
+<li>앞의 식에 transition 계산을 대입하여
+$$\int_{\mathbf{CP}^1}\frac{i}{2\pi}F
+=
+\frac1{2\pi i}\oint_C\frac{dg}{g}$$
+를 부호까지 확인하라.</li>
+<li>$g=1,z,z^{-2},z^3e^{z+1/z}$를 각각 대입하고, 문제 7에서 같은 frame 지수로 계산한 값과 나란히 기록하라.</li>
+<li>Metric을 바꾸었을 때 $\theta_i$ 각각은 어떻게 바뀌는지 적고, $\theta_\infty-\theta_0$ 및 전체 적분은 어떻게 되는지 계산하라.</li>
+</ol>
+</section>
+
+<div class="stage">V. 국소함수의 붙이기 실패를 Laurent 항으로 센다</div>
+
+<h2 id="p9">9. 같은 transition에서 $H^0$, $H^1$, curvature 적분, 지표를 각각 계산한다</h2>
 <section class="sheet">
 <h3>두 차트 Čech complex</h3>
 <p>
@@ -663,69 +677,168 @@ H_k^1:=\operatorname{coker}\delta_k.$$
 </p>
 </section>
 
-<section class="problem">
-<h3>문제 10 — Laurent 항을 제거하고 마지막 적분식과 대조하라</h3>
+<section class="bootstrap">
+<h3>부트스트랩 9 — 어느 Laurent 지수가 어느 차트에서 제거되는지 표시한다</h3>
 <ol>
-<li>
-$\ker\delta_k$가 문제 4의 전역 section 조건과 같음을 확인하고 모든 정수 $k$에 대해 $\dim H_k^0$를 계산하라.
-</li>
-<li>
-임의의 Laurent series
+<li>$f_0(z)=\sum_{n\ge0}a_nz^n$가 만들 수 있는 지수 집합을 적어라.</li>
+<li>$f_\infty(w)=\sum_{m\ge0}b_mw^m$일 때
+$$z^kf_\infty(1/z)=\sum_{m\ge0}b_mz^{k-m}$$
+가 만들 수 있는 지수 집합을 적어라.</li>
+<li>$k=2,0,-1,-2,-3$ 각각에 대해 정수축을 그리고, 두 집합 중 어느 쪽에서도 만들 수 없는 지수를 표시하라.</li>
+<li>$k=-3$에서 $q(z)=z^{-4}+2z^{-2}+3z^{-1}+4+5z$를 잡아라. $f_0$와 $f_\infty$를 실제로 골라 제거 가능한 항을 모두 지우고 남는 항을 적어라.</li>
+<li>$k=2$에서 $\delta_k(f_0,f_\infty)=0$ 조건을 낮은 차수 계수로 풀어 문제 3의 결과와 대조하라.</li>
+</ol>
+</section>
+
+<section class="problem">
+<h3>문제 9 — Laurent 항을 제거하고 마지막 적분식과 대조하라</h3>
+<ol>
+<li>$\ker\delta_k$가 문제 3의 전역 section 조건과 같음을 확인하고 모든 정수 $k$에 대해 $\dim H_k^0$를 계산하라.</li>
+<li>임의의 Laurent series
 $$q(z)=\sum_{n\in\mathbf Z}a_nz^n$$
-를 잡아라. $-f_0(z)$로 제거되는 지수의 범위와 $z^kf_\infty(1/z)$로 제거되는 지수의 범위를 각각 적어라.
-</li>
-<li>
-Quotient에 남는 Laurent monomial들을 모든 $k$에 대해 구하여 $\dim H_k^1$를 계산하라. 특히 $k=-3$에서는 남는 class를 실제로 적어라.
-</li>
+를 잡아라. $-f_0(z)$로 제거되는 지수의 범위와 $z^kf_\infty(1/z)$로 제거되는 지수의 범위를 각각 적어라.</li>
+<li>Quotient에 남는 Laurent monomial들을 모든 $k$에 대해 구하여 $\dim H_k^1$를 계산하라. 특히 $k=-4,-3,-2$에서 basis를 실제로 적어라.</li>
 <li>
 $$\chi_k:=\dim H_k^0-\dim H_k^1$$
-를 $k=-4,-3,\ldots,4$에 대해 표로 만들고 일반식을 적어라.
-</li>
-<li>
-이 소항목에서만 다음 세 식을 외부 입력으로 사용한다.
+를 $k=-4,-3,\ldots,4$에 대해 표로 만들고 일반식을 적어라.</li>
+<li>이 소항목에서만 다음 세 식을 외부 입력으로 사용한다.
 $$\operatorname{ch}(L)=e^{c_1(L)},$$
 $$\operatorname{td}(T\mathbf{CP}^1)
 =1+\frac12c_1(T\mathbf{CP}^1),$$
 $$\chi(L)=\int_{\mathbf{CP}^1}
 \operatorname{ch}(L)\operatorname{td}(T\mathbf{CP}^1).$$
-문제 7과 문제 8에서 계산한 $2$-form의 적분값을 대입하고, 복소차원 $1$에서 degree $4$ 항이 적분에 기여하지 않음을 사용하여 우변을 계산하라.
-</li>
-<li>
-아래 여섯 칸을 서로 독립적으로 계산한 뒤 숫자만 한 줄에 적어라.
-$$N(z^k),\quad
+문제 8과 문제 5에서 계산한 $c_1$ 적분값을 대입하고, 복소차원 $1$에서 $4$-form이 적분에 기여하지 않음을 사용하여 우변을 계산하라.</li>
+<li>아래 여섯 칸을 서로 독립적으로 계산한 뒤 숫자만 한 줄에 적어라.
+$$k,\quad
 \dim H_k^0,\quad
 \dim H_k^1,\quad
 \chi_k,\quad
 \int c_1(E_k),\quad
-\text{문제 5의 order 합}.$$
-$k=-3,-1,0,1,3$에 대해 반복하라.
-</li>
+\text{문제 4의 meromorphic order 합}.$$
+$k=-3,-1,0,1,2,3$에 대해 반복하라.</li>
 </ol>
 </section>
 
 <section class="ledger" id="ledger">
-<h2>관찰 기록표</h2>
-<p>각 문제를 푼 뒤 아래 칸에 계산값만 적는다. 문장형 해석은 이 페이지에 덧붙이지 않는다.</p>
+<h2>문제 10을 열기 전 관찰 기록표</h2>
+<p>아래 칸은 문제 1–9에서 실제로 계산한 값만 적는다. 설명문이나 일반 분류명제는 아직 적지 않는다.</p>
 <table>
 <thead>
-<tr><th>계산</th><th>입력</th><th>출력</th></tr>
+<tr><th>$k$</th><th>비영 $H^0$의 차원</th><th>$H^1$의 차원</th><th>$\chi$</th><th>meromorphic order 합</th><th>$\int c_1$</th></tr>
 </thead>
 <tbody>
-<tr><td>Quotient 연산의 대표자 독립성</td><td>$(z,\xi)_0\sim(1/z,z^{-k}\xi)_\infty$</td><td><span class="blank"></span></td></tr>
-<tr><td>Tautological frame</td><td>$s_0=(1,z)$, $s_\infty=(w,1)$</td><td><span class="blank"></span></td></tr>
-<tr><td>원의 적분</td><td>$g(z)$</td><td>$N(g)=$ <span class="blank"></span></td></tr>
-<tr><td>Frame 변경 후 transition</td><td>$g(z)$</td><td><span class="blank"></span></td></tr>
-<tr><td>전역 section</td><td>$k$</td><td>$\dim H^0=$ <span class="blank"></span></td></tr>
-<tr><td>영점·극점 order 합</td><td>$k$</td><td><span class="blank"></span></td></tr>
-<tr><td>Curvature 적분</td><td>$g$ 또는 $k$</td><td><span class="blank"></span></td></tr>
-<tr><td>접다발 frame</td><td>$w=1/z$</td><td><span class="blank"></span></td></tr>
-<tr><td>Veronese pullback frame</td><td>$d$</td><td><span class="blank"></span></td></tr>
-<tr><td>Čech quotient</td><td>$k$</td><td>$h^0=$ <span class="blank"></span> $h^1=$ <span class="blank"></span> $\chi=$ <span class="blank"></span></td></tr>
+<tr><td>$-3$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$-2$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$-1$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$0$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$1$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$2$</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$3$</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr><th>자연한 대상</th><th>직접 계산한 frame transition</th><th>별도로 계산한 출력</th></tr>
+</thead>
+<tbody>
+<tr><td>Tautological $S$</td><td></td><td>dual transition: <span class="blank"></span></td></tr>
+<tr><td>$T\mathbf{CP}^1$</td><td></td><td>vector field 차원·order: <span class="blank"></span></td></tr>
+<tr><td>$\nu_d^*\mathcal O(1)$</td><td></td><td>FS pullback 배수: <span class="blank"></span></td></tr>
+<tr><td>일반 $g$의 metric</td><td>$g(z)$</td><td>$\frac1{2\pi i}\oint dg/g=$ <span class="blank"></span></td></tr>
 </tbody>
 </table>
 </section>
 
-<footer>풀이 없는 관찰노트. 관련 계산: 「행렬 한 장에서 시작하여 — 번들 자립완전판」, 「비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선」.</footer>
+<div class="stage">VI. 봉인 해제 — 앞의 출력들을 본 뒤 일반 transition을 정리한다</div>
+
+<section class="seal" id="p10">
+<h2>10. 일반 transition에서 frame 변경으로 지울 수 없는 부분을 판결한다</h2>
+<p><strong>개봉 조건.</strong> 위 두 관찰표를 먼저 채운다. 이 절은 앞의 현상을 새로 관찰하는 절이 아니라, 일반 $g$에 숨은 다른 정보가 있는지를 판결하는 절이다.</p>
+</section>
+
+<section class="sheet">
+<h3>일반 붙이기 함수와 허용되는 한 변수 사실</h3>
+<p>
+$$g:\mathbf C^*\longrightarrow\mathbf C^*$$
+</p>
+<p>를 nowhere-zero holomorphic function이라 하고</p>
+<p>
+$$e_\infty=g(z)e_0$$
+</p>
+<p>로 붙인다. 양쪽 frame을</p>
+<p>
+$$e_0'=a(z)e_0,\qquad e_\infty'=b(w)e_\infty$$
+</p>
+<p>로 바꾼다. 여기서 $a,b\in\mathcal O^*(\mathbf C)$이다.</p>
+<div class="rule">
+<strong>허용 입력 — 원과 Laurent 급수.</strong>
+<ol>
+<li>닫힌 곡선 $\gamma\subset\mathbf C^*$와 holomorphic $1$-form $\omega$에 대해 residue 정리로 period를 계산한다.</li>
+<li>$q\in\mathcal O(\mathbf C^*)$는
+$$q(z)=\sum_{n\in\mathbf Z}c_nz^n$$
+꼴 Laurent 급수를 가지며 $0<|z|<\infty$에서 수렴한다. 양의 지수 부분은 $z$-평면에서 entire이고, 음의 지수 부분은 $w=1/z$의 entire 함수가 된다.</li>
+</ol>
+</div>
+</section>
+
+<section class="bootstrap">
+<h3>부트스트랩 10 — 일반 증명의 네 기계를 낮은 예시에서 작동시킨다</h3>
+<ol>
+<li>Frame 변경에서
+$$g_{\mathrm{new}}(z)=b(1/z)g(z)a(z)^{-1}$$
+를 유도하라. $g=z^3e^{z+1/z}$, $a=e^z$, $b=e^{-w}$를 대입하라.</li>
+<li>
+$$N(g):=\frac1{2\pi i}\oint_{|z|=1}\frac{dg}{g}$$
+를 $1,z,z^{-2},e^z,z^3e^{z+1/z}$에 대해 계산하라.</li>
+<li>$h=e^{z+1/z}$에 대해 $h'/h$를 구하고 모든 닫힌 곡선의 period가 0임을 residue로 확인하라. 적분으로 holomorphic logarithm을 하나 구성하라.</li>
+<li>
+$$q(z)=2z^2+3z+5+7z^{-1}-z^{-3}$$
+를 $q_+(z)+c+q_-(1/z)$로 나누어라. $g=z^ke^q$에서 $e^q$를 없애는 $a(z),b(w)$를 실제로 골라라.</li>
+<li>$g_1=z^2e^{z+1/z}$와 $g_2=z^2e^{2z-3/z}$ 사이의 frame 변경 $a,b$를 구성하라.</li>
+</ol>
+</section>
+
+<section class="problem">
+<h3>문제 10 — 임의의 $g$를 표준형으로 보내고 완전성을 증명하라</h3>
+<ol>
+<li>새 frame 사이의 transition이
+$$g_{\mathrm{new}}(z)=b(1/z)\,g(z)\,a(z)^{-1}$$
+임을 유도하라.</li>
+<li>
+$$N(g)=\frac1{2\pi i}\oint_{|z|=1}\frac{dg}{g}$$
+가 정수임을 argument 변화량으로 증명하라. $a,b\in\mathcal O^*(\mathbf C)$에 의한 frame 변경이 $N(g)$를 바꾸지 않음을 argument principle로 증명하라.</li>
+<li>$k=N(g)$, $h(z)=z^{-k}g(z)$라 놓아라. $\oint dh/h=0$을 확인하고
+$$q(z)=\log h(z_0)+\int_{z_0}^{z}\frac{h'(\zeta)}{h(\zeta)}\,d\zeta$$
+가 경로와 무관하게 정의됨을 residue 계산으로 증명하라. 이어 $h=e^q$를 확인하라.</li>
+<li>$q$의 Laurent 전개를
+$$q(z)=q_+(z)+c+q_-(1/z)$$
+로 나누고 $q_+,q_-$가 각각 entire임을 수렴영역으로 확인하라. 적절한 $a(z),b(w)$를 써서 $g_{\mathrm{new}}(z)=z^k$를 만들어라.</li>
+<li>$N(g_1)=N(g_2)$인 두 transition에 대해 앞의 구성을 사용하여
+$$g_2(z)=b(1/z)g_1(z)a(z)^{-1}$$
+꼴의 $a,b$를 구성하라. 이 frame 변경이 두 quotient 사이에 주는 fiberwise linear map을 local coordinate로 적고 well-defined임을 검사하라.</li>
+<li>반대로 두 quotient가 holomorphic line bundle로 동형이면 두 transition이 위와 같은 frame 변경으로 연결됨을 local trivialization에서 증명하라. 따라서 $N(g_1)=N(g_2)$를 얻어라.</li>
+<li>문제 1–9의 기록표와 이 문제의 필요충분조건을 한 문장으로 연결하되, 그 문장에는 반드시 다음 세 표현을 구별하여 사용하라.
+$$\text{transition 자체},\qquad
+\text{frame 변경 뒤의 표준형},\qquad
+\text{bundle isomorphism class}.$$</li>
+</ol>
+</section>
+
+<section class="ledger">
+<h2>최종 기록</h2>
+<table>
+<thead>
+<tr><th>입력 transition</th><th>$N(g)$</th><th>선택한 $a(z)$</th><th>선택한 $b(w)$</th><th>표준 transition</th></tr>
+</thead>
+<tbody>
+<tr><td>$z^3e^{z+1/z}$</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>$z^{-2}e^{2z-3/z}$</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>직접 고른 $g$</td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+</section>
+
+<footer>풀이 없는 관찰노트. 문제 1–9는 발견 순서, 문제 10은 일반 transition의 완전성 판결이다. 관련 계산: 「행렬 한 장에서 시작하여 — 번들 자립완전판」, 「비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선」.</footer>
 </main>
 
 <div class="sitenav-bottom">
