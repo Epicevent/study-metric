@@ -36,6 +36,7 @@ ORDER = [
     '라플라시안에서_RR의_+1로.html',
     '사영공간_두계산선_단항식과_HRR.html',
     '행렬한장에서시작하여_번들_자립완전판.html',
+    '다항식관계를_모르는_상태에서_CP1과_Gr24.html',
     '사전_1z에서_IZ로.html',
     '걸음6_Gr24_플뤼커_완전판.html',
     'Projector로_Gr24에_metric주기.html',
@@ -75,6 +76,7 @@ TRACK_OVERRIDE = {
     '라플라시안에서_RR의_+1로.html': 'bundle',
     '사영공간_두계산선_단항식과_HRR.html': 'projective',
     '행렬한장에서시작하여_번들_자립완전판.html': 'projective',
+    '다항식관계를_모르는_상태에서_CP1과_Gr24.html': 'projective',
     '사전_1z에서_IZ로.html': 'gr',
     '걸음6_Gr24_플뤼커_완전판.html': 'gr',
     'Projector로_Gr24에_metric주기.html': 'gr',
@@ -107,6 +109,10 @@ EXTRA_DOCS = [
     dict(
         track='projective', kind="existing", out='사영공간_두계산선_단항식과_HRR.html',
         card=('비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선 (자립완전판)', '$[x_0:\\cdots:x_n]=[\\lambda x_0:\\cdots:\\lambda x_n]$에서 출발해 $\\mathcal O(k)$의 전역단면을 세는 계산과 Chern form·Todd factor를 적분하는 계산을 각각 닫는다.'),
+    ),
+    dict(
+        track='projective', kind="existing", out='다항식관계를_모르는_상태에서_CP1과_Gr24.html',
+        card=('다항식 관계를 모르는 상태에서 — $S^2\\simeq\\mathbf{CP}^1$와 $\\mathrm{Gr}(2,4)$', '자립 노트. 무한한 local holomorphic functions에서 finite section system을 고르고, Veronese와 Plücker relation을 polynomial-ring map의 kernel로 처음부터 발견한다. winding·partition of unity·curvature·section ring·relative Grassmannian까지 한 흐름으로 닫는다.'),
     ),
     dict(
         track='gr', kind="existing", out='플뤼커_determinant_line_bundle의_곡률.html',
@@ -164,7 +170,7 @@ INDEX_HEADER = dict(
 
 INDEX_NOTICE = """
 <div class="route">
-<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 사영공간 일반화 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
+<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 사영공간 일반화 → section system에서 relation을 발견하는 두 토이모델 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
 <p><strong>배치 원칙.</strong> 정보기하는 QFIM 직후, fold 응용은 Chern·Ricci 직후, 양자회로 응용은 Reineke tower 뒤에 둔다. 종합 문제집은 시작점이 아니라 Gr(2,4) 본선을 한 번 통과한 뒤의 검문으로 둔다.</p>
 </div>
 """.strip()
