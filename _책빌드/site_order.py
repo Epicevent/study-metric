@@ -9,7 +9,7 @@ TRACKS = [
     ('cp1', '01 — S²에서 ℂP¹까지: 계량·Hopf·접속·QFIM'),
     ('ig', '02 — 평행선: 고전 Fisher와 정보기하'),
     ('bundle', '03 — 두 차트의 line bundle에서 Chern·Ricci·degree까지'),
-    ('projective', '04 — 사영공간 일반화와 통합 재현'),
+    ('projective', '04 — 사영공간 일반화와 같은 공간을 세 번 보는 법'),
     ('gr', '05 — ℂP¹의 계산을 Gr(2,4)로 올리기'),
     ('checkpoint', '06 — Gr(2,4) 종합 검문'),
     ('relative', '07 — Relative Grassmannian과 Reineke tower'),
@@ -112,7 +112,7 @@ EXTRA_DOCS = [
     ),
     dict(
         track='projective', kind="existing", out='다항식관계를_모르는_상태에서_CP1과_Gr24.html',
-        card=('다항식 관계를 모르는 상태에서 — $S^2\\simeq\\mathbf{CP}^1$와 $\\mathrm{Gr}(2,4)$', '자립 노트. 무한한 local holomorphic functions에서 finite section system을 고르고, Veronese와 Plücker relation을 polynomial-ring map의 kernel로 처음부터 발견한다. winding·partition of unity·curvature·section ring·relative Grassmannian까지 한 흐름으로 닫는다.'),
+        card=('다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가', 'projector가 이미 $\\lambda$·$GL(k)$ 중복을 제거한다는 반례에서 출발한다. RREF는 국소 holomorphic chart, projector는 전역 Hermitian·QFIM 모델, Plücker는 전역 holomorphic·projective 모델임을 $\\mathbf{CP}^1$와 $\\mathrm{Gr}(2,4)$에서 계산하고, 마지막에만 kernel ideal을 만든다. 검산 35/35.'),
     ),
     dict(
         track='gr', kind="existing", out='플뤼커_determinant_line_bundle의_곡률.html',
@@ -170,7 +170,7 @@ INDEX_HEADER = dict(
 
 INDEX_NOTICE = """
 <div class="route">
-<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 사영공간 일반화 → section system에서 relation을 발견하는 두 토이모델 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
+<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 사영공간 일반화 → RREF·projector·Plücker의 선택 기준 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
 <p><strong>배치 원칙.</strong> 정보기하는 QFIM 직후, fold 응용은 Chern·Ricci 직후, 양자회로 응용은 Reineke tower 뒤에 둔다. 종합 문제집은 시작점이 아니라 Gr(2,4) 본선을 한 번 통과한 뒤의 검문으로 둔다.</p>
 </div>
 """.strip()
