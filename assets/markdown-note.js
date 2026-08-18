@@ -87,6 +87,26 @@
     return false;
   }
 
+  function normalizeKnownSource(source, markdown) {
+    let text = String(markdown).replace(/\r\n?/g, "\n");
+
+    // A previous generated revision accidentally joined a display delimiter to
+    // a variable named u, producing the TeX command \nu. Repair only those
+    // display starts; the legitimate Veronese symbol \nu_2 is left untouched.
+    if (source === "사전은_관찰이_아니다_함수에서_공간으로.md") {
+      text = text.replace(/\$\$\\nu(?==|\\longmapsto|_\{)/g, "$$\n" + "u");
+    }
+
+    const standaloneDisplayDelimiters = text
+      .split("\n")
+      .filter((line) => line.trim() === "$$")
+      .length;
+    if (standaloneDisplayDelimiters % 2 !== 0) {
+      throw new Error(`짝이 맞지 않는 $$ 수식 구분자: ${standaloneDisplayDelimiters}개`);
+    }
+    return text;
+  }
+
   function parseMarkdown(source, options = {}) {
     const lines = String(source).replace(/\r\n?/g, "\n").split("\n");
     const html = [];
@@ -291,7 +311,7 @@
     try {
       const response = await fetch(source, { cache: "no-cache" });
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-      const markdown = await response.text();
+      const markdown = normalizeKnownSource(source, await response.text());
       root.innerHTML = parseMarkdown(markdown, {
         skipHeadings: 2,
         headingOffset: 1,
