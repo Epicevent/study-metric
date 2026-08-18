@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>다항식 관계를 모르는 상태에서 — CP¹와 Gr(2,4), 두 토이모델</title>
+<title>다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가</title>
 <link rel="stylesheet" href="assets/katex.min.css">
 <link rel="stylesheet" href="assets/site.css">
 <style>
@@ -56,7 +56,7 @@ header.titlepage .subtitle{max-width:58rem;margin:.85rem auto 0;color:var(--mute
 <body>
 <nav class="sitenav">
 <a class="home" href="index.html">← 목록</a>
-<span class="navtitle">다항식 관계를 모르는 상태에서 — CP¹와 Gr(2,4)</span>
+<span class="navtitle">왜 RREF·projector·Plücker 중 하나를 고르는가</span>
 <span class="pn">
 <a href="행렬한장에서시작하여_번들_자립완전판.html" title="행렬 한 장에서 시작하여 — 번들 자립완전판">‹ 이전</a>
 <a href="사전_1z에서_IZ로.html" title="사전 — (1,z)에서 (I,Z)로">다음 ›</a>
@@ -64,13 +64,14 @@ header.titlepage .subtitle{max-width:58rem;margin:.85rem auto 0;color:var(--mute
 </nav>
 
 <header class="titlepage">
-<p class="series">study metric — section system에서 relation을 발견하기</p>
+<p class="series">study metric — 같은 공간을 세 번 보는 이유</p>
 <h1>다항식 관계를 모르는 상태에서</h1>
-<p class="subtitle">$S^2\simeq\mathbf{CP}^1$와 $\mathrm{Gr}(2,4)$, 두 토이모델</p>
+<p class="subtitle">왜 RREF·projector·Plücker 중 하나를 고르는가</p>
 <div class="note-status">
-<p><strong>질문.</strong> local holomorphic function은 무한히 많고, Gaussian elimination 뒤의 네 함수는 외부 변수에 대해 rational일 필요도 없다. 그러면 relation을 모르는 상태에서 무엇을 유한하게 고르고 어떻게 방정식을 찾는가?</p>
-<p><strong>전개.</strong> 두 차트의 gluing·winding·POU·curvature → $\mathcal O(2)$의 section과 Veronese kernel → determinant line bundle의 여섯 section과 Plücker kernel → relative Grassmannian·Reineke tower.</p>
-<p><strong>검산.</strong> <a href="verify_polynomial_relation_note.py"><code>verify_polynomial_relation_note.py</code></a> — Veronese kernel, 여섯 minor, Plücker relation, 초월 family pullback, Cauchy–Binet, section multiplication <strong>17/17</strong>.</p>
+<p><strong>질문.</strong> normalization과 projection matrix가 이미 $q\sim\lambda q$, $A\sim gA$를 완전히 제거하는데 왜 line bundle·maximal minor·Plücker coordinate를 다시 고르는가?</p>
+<p><strong>판정.</strong> 셋은 정보량으로 경쟁하지 않는다. RREF는 국소 holomorphic chart, projector는 전역 Hermitian·metric 모델, Plücker는 전역 holomorphic·polynomial·projective 모델이다.</p>
+<p><strong>전개.</strong> $\mathbf{CP}^1$의 normalization·projector·$\mathcal O(2)$ → $\mathrm{Gr}(2,4)$의 RREF·projector·wedge → determinant line bundle → decomposability와 kernel → relative Grassmannian·Reineke tower.</p>
+<p><strong>검산.</strong> <a href="verify_polynomial_relation_note.py"><code>verify_polynomial_relation_note.py</code></a> — projector 불변성·비정칙성, incomplete section의 정보손실, 여섯 minor의 determinant weight, wedge 복원, idempotent의 complement 정보, Plücker relation, Cauchy–Binet, 두 metric의 원점 일치까지 <strong>35/35</strong>.</p>
 </div>
 </header>
 
