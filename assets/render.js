@@ -15,7 +15,7 @@ const SITE_NAV_ORDER = [
   {"file": "TwoBand_Fold_Sheet_하루손계산.html", "title": "구면의 양의 곡률면적이 토러스에서 뒤집히는 순간"},
   {"file": "라플라시안에서_RR의_+1로.html", "title": "라플라시안에서 RR의 +1로 — 무한대의 −2log|z|가 기억한 것"},
   {"file": "사영공간_두계산선_단항식과_HRR.html", "title": "비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선 (자립완전판)"},
-  {"file": "사전은_관찰이_아니다_함수에서_공간으로.html", "title": "함수에서 공간으로 — 사전은 관찰이 아니다"},
+  {"file": "사전은_관찰이_아니다_함수에서_공간으로.html", "title": "이해를 후일로 미루지 않기 — 세 토이모델의 실제 계산"},
   {"file": "행렬한장에서시작하여_번들_자립완전판.html", "title": "행렬 한 장에서 시작하여 — Plücker · Mayer–Vietoris · Chern·Ricci 번들 (자립완전판)"},
   {"file": "다항식관계를_모르는_상태에서_CP1과_Gr24.html", "title": "다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가"},
   {"file": "사전_1z에서_IZ로.html", "title": "사전 — (1,z)에서 (I,Z)로"},
