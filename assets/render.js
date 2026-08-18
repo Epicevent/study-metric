@@ -16,7 +16,7 @@ const SITE_NAV_ORDER = [
   {"file": "라플라시안에서_RR의_+1로.html", "title": "라플라시안에서 RR의 +1로 — 무한대의 −2log|z|가 기억한 것"},
   {"file": "사영공간_두계산선_단항식과_HRR.html", "title": "비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선 (자립완전판)"},
   {"file": "행렬한장에서시작하여_번들_자립완전판.html", "title": "행렬 한 장에서 시작하여 — Plücker · Mayer–Vietoris · Chern·Ricci 번들 (자립완전판)"},
-  {"file": "다항식관계를_모르는_상태에서_CP1과_Gr24.html", "title": "다항식 관계를 모르는 상태에서 — CP¹와 Gr(2,4), 두 토이모델"},
+  {"file": "다항식관계를_모르는_상태에서_CP1과_Gr24.html", "title": "다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가"},
   {"file": "사전_1z에서_IZ로.html", "title": "사전 — (1,z)에서 (I,Z)로"},
   {"file": "걸음6_Gr24_플뤼커_완전판.html", "title": "걸음 6 — Gr(2,4) ↪ ℂP⁵, 바닥부터 (완전판)"},
   {"file": "Projector로_Gr24에_metric주기.html", "title": "Projector들의 모임에 metric 주기 — CP¹ 손노트에서 Gr(2,4)로"},
