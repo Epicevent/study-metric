@@ -9,7 +9,7 @@ TRACKS = [
     ('cp1', '01 — S²에서 ℂP¹까지: 계량·Hopf·접속·QFIM'),
     ('ig', '02 — 평행선: 고전 Fisher와 정보기하'),
     ('bundle', '03 — 두 차트의 line bundle에서 Chern·Ricci·degree까지'),
-    ('projective', '04 — 함수에서 공간으로: 사전·선택·세 표현'),
+    ('projective', '04 — 함수에서 공간으로: 실제 계산과 세 표현'),
     ('gr', '05 — ℂP¹의 계산을 Gr(2,4)로 올리기'),
     ('checkpoint', '06 — Gr(2,4) 종합 검문'),
     ('relative', '07 — Relative Grassmannian과 Reineke tower'),
@@ -113,11 +113,11 @@ EXTRA_DOCS = [
     ),
     dict(
         track='projective', kind='existing', out='사전은_관찰이_아니다_함수에서_공간으로.html',
-        card=('함수에서 공간으로 — 사전은 관찰이 아니다', '「추상대수에서 대수기하로」의 번역표를 비판적으로 보충한다. ring은 kernel만을 위한 마지막 장치가 아니며, $\\mathbf P^1$, $\\mathbf C/\\Lambda$, $\\mathrm{Gr}(2,4)$에서 어느 line bundle과 complete section system을 왜 고르는지 계산한다. [원문]·[비판]·[보충]을 구분하고 대수적 검산 19/19를 붙였다.'),
+        card=('이해를 후일로 미루지 않기 — 세 토이모델의 실제 계산', '교수님 코멘트를 문서 비평이 아니라 계산 기준으로 적용한다. $\\mathbf P^1$의 localization·$\\mathcal O(2)$ gluing·conic ideal, $\\mathbf C/\\Lambda$의 pole 제거·$(1,\\wp,\\wp\prime)$·Laurent cubic, $\\mathrm{Gr}(2,4)$의 RREF·projector·wedge·minor·kernel·localization을 직접 계산한다.'),
     ),
     dict(
         track='projective', kind='existing', out='다항식관계를_모르는_상태에서_CP1과_Gr24.html',
-        card=('다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가', 'projector가 이미 $\\lambda$·$GL(k)$ 중복을 제거한다는 반례에서 출발한다. RREF는 국소 holomorphic chart, projector는 전역 Hermitian·QFIM 모델, Plücker는 전역 holomorphic·projective 모델임을 계산하고 마지막에만 kernel ideal을 만든다. 검산 35/35.'),
+        card=('다항식 관계를 모르는 상태에서 — 왜 RREF·projector·Plücker 중 하나를 고르는가', 'projector가 이미 $\\lambda$·$GL(k)$ 중복을 제거한다는 반례에서 출발한다. RREF는 국소 holomorphic chart, projector는 전역 Hermitian·QFIM 모델, Plücker는 전역 holomorphic·projective 모델임을 계산한다.'),
     ),
     dict(track='gr', kind='existing', out='플뤼커_determinant_line_bundle의_곡률.html', card=('Plücker determinant line bundle의 곡률', '빈 문서 · ordinary Grassmannian의 local potential을 Chern curvature form으로 읽는 다리.'), stub=True),
     dict(track='relative', kind='existing', out='Relative_Grassmannian과_Relative_Plucker.html', card=('Relative Grassmannian과 relative Plücker embedding', '빈 문서 · vector space의 Grassmannian 계산을 vector bundle의 fiberwise 계산으로 올리는 다리.'), stub=True),
@@ -139,7 +139,7 @@ INDEX_HEADER = dict(
 
 INDEX_NOTICE = """
 <div class="route">
-<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → ring 사전의 비판적 보충 → RREF·projector·Plücker의 선택 기준 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
+<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 교수님 코멘트를 적용한 세 토이모델의 실제 계산 → RREF·projector·Plücker의 선택 기준 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
 <p><strong>배치 원칙.</strong> 정보기하는 QFIM 직후, fold 응용은 Chern·Ricci 직후, 양자회로 응용은 Reineke tower 뒤에 둔다. 종합 문제집은 Gr(2,4) 본선을 한 번 통과한 뒤의 검문으로 둔다.</p>
 </div>
 """.strip()
