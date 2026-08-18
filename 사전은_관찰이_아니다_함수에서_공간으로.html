@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>함수에서 공간으로 — 사전은 관찰이 아니다</title>
+<link rel="stylesheet" href="assets/katex.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+main.note-shell, header.titlepage{max-width:72rem}
+header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--muted)}
+.note-layout{display:grid;grid-template-columns:minmax(14rem,18rem) minmax(0,1fr);gap:2.4rem;align-items:start}
+.note-toc{position:sticky;top:4.1rem;max-height:calc(100vh - 5.5rem);overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.8rem .9rem;font-size:.82rem;line-height:1.45}
+.note-toc::before{content:"비판과 보충의 순서";display:block;font-weight:800;letter-spacing:.08em;color:var(--muted);margin:0 0 .55rem}
+.note-toc ol{list-style:none;padding:0;margin:0}
+.note-toc li{margin:0;border-top:1px dotted var(--line)}
+.note-toc li:first-child{border-top:0}
+.note-toc li.subsection{padding-left:.8rem;font-size:.94em}
+.note-toc a{display:block;padding:.32rem .15rem;text-decoration:none;color:var(--fg)}
+.note-toc a:hover{color:var(--accent)}
+.note-content{min-width:0;max-width:50rem}
+.note-content.loading{min-height:20rem;display:grid;place-items:center;color:var(--muted)}
+.note-content.loading::before{content:"노트 원문을 불러오는 중…"}
+.note-content h2{scroll-margin-top:4.5rem;margin-top:3.2rem;font-size:1.48rem}
+.note-content h3{scroll-margin-top:4.5rem;margin-top:2.15rem;font-size:1.14rem}
+.note-content h4{scroll-margin-top:4.5rem;color:var(--blue);margin-top:1.65rem}
+.note-content blockquote{margin:1.4rem 0}
+.note-content .mathblock{overflow-x:auto;overflow-y:hidden;padding:.25rem 0;text-align:center}
+.note-content details{border:1px solid var(--line);border-radius:8px;background:var(--box);margin:1rem 0;padding:.65rem .85rem}
+.note-content details summary{cursor:pointer;font-weight:750;color:var(--accent)}
+.note-content .details-body{padding:.45rem .25rem 0}
+.note-content li>p{margin:.35rem 0}
+.note-content li>.mathblock{margin:.35rem 0}
+.note-content .tablewrap{overflow-x:auto;margin:1.3rem 0}
+.note-content .tablewrap table{min-width:46rem;margin:0}
+.note-content .load-error{background:var(--pen);border:1px solid var(--penbd);border-radius:8px;padding:1rem}
+.note-status{max-width:60rem;margin:1.3rem auto 0;padding:.75rem 1rem;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;background:var(--box);text-align:left;font-size:.92rem}
+.note-status p{margin:.3rem 0}
+@media(max-width:980px){.note-layout{display:block}.note-toc{position:relative;top:auto;max-height:none;margin-bottom:2rem}.note-content{max-width:none}}
+@media print{.sitenav,.sitenav-bottom,.note-toc{display:none}.note-layout{display:block}main.note-shell,header.titlepage{max-width:none}.note-content{max-width:none}details{break-inside:avoid}}
+</style>
+</head>
+<body>
+<nav class="sitenav">
+<a class="home" href="index.html">← 목록</a>
+<span class="navtitle">함수에서 공간으로 — 사전은 관찰이 아니다</span>
+<span class="pn">
+<a href="사영공간_두계산선_단항식과_HRR.html" title="비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선">‹ 이전</a>
+<a href="행렬한장에서시작하여_번들_자립완전판.html" title="행렬 한 장에서 시작하여 — 번들 자립완전판">다음 ›</a>
+</span>
+</nav>
+
+<header class="titlepage">
+<p class="series">study metric — 「추상대수에서 대수기하로」 비판적 보충</p>
+<h1>함수에서 공간으로</h1>
+<p class="subtitle">사전은 관찰이 아니다 — $\mathbf P^1$, $\mathbf C/\Lambda$, $\mathrm{Gr}(2,4)$에서 무엇을 고르고 왜 ring을 쓰는가</p>
+<div class="note-status">
+<p><strong>원문.</strong> $A\leftrightarrow\operatorname{Spec}A$, quotient·localization·tensor product의 기하적 사전, $S^2\simeq\mathbf P^1$, $\mathbf C/\Lambda\simeq E$라는 큰 흐름을 보존한다.</p>
+<p><strong>비판.</strong> 번역표만으로는 실제 관찰이 되지 않는다. 어느 함수환·line bundle·section system을 왜 고르는지, 점과 tangent를 구별하는지, family와 base change를 견디는지가 비어 있다.</p>
+<p><strong>보충.</strong> $\mathcal O(2)$의 Veronese, $\mathcal O(3O)$의 $(1,\wp,\wp')$, $\det\mathcal S^*$의 maximal minors를 하나의 선택 프로토콜로 비교한다. ring은 처음부터 있고 마지막에 계산되는 것은 defining ideal임을 교정한다.</p>
+<p><strong>검산.</strong> <a href="verify_dictionary_is_not_observation.py"><code>verify_dictionary_is_not_observation.py</code></a> — Veronese·homogeneity·formal $\wp$ parity·pole weights·Plücker minors·determinant weight·quotient/localization/fiber-product toy identities <strong>19/19</strong>. Weierstrass 이론과 projectivity 정리는 이 유한 검산의 대상이 아니다.</p>
+</div>
+</header>
+
+<main class="note-shell">
+<div class="note-layout">
+<nav id="note-toc" class="note-toc" aria-label="문서 목차"></nav>
+<article class="note-content loading" data-markdown-source="사전은_관찰이_아니다_함수에서_공간으로.md"></article>
+</div>
+<footer>원문: <a href="사전은_관찰이_아니다_함수에서_공간으로.md">사전은_관찰이_아니다_함수에서_공간으로.md</a> · 검산: <a href="verify_dictionary_is_not_observation.py">verify_dictionary_is_not_observation.py</a>. [원문]·[비판]·[보충] 표시는 기준 자료의 주장과 이 노트의 추가 해석을 구분한다.</footer>
+</main>
+
+<div class="sitenav-bottom">
+<a href="사영공간_두계산선_단항식과_HRR.html">‹ 비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선</a>
+<a href="index.html">← 목록으로 돌아가기</a>
+<a href="행렬한장에서시작하여_번들_자립완전판.html">행렬 한 장에서 시작하여 — 번들 자립완전판 ›</a>
+</div>
+
+<script defer src="assets/katex.min.js"></script>
+<script defer src="assets/auto-render.min.js"></script>
+<script defer src="assets/render.js"></script>
+<script defer src="assets/markdown-note.js"></script>
+</body>
+</html>
