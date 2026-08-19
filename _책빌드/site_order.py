@@ -31,6 +31,7 @@ ORDER = [
     '계수합0에서_line_bundle까지.html',
     'H1_S2_쌩좌표계산.html',
     'Winding_Form에서_Degree까지_한노트.html',
+    'CP1_두차트_라플라시안_winding_MV.html',
     'First_Chern과_Ricci_CP1에서_fold까지.html',
     'TwoBand_Fold_Sheet_하루손계산.html',
     '라플라시안에서_RR의_+1로.html',
@@ -72,6 +73,7 @@ TRACK_OVERRIDE = {
     '계수합0에서_line_bundle까지.html': 'bundle',
     'H1_S2_쌩좌표계산.html': 'bundle',
     'Winding_Form에서_Degree까지_한노트.html': 'bundle',
+    'CP1_두차트_라플라시안_winding_MV.html': 'bundle',
     'First_Chern과_Ricci_CP1에서_fold까지.html': 'bundle',
     'TwoBand_Fold_Sheet_하루손계산.html': 'bundle',
     '라플라시안에서_RR의_+1로.html': 'bundle',
@@ -108,12 +110,16 @@ EXTRA_DOCS = [
         card=('두 차트에서 라인번들을 붙여 보기 — ℂP¹ 관찰노트와 10문제', '풀이와 분류 해설을 싣지 않은 관찰용 계산서. base·fiber·total space를 고정하고 quotient의 벡터연산 검문에서 시작하여 tautological frame, 임의 transition, 전역단면, 영점·극점, metric·curvature, 적도 경계적분, 접다발, Veronese, Čech·HRR 대조를 열 문제로 배치한다.'),
     ),
     dict(
+        track='bundle', kind='existing', out='CP1_두차트_라플라시안_winding_MV.html',
+        card=('두 차트의 한 전이함수에서 곡률까지', '$\\mathbf C[z]$, $\\mathbf C[z^{-1}]$, $\\mathbf C[z,z^{-1}]$에서 시작하여 $dz=-w^{-2}dw$의 modulus와 phase를 conformal potential과 connection의 변화로 읽는다. 두 chart의 라플라시안, winding $2$, partition of unity와 Mayer–Vietoris를 거쳐 $K\\,dA/(2\\pi)$까지 계산한다.'),
+    ),
+    dict(
         track='projective', kind='existing', out='사영공간_두계산선_단항식과_HRR.html',
         card=('비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선 (자립완전판)', '$[x_0:\\cdots:x_n]=[\\lambda x_0:\\cdots:\\lambda x_n]$에서 출발해 $\\mathcal O(k)$의 전역단면을 세는 계산과 Chern form·Todd factor를 적분하는 계산을 각각 닫는다.'),
     ),
     dict(
         track='projective', kind='existing', out='사전은_관찰이_아니다_함수에서_공간으로.html',
-        card=('이해를 후일로 미루지 않기 — 세 토이모델의 실제 계산', '교수님 코멘트를 문서 비평이 아니라 계산 기준으로 적용한다. $\\mathbf P^1$의 localization·$\\mathcal O(2)$ gluing·conic ideal, $\\mathbf C/\\Lambda$의 pole 제거·$(1,\\wp,\\wp\prime)$·Laurent cubic, $\\mathrm{Gr}(2,4)$의 RREF·projector·wedge·minor·kernel·localization을 직접 계산한다.'),
+        card=('함수에서 공간으로 — 세 토이모델의 실제 계산', '$\\mathbf P^1$의 localization·$\\mathcal O(2)$ gluing·점과 tangent 분리·conic ideal, $\\mathbf C/\\Lambda$의 pole 제거·$(1,\\wp,\\wp\prime)$·Laurent cubic, $\\mathrm{Gr}(2,4)$의 RREF·projector·wedge·minor·kernel·localization을 직접 계산한다.'),
     ),
     dict(
         track='projective', kind='existing', out='다항식관계를_모르는_상태에서_CP1과_Gr24.html',
@@ -139,7 +145,7 @@ INDEX_HEADER = dict(
 
 INDEX_NOTICE = """
 <div class="route">
-<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle과 curvature → 교수님 코멘트를 적용한 세 토이모델의 실제 계산 → RREF·projector·Plücker의 선택 기준 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
+<p><strong>주축.</strong> S²·ℂP¹의 metric과 QFIM → 두 차트의 line bundle, chart ring, winding과 curvature → 함수에서 공간으로 가는 세 토이모델 → RREF·projector·Plücker의 선택 기준 → Gr(2,4)의 Plücker·metric·곡률 → relative Grassmannian → quiver/Reineke tower → twisted Kähler metric과 Ricci positivity.</p>
 <p><strong>배치 원칙.</strong> 정보기하는 QFIM 직후, fold 응용은 Chern·Ricci 직후, 양자회로 응용은 Reineke tower 뒤에 둔다. 종합 문제집은 Gr(2,4) 본선을 한 번 통과한 뒤의 검문으로 둔다.</p>
 </div>
 """.strip()
