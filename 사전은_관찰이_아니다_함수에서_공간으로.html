@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>이해를 후일로 미루지 않기 — 세 토이모델의 실제 계산</title>
-<link rel="stylesheet" href="assets/katex.min.css">
-<link rel="stylesheet" href="assets/site.css">
+<title>함수에서 공간으로 — 세 토이모델의 실제 계산</title>
+<link rel="stylesheet" href="assets/katex.min.css?v=20260818c">
+<link rel="stylesheet" href="assets/site.css?v=20260818c">
 <style>
 main.note-shell, header.titlepage{max-width:72rem}
 header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--muted)}
@@ -35,8 +35,6 @@ header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--mute
 .note-content .tablewrap{overflow-x:auto;margin:1.3rem 0}
 .note-content .tablewrap table{min-width:46rem;margin:0}
 .note-content .load-error{background:var(--pen);border:1px solid var(--penbd);border-radius:8px;padding:1rem}
-.note-status{max-width:60rem;margin:1.3rem auto 0;padding:.75rem 1rem;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;background:var(--box);text-align:left;font-size:.92rem}
-.note-status p{margin:.3rem 0}
 @media(max-width:980px){.note-layout{display:block}.note-toc{position:relative;top:auto;max-height:none;margin-bottom:2rem}.note-content{max-width:none}}
 @media print{.sitenav,.sitenav-bottom,.note-toc{display:none}.note-layout{display:block}main.note-shell,header.titlepage{max-width:none}.note-content{max-width:none}details{break-inside:avoid}}
 </style>
@@ -44,7 +42,7 @@ header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--mute
 <body>
 <nav class="sitenav">
 <a class="home" href="index.html">← 목록</a>
-<span class="navtitle">이해를 후일로 미루지 않기 — 세 토이모델의 실제 계산</span>
+<span class="navtitle">함수에서 공간으로 — 세 토이모델의 실제 계산</span>
 <span class="pn">
 <a href="사영공간_두계산선_단항식과_HRR.html" title="비례좌표 한 줄에서 시작하여 — 사영공간의 두 계산선">‹ 이전</a>
 <a href="행렬한장에서시작하여_번들_자립완전판.html" title="행렬 한 장에서 시작하여 — 번들 자립완전판">다음 ›</a>
@@ -52,16 +50,9 @@ header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--mute
 </nav>
 
 <header class="titlepage">
-<p class="series">study metric — 교수님 코멘트를 작업 기준으로 적용</p>
-<h1>이해를 후일로 미루지 않기</h1>
+<p class="series">study metric</p>
+<h1>함수에서 공간으로</h1>
 <p class="subtitle">$\mathbf P^1$, $\mathbf C/\Lambda$, $\mathrm{Gr}(2,4)$에서 ring을 실제로 쓰는 세 계산</p>
-<div class="note-status">
-<p><strong>교정.</strong> 교수님의 코멘트는 원문을 비평하라는 지시가 아니라, 이 문서가 추상어로 계산을 덮지 못하게 하는 작업 기준이다.</p>
-<p><strong>계산 1.</strong> $\operatorname{Proj}$의 localization에서 $\mathbf C[z]$를 꺼내고, $\mathcal O(2)$의 gluing equation·점 분리·tangent 분리·conic kernel·chart 복원을 닫는다.</p>
-<p><strong>계산 2.</strong> $L(O),L(2O),L(3O)$의 pole 제거로 $1,\wp,\wp'$를 얻고, Laurent expansion으로 Weierstrass cubic을 확인한다.</p>
-<p><strong>계산 3.</strong> $\mathrm{Gr}(2,4)$에서 RREF·projector·top wedge·maximal minors·Plücker kernel·localization·base change를 한 계산선으로 연결한다.</p>
-<p><strong>경계.</strong> 새로 계산한 것과 입력으로 사용한 정리를 문서 안에서 분리해 표시한다.</p>
-</div>
 </header>
 
 <main class="note-shell">
@@ -69,7 +60,7 @@ header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--mute
 <nav id="note-toc" class="note-toc" aria-label="문서 목차"></nav>
 <article class="note-content loading" data-markdown-source="이해를_후일로_미루지_않기_세토이모델_실제계산.md"></article>
 </div>
-<footer>원문: <a href="이해를_후일로_미루지_않기_세토이모델_실제계산.md">이해를_후일로_미루지_않기_세토이모델_실제계산.md</a> · 계산 검문: <a href="verify_dictionary_is_not_observation.py">verify_dictionary_is_not_observation.py</a>.</footer>
+<footer>원문: <a href="이해를_후일로_미루지_않기_세토이모델_실제계산.md">Markdown</a> · 계산 검문: <a href="verify_dictionary_is_not_observation.py">검증 스크립트</a>.</footer>
 </main>
 
 <div class="sitenav-bottom">
@@ -78,9 +69,9 @@ header.titlepage .subtitle{max-width:60rem;margin:.85rem auto 0;color:var(--mute
 <a href="행렬한장에서시작하여_번들_자립완전판.html">행렬 한 장에서 시작하여 — 번들 자립완전판 ›</a>
 </div>
 
-<script defer src="assets/katex.min.js"></script>
-<script defer src="assets/auto-render.min.js"></script>
-<script defer src="assets/render.js"></script>
-<script defer src="assets/markdown-note.js"></script>
+<script defer src="assets/katex.min.js?v=20260818c"></script>
+<script defer src="assets/auto-render.min.js?v=20260818c"></script>
+<script defer src="assets/render.js?v=20260818c"></script>
+<script defer src="assets/markdown-note.js?v=20260818c"></script>
 </body>
 </html>
