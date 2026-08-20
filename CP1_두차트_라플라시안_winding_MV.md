@@ -1,83 +1,93 @@
 # 라플라시안으로 바꾸고 싶다
 
-## Gaussian 2-form에서 방사방향을 만들고, 뒤늦게 Hodge star를 발견하여 구면까지
+## \(\pi e^{-R^2}\)밖에 안 나온 자리에서 적도의 winding과 구면의 곡률까지
 
-출발은 개념이 아니다.
-
-다음 적분을 Green 정리나 발산정리로 풀어 보고 싶다.
+처음 궁금했던 것은 이것이다.
 
 \[
-\iint_{\mathbf R^2}e^{-x^2-y^2}\,dx\,dy.
+\iint_{\mathbf R^2}e^{-x^2-y^2}\,dx\,dy
 \]
 
-라플라시안으로 바꿀 수 있다면 좋겠다.
+를 극좌표로 바로 풀지 않고, 라플라시안과 발산정리로 풀 수 없을까?
+
+가우스곡률도
+
+\[
+K=-e^{-2\phi}\Delta\phi
+\]
+
+꼴로 나오니, Gaussian 적분에서도
 
 \[
 e^{-x^2-y^2}=-\Delta\phi
 \]
 
-인 함수 \(\phi\)를 찾으면
+를 만들면 비슷한 계산이 될 것 같다.
+
+그런데 \(\phi\)를 바로 찾으려 하니 막힌다.
+
+그래서 손노트에서는 먼저
 
 \[
-\iint_D e^{-x^2-y^2}\,dx\,dy
-=-\iint_D\Delta\phi\,dx\,dy
+\Omega=e^{-x^2-y^2}\,dx\wedge dy
 \]
 
-가 되고, 오른쪽은 경계의 flux로 바뀐다.
+를 한 번 적분해
 
-그런데 \(\phi\)를 어떻게 찾는가?
+\[
+d\omega=\Omega
+\]
 
-바로 PDE를 풀기 전에, 일단 한 번 적분해서 원주방향 1-form을 찾는다. 그 원주방향을 방사방향으로 돌리면 gradient가 보일지도 모른다.
+인 \(\omega\)를 찾고, 그 \(\omega\)의 원주방향을 방사방향으로 돌려 gradient를 만들려고 했다.
 
-이 계산을 하고 난 뒤에야 그 90도 회전에 **Hodge star**라는 이름을 붙일 것이다.
+그 계산을 그대로 끝까지 밀어 본다.
+
+중간에 실제로 생겼던 실패도 지우지 않는다.
+
+> 외곽 경계만 계산하면 \(\pi e^{-R^2}\) 비슷한 항만 나오고, \(R\to\infty\)에서 오히려 \(0\)이 된다.  
+> 빠진 \(\pi\)는 어디에 있는가?
+
+그 빠진 항을 찾다 보면
+
+\[
+d\theta,
+\qquad
+\log r,
+\qquad
+\text{zero와 pole},
+\qquad
+\text{winding},
+\qquad
+\text{두 chart의 connection 차이}
+\]
+
+가 한 계산으로 묶인다.
 
 ---
 
-# 1. 일단 \(d\omega=\Omega\)를 풀어 본다
-
-다음 2-form을 잡는다.
+# 1. 먼저 \(d\omega=\Omega\)를 푼다
 
 \[
 \boxed{
-\Omega=e^{-x^2-y^2}\,dx\wedge dy.
+\Omega=e^{-r^2}\,dx\wedge dy,
+\qquad
+r^2=x^2+y^2.
 }
 \]
 
-계산에 필요한 규칙은 하나다. 1-form
+극좌표에서
 
 \[
-\omega=P\,dx+Q\,dy
+x=r\cos\theta,
+\qquad
+y=r\sin\theta
 \]
 
-에 대해
+이므로
 
 \[
 \boxed{
-d\omega=(Q_x-P_y)\,dx\wedge dy.}
-\]
-
-그리고 Stokes–Green 공식은
-
-\[
-\int_Dd\omega=\int_{\partial D}\omega
-\]
-
-이다.
-
-## 1.1 회전대칭이 있으니 \(d\theta\)를 써 본다
-
-\[
-r^2=x^2+y^2,
-\qquad
-x=r\cos\theta,
-\qquad
-y=r\sin\theta.
-\]
-
-직접 미분하면
-
-\[
-\boxed{dx\wedge dy=r\,dr\wedge d\theta.}
+dx\wedge dy=r\,dr\wedge d\theta.}
 \]
 
 따라서
@@ -86,19 +96,21 @@ y=r\sin\theta.
 \Omega=e^{-r^2}r\,dr\wedge d\theta.
 \]
 
-원점 주위로 회전대칭인 1-form을
+회전대칭을 그대로 따라
 
 \[
 \omega=A(r)d\theta
 \]
 
-꼴로 찾아보자.
+라고 놓는다.
+
+그러면
 
 \[
 d\omega=A'(r)dr\wedge d\theta.
 \]
 
-그러므로
+따라서
 
 \[
 A'(r)=re^{-r^2}.
@@ -107,158 +119,71 @@ A'(r)=re^{-r^2}.
 적분하면
 
 \[
-\boxed{A(r)=C-\frac12e^{-r^2}.}
-\]
-
-즉 \(d\omega=\Omega\)를 만족하는 1-form은 여러 개다.
-
-\[
-\omega_C=\left(C-\frac12e^{-r^2}\right)d\theta.
-\]
-
-## 1.2 적분상수는 장식이 아니다
-
-가장 간단히 \(C=0\)을 택하면
-
-\[
-\omega_\infty=-\frac12e^{-r^2}d\theta.
-\]
-
-무한대에서는 잘 사라진다. 하지만 \(d\theta\)는 원점에서 singular하므로, 이 1-form은 원점을 포함한 disk 전체에 smooth하지 않다.
-
-원점에서 smooth하게 만들고 싶으면 \(C=1/2\)를 택한다.
-
-\[
 \boxed{
-\omega_0=rac{1-e^{-r^2}}2d\theta.
+A(r)=C-\frac12e^{-r^2}.
 }
 \]
 
-왜 smooth한지 보자.
+즉
+
+\[
+\omega_C=\left(C-\frac12e^{-r^2}\right)d\theta
+\]
+
+는 모두 같은 \(\Omega\)를 만든다.
+
+\[
+d\omega_C=\Omega.
+\]
+
+여기서 손노트가 먼저 집은 것은
+
+\[
+\boxed{
+\omega_\infty=-\frac12e^{-r^2}d\theta.
+}
+\]
+
+이 선택은 \(r\to\infty\)에서 사라진다.
+
+일단 이걸 그대로 따라간다.
+
+---
+
+# 2. \(\omega_\infty\)는 원주방향이다
 
 \[
 \boxed{
 d\theta=\frac{-y\,dx+x\,dy}{r^2}.}
 \]
 
-또
-
-\[
-1-e^{-r^2}=r^2+O(r^4).
-\]
-
-따라서
-
-\[
-\omega_0
-=
-\frac{1-e^{-r^2}}{2r^2}
-(-y\,dx+x\,dy)
-\]
-
-에서 coefficient는 원점까지 유한하게 연장된다.
-
-두 선택의 차이는
-
-\[
-\boxed{
-\omega_0-\omega_\infty=\frac12d\theta.
-}
-\]
-
-두 1-form은 서로 다르지만
-
-\[
-d\omega_0=d\omega_\infty=\Omega
-\]
-
-이다. 나중에 구면의 두 chart에서도 정확히 같은 일이 생긴다.
-
-## 1.3 이 primitive만으로 Gaussian 적분이 끝난다
-
-반지름 \(R\)인 disk를 \(D_R\)라 하자.
-
-\[
-\int_{D_R}\Omega
-=
-\int_{\partial D_R}\omega_0.
-\]
-
-경계에서는 \(r=R\)이므로
-
-\[
-\omega_0
-=
-\frac{1-e^{-R^2}}2d\theta.
-\]
-
 따라서
 
 \[
 \begin{aligned}
-\int_{D_R}e^{-x^2-y^2}\,dx\,dy
+\omega_\infty
+&=-\frac12e^{-r^2}d\theta\\
 &=
-\frac{1-e^{-R^2}}2
-\int_0^{2\pi}d\theta\\
-&=
-\pi(1-e^{-R^2}).
+\frac{e^{-r^2}}{2r^2}
+\left(y\,dx-x\,dy\right).
 \end{aligned}
 \]
 
-\(R\to\infty\)로 보내면
+1-form의 coefficient pair만 보면
 
 \[
 \boxed{
-\iint_{\mathbf R^2}e^{-x^2-y^2}\,dx\,dy=\pi.
+F_\infty
+=
+\frac{e^{-r^2}}{2r^2}(y,-x).
 }
 \]
 
-아직 Hodge star도, Laplacian도 쓰지 않았다.
+벡터 \((y,-x)\)는 원에 접한다.
 
----
+즉 \(F_\infty\)는 원주방향이다.
 
-# 2. 그런데 나는 라플라시안으로 바꾸고 싶다
-
-지금 얻은 것은
-
-\[
-\Omega=d\omega_0
-\]
-
-이다. 하지만 원래 바라던 것은
-
-\[
-\Omega=-\Delta\phi\,dx\wedge dy
-\]
-
-였다.
-
-그러면 \(\omega_0\)에서 gradient \(\nabla\phi\)를 찾아야 한다.
-
-## 2.1 \(\omega_0\)의 coefficient는 원주방향이다
-
-다시
-
-\[
-\omega_0
-=
-\frac{1-e^{-r^2}}{2r^2}
-(-y\,dx+x\,dy)
-\]
-
-라고 쓴다.
-
-1-form의 coefficient pair만 뽑으면
-
-\[
-F
-=
-\frac{1-e^{-r^2}}{2r^2}(-y,x).
-\]
-
-벡터 \((-y,x)\)는 원 \(r=\text{constant}\)에 접한다. 즉 \(F\)는 **원주방향**이다.
-
-반면 회전대칭인 함수 \(\phi(r)\)의 gradient는
+그런데 회전대칭 함수 \(\phi(r)\)의 gradient는
 
 \[
 \nabla\phi
@@ -266,13 +191,9 @@ F
 \phi'(r)\left(\frac xr,\frac yr\right)
 \]
 
-처럼 **방사방향**이다.
+처럼 방사방향이어야 한다.
 
-그래서 바로 gradient를 찾을 수 없다.
-
-## 2.2 원주방향을 90도 돌려 방사방향으로 만든다
-
-다음 회전행렬을 적용한다.
+그래서 손노트에서 원주방향을 \(90^\circ\) 돌렸다.
 
 \[
 J=
@@ -283,104 +204,445 @@ J=
 \]
 
 \[
-J(-y,x)=(-x,-y).
-\]
-
-따라서
-
-\[
-JF
-=
--\frac{1-e^{-r^2}}{2r^2}(x,y).
-\]
-
-이제 정확히 방사방향이다.
-
-그러면 \(JF=\nabla\phi\)라고 놓아 볼 수 있다.
-
-\[
-\phi'(r)\left(\frac xr,\frac yr\right)
-=
--\frac{1-e^{-r^2}}{2r^2}(x,y).
+J(y,-x)=(x,y).
 \]
 
 따라서
 
 \[
 \boxed{
-\phi'(r)
-=-\frac{1-e^{-r^2}}{2r}.
+G_\infty
+=JF_\infty
+=
+\frac{e^{-r^2}}{2r^2}(x,y).
 }
 \]
 
-\(\phi\)의 닫힌꼴을 구할 필요는 없다. 이 미분식만으로 라플라시안을 계산할 수 있다.
+이제 방사방향이 되었다.
 
-## 2.3 방사형 라플라시안을 계산한다
+---
 
-2차원에서 radial function의 라플라시안은
+# 3. 방사방향이 되었으니 gradient라고 놓아 본다
+
+\[
+\nabla\phi_\infty=G_\infty
+\]
+
+라고 놓는다.
+
+방사형 함수의 gradient와 비교하면
+
+\[
+\phi_\infty'(r)rac{(x,y)}r
+=
+\frac{e^{-r^2}}{2r^2}(x,y).
+\]
+
+따라서
+
+\[
+\boxed{
+\phi_\infty'(r)=\frac{e^{-r^2}}{2r}.
+}
+\]
+
+적분하면 exponential integral이 나온다.
+
+\[
+\boxed{
+\phi_\infty(r)
+=
+\frac14\operatorname{Ei}(-r^2)+C.
+}
+\]
+
+하지만 닫힌꼴은 중요하지 않다.
+
+라플라시안에는 \(\phi_\infty'\)만 있으면 된다.
+
+2차원 radial Laplacian은
 
 \[
 \Delta\phi
 =
-\phi''(r)+\frac1r\phi'(r)
-=
-\frac1r\frac{d}{dr}\bigl(r\phi'(r)\bigr).
+\frac1r\frac{d}{dr}\left(r\phi'(r)\right).
 \]
 
-그런데
+여기서는
 
 \[
-r\phi'(r)
-=-\frac{1-e^{-r^2}}2.
+r\phi_\infty'(r)=\frac12e^{-r^2}.
 \]
 
 따라서
 
 \[
 \begin{aligned}
-\Delta\phi
+\Delta\phi_\infty
 &=
-\frac1r\frac{d}{dr}
-\left(-\frac{1-e^{-r^2}}2\right)\\
+\frac1r\frac{d}{dr}\left(\frac12e^{-r^2}\right)\\
 &=
-\frac1r(-re^{-r^2})\\
+\frac1r\left(-re^{-r^2}\right)\\
 &=-e^{-r^2}.
 \end{aligned}
 \]
 
-즉
+즉 원하던 식이 나왔다.
 
 \[
 \boxed{
-\Omega
-=e^{-r^2}dx\wedge dy
-=-\Delta\phi\,dx\wedge dy.
+-\Delta\phi_\infty=e^{-r^2}
+\qquad(r>0).
 }
 \]
 
-원주방향 1-form을 방사방향으로 돌렸더니, 원하던 라플라시안 potential이 나왔다.
+여기까지는 손노트의 의도대로 잘 된다.
 
-> **이 계산의 원천적인 순서**
->
-> \[
-> \boxed{
-> \text{2-form}
-> \to
-> \text{원주방향 primitive}
-> \to
-> 90^\circ\text{ 회전}
-> \to
-> \text{방사방향 gradient}
-> \to
-> \text{Laplacian}.
-> }
-> \]
+이제 발산정리를 쓰면 끝날 것 같다.
 
 ---
 
-# 3. 방금 한 90도 회전에 Hodge star라는 이름을 붙인다
+# 4. 외곽 경계만 계산하면 답이 사라진다
 
-이제서야 이름을 붙인다.
+\[
+G_\infty=\nabla\phi_\infty
+=
+\frac{e^{-r^2}}{2r^2}(x,y).
+\]
+
+반지름 \(R\)인 원에서 바깥쪽 단위법선은
+
+\[
+n=\frac{(x,y)}R.
+\]
+
+따라서
+
+\[
+G_\infty\cdot n
+=
+\frac{e^{-R^2}}{2R}.
+\]
+
+또
+
+\[
+ds=R\,d\theta.
+\]
+
+외곽 경계의 flux 크기는
+
+\[
+\boxed{
+\int_{|z|=R}G_\infty\cdot n\,ds
+=
+\pi e^{-R^2}.
+}
+\]
+
+손노트 마지막 페이지에서 나온 항이 이것이다.
+
+그런데 \(R\to\infty\)이면 이 값은 \(0\)으로 간다.
+
+Gaussian 적분은 \(\pi\)여야 한다.
+
+무언가가 빠졌다.
+
+부호 convention을 어떻게 잡든 핵심 문제는 같다.
+
+> 외곽 경계 하나만 보면 \(e^{-R^2}\) 항만 남고, 상수 \(\pi\)가 없다.
+
+---
+
+# 5. 빠진 것은 원점의 안쪽 경계다
+
+\(G_\infty\)를 원점 근방에서 본다.
+
+\[
+G_\infty
+\sim
+\frac1{2r^2}(x,y)
+=
+\frac1{2r}e_r.
+\]
+
+원점에서 singular하다.
+
+그러므로 발산정리를 disk 전체에 바로 쓸 수 없다.
+
+실제로 계산할 영역은
+
+\[
+A_{\varepsilon,R}
+=
+\{\varepsilon\le r\le R\}
+\]
+
+인 annulus다.
+
+annulus의 boundary는 두 개다.
+
+- 바깥 원 \(r=R\)의 outward normal은 \(+e_r\).
+- 안쪽 원 \(r=\varepsilon\)의 outward normal은 annulus 바깥쪽을 향하므로 \(-e_r\).
+
+따라서 바깥 flux는
+
+\[
+\pi e^{-R^2}
+\]
+
+이고, 안쪽 flux는
+
+\[
+-\pi e^{-\varepsilon^2}
+\]
+
+이다.
+
+전체 flux는
+
+\[
+\pi e^{-R^2}-\pi e^{-\varepsilon^2}.
+\]
+
+한편
+
+\[
+-\operatorname{div}G_\infty=e^{-r^2}.
+\]
+
+따라서
+
+\[
+\begin{aligned}
+\int_{A_{\varepsilon,R}}e^{-r^2}\,dx\,dy
+&=
+-\int_{\partial A_{\varepsilon,R}}G_\infty\cdot n\,ds\\
+&=
+\pi e^{-\varepsilon^2}-\pi e^{-R^2}.
+\end{aligned}
+\]
+
+\(\varepsilon\to0\)으로 보내면
+
+\[
+\boxed{
+\int_{|z|\le R}e^{-r^2}\,dx\,dy
+=
+\pi(1-e^{-R^2}).
+}
+\]
+
+그리고 \(R\to\infty\)이면
+
+\[
+\boxed{
+\int_{\mathbf R^2}e^{-r^2}\,dx\,dy=\pi.
+}
+\]
+
+빠진 \(\pi\)는 원점의 안쪽 경계에 있었다.
+
+이것이 손노트 계산에서 실제로 더 가야 할 첫 지점이다.
+
+---
+
+# 6. 원점의 안쪽 경계를 없애는 다른 방법
+
+아까 일반해는
+
+\[
+\omega_C
+=
+\left(C-\frac12e^{-r^2}\right)d\theta
+\]
+
+였다.
+
+\(C=0\)인 \(\omega_\infty\)는 무한대에서 편하지만 원점에서 singular했다.
+
+이번에는
+
+\[
+C=\frac12
+\]
+
+를 택한다.
+
+\[
+\boxed{
+\omega_0
+=
+\frac{1-e^{-r^2}}2d\theta.
+}
+\]
+
+원점 근방에서
+
+\[
+1-e^{-r^2}=r^2+O(r^4)
+\]
+
+이므로
+
+\[
+\omega_0
+=
+\frac{1-e^{-r^2}}{2r^2}
+(-y\,dx+x\,dy)
+\]
+
+는 원점까지 smooth하게 연장된다.
+
+이제 disk 전체에 Stokes를 바로 쓸 수 있다.
+
+\[
+\int_{D_R}\Omega
+=
+\int_{\partial D_R}\omega_0.
+\]
+
+경계에서
+
+\[
+\omega_0
+=
+\frac{1-e^{-R^2}}2d\theta.
+\]
+
+따라서
+
+\[
+\boxed{
+\int_{D_R}e^{-r^2}\,dx\,dy
+=
+\pi(1-e^{-R^2}).
+}
+\]
+
+같은 답이 inner boundary 없이 나온다.
+
+두 primitive의 차이는
+
+\[
+\boxed{
+\omega_0-\omega_\infty
+=
+\frac12d\theta.
+}
+\]
+
+그리고
+
+\[
+d(d\theta)=0
+\qquad(r>0).
+\]
+
+즉 둘은 punctured plane에서 같은 \(d\omega\)를 만든다.
+
+하지만
+
+\[
+\int_{|z|=1}\frac12d\theta=\pi
+\]
+
+이므로 \(\frac12d\theta\)는 아무 전역 single-valued 함수의 미분이 아니다.
+
+이 closed 1-form이 바로 빠진 안쪽 경계 \(\pi\)를 들고 있다.
+
+---
+
+# 7. potential에서도 같은 보정이 보인다
+
+\(\omega_\infty\)에 대응하는 potential은
+
+\[
+\phi_\infty(r)
+=
+\frac14\operatorname{Ei}(-r^2).
+\]
+
+원점 근방에서
+
+\[
+\operatorname{Ei}(-r^2)
+=
+2\log r+\text{smooth term}
+\]
+
+이므로
+
+\[
+\phi_\infty(r)
+=
+\frac12\log r+\text{smooth term}.
+\]
+
+원점의 singularity가 정확히 \(\frac12\log r\)다.
+
+그러므로
+
+\[
+\boxed{
+\phi_0
+=
+\phi_\infty-\frac12\log r
+}
+\]
+
+라고 놓으면 원점의 log singularity가 사라진다.
+
+그리고
+
+\[
+\omega_0
+=
+\omega_\infty+rac12d\theta.
+\]
+
+두 보정이 같은 것인지 확인한다.
+
+방사방향 \(d\log r\)를 원주방향으로 \(90^\circ\) 돌리면
+
+\[
+\boxed{
+*d\log r=d\theta.
+}
+\]
+
+따라서
+
+\[
+- *d\phi_0
+=
+-*d\phi_\infty+rac12*d\log r
+=
+\omega_\infty+rac12d\theta
+=
+\omega_0.
+\]
+
+즉
+
+- potential에서는 \(\frac12\log r\)를 빼고,
+- primitive에서는 \(\frac12d\theta\)를 더한다.
+
+같은 보정이다.
+
+---
+
+# 8. 이제서야 이 회전에 Hodge star라는 이름을 붙인다
+
+지금까지 실제로 한 일은 coefficient vector를 \(90^\circ\) 돌린 것이다.
+
+\[
+J=
+\begin{pmatrix}
+0&-1\\
+1&0
+\end{pmatrix}.
+\]
 
 1-form
 
@@ -388,24 +650,24 @@ r\phi'(r)
 \alpha=P\,dx+Q\,dy
 \]
 
-의 coefficient pair \((P,Q)\)에 \(J\)를 적용하면
+의 coefficient pair \((P,Q)\)를
 
 \[
 (-Q,P)
 \]
 
-가 된다.
-
-이를 1-form으로 다시 쓰는 연산을 \(*\)라고 부르자.
+로 돌리는 연산을
 
 \[
 \boxed{
 *(P\,dx+Q\,dy)
-=-Q\,dx+P\,dy.
+=-Q\,dx+P\,dy
 }
 \]
 
-즉
+라고 쓰자.
+
+그러면
 
 \[
 *dx=dy,
@@ -413,68 +675,11 @@ r\phi'(r)
 *dy=-dx.
 \]
 
-Hodge star는 이 계산에서는 **원주방향과 방사방향을 서로 바꾸는 90도 회전의 이름**일 뿐이다.
+이 노트에서 Hodge star는 처음부터 주어진 개념이 아니다.
 
-## 3.1 Gaussian 계산을 한 줄로 다시 쓴다
+> 원주방향 primitive를 방사방향 gradient로 바꾸기 위해 실제로 사용한 회전행렬의 이름이다.
 
-우리가 만든 \(\phi\)는
-
-\[
-*d\phi=\omega_0
-\]
-
-가 아니라 부호를 확인하면
-
-\[
-\boxed{
-*d\phi=\omega_0,
-\qquad
-\omega_0=-*d\phi
-}
-\]
-
-중 어느 쪽인가?
-
-직접 확인하자.
-
-\[
-d\phi
-=
-\phi'(r)dr
-=
--\frac{1-e^{-r^2}}{2r}dr.
-\]
-
-또
-
-\[
-*dr=r\,d\theta.
-\]
-
-따라서
-
-\[
-*d\phi
-=
--\frac{1-e^{-r^2}}2d\theta
-=-\omega_0.
-\]
-
-그러므로 정확한 식은
-
-\[
-\boxed{
-\omega_0=-*d\phi.
-}
-\]
-
-이제 \(d\)를 취한다.
-
-\[
-\Omega=d\omega_0=-d(*d\phi).
-\]
-
-한편
+함수 \(\phi\)에 대해
 
 \[
 d\phi=\phi_xdx+\phi_ydy
@@ -486,7 +691,7 @@ d\phi=\phi_xdx+\phi_ydy
 *d\phi=-\phi_y dx+\phi_xdy.
 \]
 
-따라서
+다시 \(d\)를 취하면
 
 \[
 \begin{aligned}
@@ -498,61 +703,35 @@ d(*d\phi)
 \end{aligned}
 \]
 
-결국
+따라서 앞의 Gaussian 계산은
 
 \[
 \boxed{
-\Omega
-=-d(*d\phi)
-=-\Delta\phi\,dx\wedge dy.
+\omega=-*d\phi,
+\qquad
+d\omega=-\Delta\phi\,dx\wedge dy
 }
 \]
 
-이 식은 새로운 원리가 아니다. 앞에서 원주방향을 방사방향으로 돌린 계산을 압축한 표기다.
+로 압축된다.
 
-## 3.2 Stokes가 발산정리로 바뀐다
-
-\[
-\omega_0=-*d\phi
-\]
-
-이므로
-
-\[
-\int_D\Omega
-=
-\int_{\partial D}\omega_0
-=
--\int_{\partial D}*d\phi.
-\]
-
-경계를 반시계방향으로 돌 때, \(-*d\phi\)의 접선방향 성분은 \(-\nabla\phi\)의 바깥 법선방향 성분과 같다. 따라서
-
-\[
-\boxed{
-\int_D-\Delta\phi\,dx\,dy
-=
--\int_{\partial D}\frac{\partial\phi}{\partial n}\,ds.
-}
-\]
-
-즉 처음 하고 싶었던 “라플라시안으로 바꾸어 발산정리를 쓴다”가 실제로 복원되었다.
+이 표기는 계산 뒤에 붙인 이름일 뿐이다.
 
 ---
 
-# 4. 가장 단순한 방사형 potential은 \(\log r\)다
+# 9. 가장 작은 모델은 \(\log r\)다
 
-Gaussian에서는 \(\phi'(r)\)가 조금 복잡했다. 이제 가장 단순한 radial function을 본다.
-
-\[
-\phi(r)=\log r.
-\]
+Gaussian potential의 singular part가 \(\frac12\log r\)였으므로, 이제 \(\log r\) 자체를 본다.
 
 \[
 d\log r=\frac{dr}{r}.
 \]
 
-앞에서 \(*dr=r\,d\theta\)였으므로
+\[
+*dr=r\,d\theta
+\]
+
+이므로
 
 \[
 \boxed{
@@ -560,24 +739,13 @@ d\log r=\frac{dr}{r}.
 }
 \]
 
-이 식은 지금까지의 계산을 가장 작게 압축한다.
-
-- \(d\log r\): 원점에서 바깥쪽으로 얼마나 빠르게 변하는가.
-- \(d\theta\): 원점을 한 바퀴 돌 때 얼마나 회전하는가.
-- Hodge star: 방사방향을 원주방향으로 90도 돌린다.
-
-## 4.1 punctured plane에서는 라플라시안이 0이다
+원점을 뺀 곳에서는
 
 \[
-\Delta\log r
-=
-\frac1r\frac{d}{dr}
-\left(r\frac1r\right)
-=0
-\qquad(r>0).
+\Delta\log r=0.
 \]
 
-그런데 원을 한 바퀴 돌면
+그런데 작은 원에서는
 
 \[
 \int_{|z|=\varepsilon}d\theta=2\pi.
@@ -588,43 +756,32 @@ d\log r=\frac{dr}{r}.
 \[
 \boxed{
 \frac1{2\pi}
-\int_{|z|=\varepsilon}
-*d\log|z|
+\int_{|z|=\varepsilon}*d\log|z|
 =1.
 }
 \]
 
-원점을 뺀 곳에서는 라플라시안이 0인데, 원점을 둘러싼 경계적분은 \(1\)을 기억한다.
+원점을 뺀 곳에서는 라플라시안이 \(0\)인데, 원점을 둘러싼 경계는 정수 \(1\)을 기억한다.
 
-이 정수가 함수 \(z\)의 zero order다.
+Gaussian 계산에서 빠진 inner boundary와 완전히 같은 모양이다.
 
 ---
 
-# 5. \(\mathbf P^1\)의 두 chart에서 \(z\)의 zero와 pole을 본다
+# 10. \(\mathbf P^1\)에서 함수 \(z\)의 zero와 pole
 
-동차좌표를 \([Z_0:Z_1]\)라 하고
-
-\[
-U_z=\{Z_0\neq0\},
-\qquad
-z=\frac{Z_1}{Z_0},
-\]
+두 chart를 잡는다.
 
 \[
-U_w=\{Z_1\neq0\},
+U_z:\ z=\frac{Z_1}{Z_0},
 \qquad
-w=\frac{Z_0}{Z_1}
+U_w:\ w=\frac{Z_0}{Z_1}.
 \]
-
-로 둔다.
-
-overlap에서는
 
 \[
 \boxed{w=z^{-1}.}
 \]
 
-## 5.1 세 ring
+각 chart와 overlap의 ring은
 
 \[
 \boxed{
@@ -636,20 +793,10 @@ overlap에서는
 }
 \]
 
-함수 \(z\)는 \(U_z\)에서는 regular하다. 무한대 chart에서는
-
-\[
-z=w^{-1}
-\]
-
-이므로 pole을 가진다.
-
-## 5.2 zero와 pole의 차수
-
 원점에서는
 
 \[
-z=z^1\cdot1
+z=z^1
 \]
 
 이므로
@@ -678,26 +825,18 @@ z=w^{-1}
 }
 \]
 
-이것은 앞의 경계적분과 같은 숫자다.
+작은 원 적분으로 읽으면
 
-- \(z=0\) 근방: \((2\pi)^{-1}\int d\theta=+1\).
-- \(w=0\) 근방: \(\log|z|=-\log|w|\)이므로 \(-1\).
+- \(z=0\)에서 \((2\pi)^{-1}\int d\theta=+1\),
+- \(w=0\)에서 \(\log|z|=-\log|w|\)이므로 \(-1\)
 
-나중에 current의 언어를 배우면 이 계산을
+이다.
 
-\[
-\frac1{2\pi}d(*d\log|z|)
-=
-\delta_0-\delta_\infty
-\]
-
-라고 압축한다. 지금 필요한 것은 작은 원의 적분뿐이다.
+zero와 pole은 Gaussian 계산의 inner boundary 부호와 같은 방식으로 나타난다.
 
 ---
 
-# 6. \(dz=-w^{-2}dw\): winding이 두 배가 된다
-
-이제 함수 \(z\)가 아니라 좌표 frame의 변화를 본다.
+# 11. \(dz=-w^{-2}dw\): 같은 계산이 두 배가 된다
 
 \[
 z=\frac1w
@@ -706,7 +845,8 @@ z=\frac1w
 를 미분하면
 
 \[
-\boxed{dz=-w^{-2}dw.}
+\boxed{
+dz=-w^{-2}dw.}
 \]
 
 이는 cotangent frame의 변화다.
@@ -730,7 +870,7 @@ e_w
 \end{aligned}
 \]
 
-따라서 tangent bundle의 transition function은
+따라서 transition은
 
 \[
 \boxed{g(z)=-z^2.}
@@ -742,7 +882,7 @@ e_w
 g(z)=-e^{2i\theta}.
 \]
 
-\(z\)가 한 바퀴 도는 동안 \(g\)는 두 바퀴 돈다.
+따라서 \(g\)는 두 번 돈다.
 
 \[
 \boxed{
@@ -758,7 +898,8 @@ g^{-1}dg=2\frac{dz}{z}.
 \]
 
 \[
-\frac{dz}{z}=d\log r+i\,d\theta
+\frac{dz}{z}
+=d\log r+i\,d\theta
 \]
 
 이므로
@@ -769,13 +910,21 @@ g^{-1}dg
 =2d\log|z|+2i\,d\theta.}
 \]
 
-함수 \(z\)에서 보았던 radial growth와 angular winding이 transition \(-z^2\)에서는 정확히 두 배가 된다.
+Gaussian에서 보았던
+
+\[
+\log r
+\quad\longleftrightarrow\quad
+d\theta
+\]
+
+가 transition에서는 정확히 두 배로 나타난다.
 
 ---
 
-# 7. 실제 목표: round sphere의 곡률을 같은 방식으로 계산한다
+# 12. round sphere에서도 먼저 local primitive를 찾는다
 
-구면의 round metric을 \(z\)-chart에서
+round metric을
 
 \[
 \boxed{
@@ -796,91 +945,40 @@ ds^2=e^{2\phi_z}|dz|^2
 \[
 \boxed{
 \phi_z
-=\log2-\log(1+|z|^2).
-}
-\]
-
-## 7.1 \(w\)-chart와 비교한다
-
-\[
-dz=-w^{-2}dw
-\]
-
-이므로
-
-\[
-|dz|^2=|w|^{-4}|dw|^2.
-\]
-
-계량을 다시 쓰면
-
-\[
-\phi_w(w)
 =
-\log2-\log(1+|w|^2).
-\]
-
-같은 overlap에서 비교하면
-
-\[
-\begin{aligned}
-\phi_w(1/z)-\phi_z(z)
-&=2\log|z|.
-\end{aligned}
-\]
-
-즉
-
-\[
-\boxed{
-\phi_w-\phi_z=2\log|z|.
+\log2-\log(1+|z|^2).
 }
 \]
 
-좌표변환의 modulus가 conformal potential에 \(2\log|z|\)를 보탠다.
-
-## 7.2 곡률을 라플라시안으로 바꾸고 싶다
-
-Gaussian에서 이미 다음 계산을 얻었다.
+Gaussian 계산에서 이미
 
 \[
--d(*d\phi)
-=-\Delta\phi\,dx\wedge dy.
+-\Delta\phi\,dx\wedge dy
+=d(-*d\phi)
 \]
 
-따라서 구면의 local curvature 2-form을
+를 얻었다.
+
+그래서 구면에서도
 
 \[
 \boxed{
-\Omega=-d(*d\phi)
+\omega_z=-*d\phi_z
 }
 \]
 
-로 계산해 보자.
+를 local primitive로 잡는다.
 
-local primitive를
+나중에 이 \(\omega_z\)를 connection 1-form이라고 부른다.
 
-\[
-\boxed{
-\omega=-*d\phi
-}
-\]
-
-라고 둔다. 이 \(\omega\)를 나중에 **connection 1-form**이라고 부른다.
-
-즉 connection은 여기서 갑자기 정의된 개념이 아니다.
-
-> 곡률을 라플라시안으로 쓰고 싶어서 \(-\Delta\phi\)를 만들었고,  
-> 그 전에 한 번 적분한 local primitive가 \(\omega=-*d\phi\)다.
-
-## 7.3 \(z\)-chart에서 계산한다
+## 12.1 \(z\)-chart에서 계산
 
 \[
 \phi_z(r)=\log2-\log(1+r^2).
 \]
 
 \[
-(\phi_z)_r=-\frac{2r}{1+r^2}.
+\phi_z'(r)=-\frac{2r}{1+r^2}.
 \]
 
 따라서
@@ -889,13 +987,10 @@ local primitive를
 \begin{aligned}
 \omega_z
 &=-*d\phi_z\\
-&=-*(\phi_z)_rdr\\
-&=\frac{2r}{1+r^2}*dr\\
+&=-\phi_z'(r)*dr\\
 &=\frac{2r^2}{1+r^2}d\theta.
 \end{aligned}
 \]
-
-즉
 
 \[
 \boxed{
@@ -905,13 +1000,13 @@ local primitive를
 }
 \]
 
+이 식은 \(r=0\)에서 \(r^2d\theta\)처럼 되어 smooth하다.
+
 한 번 더 \(d\)를 취하면
 
 \[
 \begin{aligned}
 d\omega_z
-&=
-d\left(\frac{2r^2}{1+r^2}\right)\wedge d\theta\\
 &=
 \frac{4r}{(1+r^2)^2}dr\wedge d\theta\\
 &=
@@ -919,7 +1014,7 @@ d\left(\frac{2r^2}{1+r^2}\right)\wedge d\theta\\
 \end{aligned}
 \]
 
-한편 metric의 area form은
+metric의 area form도
 
 \[
 \boxed{
@@ -934,52 +1029,31 @@ dA
 \boxed{d\omega_z=dA.}
 \]
 
-2차원에서는 curvature 2-form을 \(K\,dA\)라고 쓰므로
-
-\[
-K\,dA=dA
-\]
-
-이고
+2차원에서 곡률 2-form을 \(K\,dA\)라고 쓰므로
 
 \[
 \boxed{K=1.}
 \]
 
-## 7.4 두 connection의 차이
+---
 
-\(w=se^{i\varphi}\)에서 같은 계산을 하면
+# 13. 다른 chart에서는 다른 primitive가 나온다
 
-\[
-\omega_w
-=
-\frac{2s^2}{1+s^2}d\varphi.
-\]
-
-overlap에서
+\(w=1/z\)이고
 
 \[
-s=r^{-1},
-\qquad
-\varphi=-\theta.
+\phi_w(w)=\log2-\log(1+|w|^2).
 \]
 
-따라서
-
-\[
-\omega_w
-=-\frac{2}{1+r^2}d\theta.
-\]
-
-그러므로
+같은 overlap에서 비교하면
 
 \[
 \boxed{
-\omega_w-\omega_z=-2d\theta.
+\phi_w(1/z)-\phi_z(z)=2\log|z|.
 }
 \]
 
-이 식은 앞의 potential 차이에서 바로 나온다.
+따라서
 
 \[
 \begin{aligned}
@@ -990,17 +1064,167 @@ s=r^{-1},
 \end{aligned}
 \]
 
-\(d\theta\)는 overlap에서 closed이므로
+즉
 
 \[
-d\omega_w=d\omega_z.
+\boxed{
+\omega_w-\omega_z=-2d\theta.
+}
 \]
 
-local primitive는 다르지만 curvature는 global하게 붙는다.
+직접 계산해도
+
+\[
+\omega_w
+=-\frac{2}{1+r^2}d\theta
+\]
+
+가 나온다.
+
+\(\omega_z\)는 \(z=0\) pole에서 smooth하고,
+\(\omega_w\)는 \(w=0\) pole에서 smooth하다.
+
+둘은 overlap에서 \(-2d\theta\)만큼 다르다.
+
+그리고
+
+\[
+d(d\theta)=0
+\]
+
+이므로
+
+\[
+\boxed{d\omega_z=d\omega_w.}
+\]
+
+local primitive는 다르지만 curvature는 하나로 붙는다.
 
 ---
 
-# 8. 함수의 zero·pole과 tangent bundle의 zero를 한 점에서 비교한다
+# 14. Gaussian 계산과 구면 계산은 같은 모양이다
+
+| Gaussian plane | round sphere |
+|---|---|
+| \(\omega_\infty=-\frac12e^{-r^2}d\theta\) | \(\omega_z=\frac{2r^2}{1+r^2}d\theta\) |
+| 무한대에서 편하지만 원점에서 singular | 한 pole에서 smooth |
+| \(\omega_0=\frac{1-e^{-r^2}}2d\theta\) | \(\omega_w=-\frac2{1+r^2}d\theta\) |
+| 원점에서 smooth | 다른 pole에서 smooth |
+| 차이 \(\frac12d\theta\) | 차이 \(-2d\theta\) |
+| 빠진 inner boundary가 \(\pi\) | 적도 winding이 \(2\) |
+| 둘 다 같은 \(d\omega=\Omega\) | 둘 다 같은 \(d\omega=K\,dA\) |
+
+두 경우 모두 다음 일이 일어난다.
+
+1. 한쪽에서 편한 primitive는 다른 특이점에서 문제가 생긴다.
+2. 두 primitive의 차이는 \(d\theta\)의 상수배다.
+3. 그 차이는 punctured overlap에서 closed다.
+4. 그러나 원주 적분이 0이 아니어서 전역 exact가 아니다.
+5. \(d\)를 취하면 차이는 사라지고 같은 2-form이 나온다.
+
+Gaussian 손노트에서 빠진 안쪽 경계가, 구면에서는 적도 overlap의 winding으로 다시 나타난다.
+
+---
+
+# 15. 적도의 winding form을 두 chart에 나누어 놓는다
+
+transition \(-z^2\)의 winding을 기록하는 real 1-form을
+
+\[
+\boxed{
+\alpha=\frac1\pi d\theta
+}
+\]
+
+라고 두자.
+
+\[
+\int_{S^1}\alpha=2.
+\]
+
+두 smooth weight \(\chi_z,\chi_w\)를
+
+\[
+\chi_z+\chi_w=1
+\]
+
+이 되게 잡는다.
+
+- \(\chi_w=0\) near \(z=0\),
+- \(\chi_z=0\) near \(w=0\).
+
+그리고
+
+\[
+A_z=\chi_w\alpha,
+\qquad
+A_w=-\chi_z\alpha
+\]
+
+라고 둔다.
+
+그러면 overlap에서
+
+\[
+A_w-A_z=-\alpha.
+\]
+
+또 \(d\alpha=0\)이므로
+
+\[
+\begin{aligned}
+dA_z
+&=d\chi_w\wedge\alpha,\\
+dA_w
+&=-d\chi_z\wedge\alpha\\
+&=d\chi_w\wedge\alpha.
+\end{aligned}
+\]
+
+따라서
+
+\[
+\boxed{dA_z=dA_w.}
+\]
+
+두 local 2-form이 하나의 global 2-form으로 붙는다.
+
+이 계산에 붙는 이름이 Mayer–Vietoris connecting calculation이다.
+
+annulus에서 \(\chi_w=\chi(r)\)라고 놓으면
+
+\[
+F_{\mathrm{MV}}
+=
+\frac{\chi'(r)}\pi dr\wedge d\theta.
+\]
+
+따라서
+
+\[
+\begin{aligned}
+\int_{\mathbf P^1}F_{\mathrm{MV}}
+&=
+\frac1\pi
+\int_0^{2\pi}d\theta
+\int\chi'(r)dr\\
+&=2.
+\end{aligned}
+\]
+
+즉
+
+\[
+\boxed{
+\int_{\mathbf P^1}F_{\mathrm{MV}}=2.
+}
+\]
+
+Gaussian annulus에서 안쪽 경계가 빠진 적분을 복구했던 것과 같은 계산이다.
+
+---
+
+# 16. 함수 \(z\)와 tangent section을 구분한다
 
 함수 \(z\)는
 
@@ -1008,9 +1232,11 @@ local primitive는 다르지만 curvature는 global하게 붙는다.
 \operatorname{div}(z)=[0]-[\infty]
 \]
 
-였다. total degree는 \(0\)이다.
+였다.
 
-이제 tangent vector field
+zero와 pole이 상쇄되어 total degree는 \(0\)이다.
+
+이번에는 tangent vector field
 
 \[
 \boxed{
@@ -1040,7 +1266,7 @@ s
 \end{aligned}
 \]
 
-따라서 무한대 \(w=0\)에서도 한 번 사라진다.
+따라서 무한대에서도 한 번 사라진다.
 
 \[
 \boxed{
@@ -1063,206 +1289,121 @@ zero 총수는 \(2\)다.
 
 ---
 
-# 9. 적도의 winding form을 구면 전체로 올린다
+# 17. 이번 계산에서 실제로 얻은 것
 
-Gaussian 계산에서 두 primitive
+처음에는 Gaussian 적분을 라플라시안으로 바꾸고 싶었다.
+
+그런데 바로 potential을 찾지 못해
 
 \[
-\omega_0,
-\qquad
-\omega_\infty
+d\omega=\Omega
 \]
 
-가 같은 \(d\omega=\Omega\)를 만들면서
+부터 풀었다.
+
+그 primitive가 원주방향이어서 \(90^\circ\) 돌려 방사 gradient를 만들었다.
+
+그 결과
+
+\[
+-\Delta\phi=e^{-r^2}
+\]
+
+를 얻었다.
+
+하지만 potential과 vector field가 원점에서 singular해서 외곽 경계만 계산하면 답이 빠졌다.
+
+annulus의 안쪽 경계를 넣거나,
 
 \[
 \omega_0-\omega_\infty=\frac12d\theta
 \]
 
-만큼 달랐다.
+라는 closed winding form으로 primitive를 보정해야 했다.
 
-구면에서도 같은 현상이 생긴다.
+그 보정은 potential에서는
 
 \[
+\phi_0-\phi_\infty=-\frac12\log r
+\]
+
+였다.
+
+그래서
+
+\[
+*d\log r=d\theta
+\]
+
+가 자연스럽게 나타났다.
+
+이제 구면에서는 좌표변환이
+
+\[
+dz=-w^{-2}dw
+\]
+
+이므로 같은 현상이 두 배로 나타났다.
+
+\[
+\phi_w-\phi_z=2\log|z|,
+\qquad
 \omega_w-\omega_z=-2d\theta.
 \]
 
-한 chart에서 smooth한 primitive를 고르면 다른 pole에서 문제가 생긴다. 그래서 두 chart에 각각 하나씩 두고 overlap의 차이를 기록한다.
+그리고 적도의 \(2d\theta\)를 두 chart에 나누어 놓고 \(d\)를 취하면 구면 전체의 curvature 2-form이 나왔다.
 
-## 9.1 normalized overlap form
-
-\[
-\boxed{
-\alpha=\frac1\pi d\theta.
-}
-\]
-
-그러면
-
-\[
-\int_{S^1}\alpha=2.
-\]
-
-## 9.2 두 weight로 나누어 놓는다
-
-smooth functions \(\chi_z,\chi_w\)를
-
-\[
-\chi_z+\chi_w=1
-\]
-
-이 되게 잡는다.
-
-- \(\chi_w=0\) near \(z=0\).
-- \(\chi_z=0\) near \(w=0\).
-
-이제
-
-\[
-A_z=\chi_w\alpha,
-\qquad
-A_w=-\chi_z\alpha
-\]
-
-로 둔다.
-
-overlap에서
-
-\[
-A_w-A_z=-\alpha.
-\]
-
-또 \(d\alpha=0\)이므로
-
-\[
-\begin{aligned}
-dA_z
-&=d\chi_w\wedge\alpha,\\
-dA_w
-&=-d\chi_z\wedge\alpha
-=d\chi_w\wedge\alpha.
-\end{aligned}
-\]
-
-따라서
-
-\[
-\boxed{dA_z=dA_w.}
-\]
-
-두 local 2-form이 하나의 global 2-form으로 붙는다.
-
-이 계산에 붙는 이름이 **Mayer–Vietoris connecting calculation**이다.
-
-## 9.3 적분하면 overlap의 winding이 그대로 나온다
-
-annulus에서 \(\chi_w=\chi(r)\)라고 하고, 안쪽에서 \(0\), 바깥쪽에서 \(1\)이 되게 잡자.
-
-\[
-d\chi_w=\chi'(r)dr.
-\]
-
-따라서
-
-\[
-F_{\mathrm{MV}}
-=
-dA_z
-=
-\frac{\chi'(r)}\pi dr\wedge d\theta.
-\]
-
-적분하면
-
-\[
-\begin{aligned}
-\int_{\mathbf P^1}F_{\mathrm{MV}}
-&=
-\frac1\pi
-\int_0^{2\pi}d\theta
-\int\chi'(r)dr\\
-&=
-2.
-\end{aligned}
-\]
-
-즉
-
-\[
-\boxed{
-\int_{\mathbf P^1}F_{\mathrm{MV}}=2.
-}
-\]
-
-round metric의 normalized curvature도
-
-\[
-\int_{\mathbf P^1}\frac{K\,dA}{2\pi}=2
-\]
-
-이므로 같은 winding을 본다.
-
----
-
-# 10. 이 계산에서 이름들이 실제로 가리킨 것
-
-계산을 끝낸 뒤에만 이름을 정리한다.
-
-- **Hodge star**  
-  원주방향과 방사방향을 바꾸는 90도 회전.
-
-- **connection 1-form**  
-  곡률을 \(d\omega\)로 만들기 위해 chart마다 잡은 local primitive
-  \[
-  \omega=-*d\phi.
-  \]
-
-- **curvature 2-form**  
-  connection을 한 번 더 미분한 것
-  \[
-  d\omega=K\,dA.
-  \]
-
-- **winding**  
-  overlap transition의 phase가 원을 몇 번 도는지 세는 정수.
-
-- **Mayer–Vietoris 계산**  
-  overlap의 closed 1-form을 두 chart에 나누어 놓고 \(d\)를 취해 global 2-form을 만드는 계산.
-
-하지만 실제 순서는 이름의 순서가 아니다.
+최종 계산선은 다음이다.
 
 \[
 \boxed{
 \begin{aligned}
-\text{적분을 라플라시안으로 바꾸고 싶다}
+\iint e^{-r^2}
 &\longrightarrow
-\text{원주방향 primitive를 찾는다}\\
+\omega_\infty=-\frac12e^{-r^2}d\theta\\
 &\longrightarrow
-\text{방사방향으로 90도 돌린다}\\
+\nabla\phi_\infty
+\longrightarrow
+-\Delta\phi_\infty=e^{-r^2}\\
 &\longrightarrow
-\text{gradient와 Laplacian이 나온다}\\
+\text{빠진 inner boundary }\pi\\
 &\longrightarrow
-\text{그 회전에 Hodge star라고 이름 붙인다}\\
+\omega_0-\omega_\infty=\frac12d\theta\\
 &\longrightarrow
-\text{구면의 두 chart에서 같은 계산을 반복한다}.
+*d\log r=d\theta\\
+&\longrightarrow
+\operatorname{div}(z)=[0]-[\infty]\\
+&\longrightarrow
+ e_w=-z^2e_z\\
+&\longrightarrow
+\omega_w-\omega_z=-2d\theta\\
+&\longrightarrow
+ d\omega=K\,dA\\
+&\longrightarrow
+\int_{\mathbf P^1}\frac{K\,dA}{2\pi}=2.
 \end{aligned}}
 \]
 
+Hodge star, connection, Mayer–Vietoris는 이 계산을 한 뒤 붙인 이름들이다.
+
 ---
 
-# 11. 직접 다시 할 계산
+# 18. 직접 다시 할 계산
 
 1. \(dx\wedge dy=r\,dr\wedge d\theta\)를 계산한다.
 2. \(d(A(r)d\theta)=e^{-r^2}r\,dr\wedge d\theta\)에서 \(A(r)\)를 구한다.
-3. \(C=0\)과 \(C=1/2\)가 각각 어디에서 smooth한지 확인한다.
-4. \(\omega_0\)의 coefficient pair가 \((-y,x)\) 방향인지 확인한다.
-5. 이를 90도 돌려 \((x,y)\) 방향으로 만든다.
-6. \(\phi'(r)=-(1-e^{-r^2})/(2r)\)에서 \(\Delta\phi=-e^{-r^2}\)를 계산한다.
-7. 그 회전을 \(*\)로 쓰면 \(\omega_0=-*d\phi\)인지 부호까지 확인한다.
-8. \(*d\log r=d\theta\)를 \(x,y\) 성분으로 계산한다.
-9. \(\operatorname{div}(z)=[0]-[\infty]\)를 두 chart에서 확인한다.
-10. \(dz=-w^{-2}dw\)에서 tangent transition \(-z^2\)를 구한다.
-11. \(\phi_w-\phi_z=2\log|z|\)에서 \(\omega_w-\omega_z=-2d\theta\)를 얻는다.
-12. \(d\omega_z=K\,dA\)와 \(K=1\)을 계산한다.
-13. \(z\partial_z=-w\partial_w\)의 zero가 두 개인지 확인한다.
-14. partition of unity로 만든 global 2-form의 적분이 \(2\)인지 계산한다.
+3. \(\omega_\infty=-\frac12e^{-r^2}d\theta\)의 coefficient vector를 적는다.
+4. 그 vector를 \(90^\circ\) 돌려 방사 vector \(G_\infty\)를 얻는다.
+5. \(\nabla\phi_\infty=G_\infty\)에서 \(\phi_\infty'(r)=e^{-r^2}/(2r)\)를 얻는다.
+6. \(-\Delta\phi_\infty=e^{-r^2}\)를 계산한다.
+7. 외곽 경계 flux가 \(\pi e^{-R^2}\) 크기밖에 안 나오는 것을 확인한다.
+8. annulus의 안쪽 경계를 넣어 \(\pi(1-e^{-R^2})\)를 복원한다.
+9. \(\omega_0=\omega_\infty+\frac12d\theta\)가 원점에서 smooth함을 확인한다.
+10. \(\phi_0=\phi_\infty-\frac12\log r\)에서 log singularity가 소거되는지 확인한다.
+11. \(*d\log r=d\theta\)를 성분으로 확인한다.
+12. \(\operatorname{div}(z)=[0]-[\infty]\)를 두 chart에서 계산한다.
+13. \(dz=-w^{-2}dw\)에서 tangent transition \(-z^2\)를 얻는다.
+14. \(\phi_w-\phi_z=2\log|z|\)와 \(\omega_w-\omega_z=-2d\theta\)를 계산한다.
+15. \(d\omega_z=K\,dA=dA\)를 계산한다.
+16. partition of unity로 만든 global 2-form의 적분이 \(2\)인지 계산한다.
+17. \(z\partial_z=-w\partial_w\)의 zero가 두 개인지 확인한다.
